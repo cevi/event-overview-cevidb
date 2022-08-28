@@ -9,10 +9,10 @@ Aus der Cevi DB werden automatisch Anlässe als Webseite ausgegeben. Diese könn
 ## Umsetzung
 
 - Variante A: Webseite, die als iFrame auf verschiedenen Webseiten eingebunden werden kann. Initiale Filterung via GET-Parameter.
--- ➕ ohne Code-Kentnisse Nutzbar
--- ➖ eigenes Hosting
+  - ➕ ohne Code-Kentnisse Nutzbar
+  - ➖ eigenes Hosting
 - Variante B: Code-Lösung, die auf verschiedenen Webseiten direkt eingebunden werden kann. Initiale Filterung im Code.
--- ➖ Code-Kenntnisse nötig
+  - ➖ Code-Kenntnisse nötig
 
 ## Einsatz
 
