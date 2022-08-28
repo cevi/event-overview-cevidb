@@ -19,5 +19,6 @@ Aus der Cevi DB werden automatisch Anlässe als Webseite ausgegeben. Diese könn
 Der Cevi Schweiz möchte eine Übersicht von allen Kursen, insbesondere J+S-Kurse, aus der ganzen Bewegung (Cevi Schweiz, Cevi Region Bern, Cevi WS, etc) auf einer einzelnen Seite auflisten, so dass alle Mitglieder alle Cevi-Kurse in einer einfachen Umgebung finden.
 
 ## Beispiele
-https://cevi-alpin.ch/touren/
 
+- Übersicht: https://cevi-alpin.ch/touren/
+- Verknüpfung: https://cevi-alpin.ch/tour/klettertour-3/ vs https://db.cevi.ch/groups/3030/events/2658.html
