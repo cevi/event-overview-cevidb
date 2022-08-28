@@ -1,4 +1,4 @@
-# event-overview-cevidb
+# Anlassübersicht basierend auf der CeviDB
 
 Aus der CeviDB werden automatisiert Kurse, Lager oder weitere Anlässe ausgegeben.
 
