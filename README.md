@@ -1,10 +1,32 @@
-# CeviDB Event Overview
+# Anlassübersicht basierend auf der CeviDB
 
-This is a small web application to display events from the [CeviDB](https://cevidb.ch) in a nice way.
+Aus der CeviDB werden automatisiert Kurse, Lager oder weitere Anlässe ausgegeben.
 
-The application is written using NextJS.
+## Idee
 
-## Development
+Aus der Cevi DB werden automatisch Anlässe als Webseite ausgegeben. Diese können initial gefiltert werden (beispielsweise nur Anlässe einer bestimmten Ortsgruppe oder Ebene). Anschliessend direkt auf der Webseite können die Anlässe weiter gefiltert werden (nur Kurse, nur Lager, o.ä.) oder sortiert werden (Altersgruppe bei Kursen, Datum, etc).
+
+Siehe auch: [cevi/event-viewer](https://github.com/cevi/event-viewer)
+
+## Umsetzung
+
+- Variante A: Webseite, die als iFrame auf verschiedenen Webseiten eingebunden werden kann. Initiale Filterung via GET-Parameter.
+  - ➕ ohne Code-Kentnisse Nutzbar
+  - ➖ eigenes Hosting
+- Variante B: Code-Lösung, die auf verschiedenen Webseiten direkt eingebunden werden kann. Initiale Filterung im Code.
+  - ➖ Code-Kenntnisse nötig
+
+## Einsatz
+
+Der Cevi Schweiz möchte eine Übersicht von allen Kursen, insbesondere J+S-Kurse, aus der ganzen Bewegung (Cevi Schweiz, Cevi Region Bern, Cevi WS, etc) auf einer einzelnen Seite auflisten, so dass alle Mitglieder alle Cevi-Kurse in einer einfachen Umgebung finden.
+
+## Beispiele
+
+- Übersicht: https://cevi-alpin.ch/touren/
+- Verknüpfung: https://cevi-alpin.ch/tour/klettertour-3/ vs https://db.cevi.ch/groups/3030/events/2658.html
+
+
+## Proof of Concept: Development
 
 To start the development server, run:
 
