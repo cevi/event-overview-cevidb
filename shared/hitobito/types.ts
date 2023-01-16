@@ -14,4 +14,10 @@ export type Hitobito_Event = {
     participant_count: number,
     maximum_participants: number,
     dates: Hitobito_Date[],
+    kind: {
+        label: string,
+        short_name: string,
+        minimum_age: number
+    },
+    external_application_link: string
 }
