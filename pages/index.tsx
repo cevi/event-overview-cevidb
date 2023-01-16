@@ -21,6 +21,8 @@ type DBEvent = {
 
 async function getEventsData(): Promise<DBEvent[]> {
 
+    console.log('Query CeviDB for events');
+
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -32,6 +34,8 @@ async function getEventsData(): Promise<DBEvent[]> {
 
     // load token from environment variable
     const token = process.env.CEVI_DB_TOKEN;
+    if (!token) throw new Error('No API token found!');
+
 
     // events and courses must be retrieved separately using different endpoints
     const api_endpoints = [
@@ -73,25 +77,15 @@ async function getEventsData(): Promise<DBEvent[]> {
 
 }
 
-// This value is considered fresh for ten seconds (s-maxage=10).
-// If a request is repeated within the next 10 seconds, the previously
-// cached value will still be fresh. If the request is repeated before 59 seconds,
-// the cached value will be stale but still render (stale-while-revalidate=59).
-//
-// In the background, a revalidation request will be made to populate the cache
-// with a fresh value. If you refresh the page, you will see the new value.
-export async function getServerSideProps({req, res}: { req: any, res: any }) {
 
-    res.setHeader(
-        'Cache-Control',
-        'public, s-maxage=10, stale-while-revalidate=59'
-    )
+export async function getStaticProps() {
 
     const allDBEvents = await getEventsData();
     return {
         props: {
             "allDBEvents": allDBEvents
         },
+        revalidate: 120, // 120 seconds
     };
 }
 
@@ -134,9 +128,9 @@ function dbEventDateToString(date: DBEvent_Date) {
 
     return (<span>
         <b>{event_date.label}:</b>
-        <br />
+        <br/>
         {formatter(event_date.start_at, extras)} -
-        {formatter(event_date.finish_at, {...extras, month: '2-digit', year: 'numeric'})} <br />
+        {formatter(event_date.finish_at, {...extras, month: '2-digit', year: 'numeric'})} <br/>
     </span>);
 }
 

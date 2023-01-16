@@ -1,5 +1,2 @@
-# We should never include .env in our containers
-.env
-
 node_modules
 .next

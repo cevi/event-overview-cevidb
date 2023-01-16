@@ -12,5 +12,6 @@ services:
 
     environment:
       - ENV_FILE_LOCATION=.env
+
     volumes:
       - .env:/app/.env
