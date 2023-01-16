@@ -15,3 +15,9 @@ services:
 
     volumes:
       - .env:/app/.env
+
+  redis_cache:
+    image: redis:alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"

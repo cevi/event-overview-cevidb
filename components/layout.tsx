@@ -5,7 +5,6 @@ import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 
 const name = 'Kursübersicht'
-export const siteTitle = 'Next.js Sample Website'
 
 export default function Layout({children, home}: { children: any, home?: boolean }) {
     return (
@@ -16,7 +15,6 @@ export default function Layout({children, home}: { children: any, home?: boolean
                     name="description"
                     content="Kursübersicht Cevi Schweiz"
                 />
-                <meta name="og:title" content={siteTitle}/>
                 <meta name="twitter:card" content="summary_large_image"/>
             </Head>
             <header className={styles.header}>
