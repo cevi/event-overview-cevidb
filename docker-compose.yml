@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+
+  course_finder:
+    build: .
+
+    container_name: course_finder
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      - ENV_FILE_LOCATION=.env
+    volumes:
+      - .env:/app/.env

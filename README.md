@@ -33,3 +33,11 @@ CEVI_DB_TOKEN=xxx npm run dev
 ```
 
 Where `xxx` is the API token for the CeviDB API with the `Anlässe dieser und der darunterliegenden Ebenen` scope.
+
+## Proof of Concept: Production
+
+To build the production version, run:
+
+```bash
+docker-compose up --build
+```
