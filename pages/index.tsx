@@ -58,15 +58,30 @@ export default function Home({allDBEvents}: { allDBEvents: DBEvent[] }) {
         <Layout home>
 
             <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-                <h2 className={utilStyles.headingLg}>Anlässe</h2>
-                <ul className={utilStyles.list}>
+
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <caption className="mt-6">Anlass und Kursübersicht</caption>
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" className="px-6 py-3">Name</th>
+                        <th scope="col" className="px-6 py-3">Beschreibung</th>
+                        <th scope="col" className="px-6 py-3">Anmeldungen</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
                     {allDBEvents.map((event: DBEvent) => (
-                        <li className={utilStyles.listItem} key={event.id}>
-                            {event.name} <br/> {event.description} <br/>
-                            Anmeldungen: {event.participant_count} / {event.maximum_participants}
-                        </li>
+                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            key={event.id}>
+                            <td className="px-6 py-4">{event.name}</td>
+                            <td className="px-6 py-4">{event.description}</td>
+                            <td className="px-6 py-4 text-center">{event.participant_count} / {event.maximum_participants}</td>
+                        </tr>
                     ))}
-                </ul>
+                    </tbody>
+
+                </table>
+
             </section>
         </Layout>
     );
