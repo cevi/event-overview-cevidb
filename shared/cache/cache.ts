@@ -16,11 +16,11 @@ export async function retrieve<t>(key: string, max_age: number = MAX_CACHE_AGE) 
 
     let generic_object;
     if (redis !== undefined) {
-        console.log(`[Redis] Retrieving ${key} from Redis...`);
+        console.debug(`[Redis] Retrieving ${key} from Redis...`);
         generic_object = redis.get(key);
     } else {
 
-        console.log(`[Redis] Retrieving ${key} from in-memory cache...`);
+        console.debug(`[Redis] Retrieving ${key} from in-memory cache...`);
 
         // fallback to in-memory cache
         const cache_entry = in_memory_cache.get(key);
