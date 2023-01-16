@@ -1,8 +1,8 @@
 import Redis from "ioredis";
 import {getRedisInstance} from "./redis";
 
-// 20 tage
-const MAX_CACHE_AGE = 60 * 60 * 24 * 20;
+// 120 seconds
+const MAX_CACHE_AGE = 60 * 2;
 
 const in_memory_cache = new Map<string, {
     time_stamp: number,
