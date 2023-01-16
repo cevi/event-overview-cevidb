@@ -51,7 +51,7 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
             highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
             searchWords={[searchText]}
             autoEscape
-            textToHighlight={name}
+            textToHighlight={name ? name.toString() : ''}
         />;
     }
 
@@ -83,9 +83,9 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
     React.useEffect(() => {
 
         const filteredEvents = allEvents.filter(event => {
-            return event.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                event.description.toLowerCase().includes(searchText.toLowerCase()) ||
-                event.kind.label.toLowerCase().includes(searchText.toLowerCase());
+            return event.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+                event.description?.toLowerCase().includes(searchText.toLowerCase()) ||
+                event.kind.label?.toLowerCase().includes(searchText.toLowerCase());
         });
 
         setEvents(filteredEvents);
