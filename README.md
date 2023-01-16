@@ -6,8 +6,6 @@ Aus der CeviDB werden automatisiert Kurse, Lager oder weitere Anlässe ausgegebe
 
 Aus der Cevi DB werden automatisch Anlässe als Webseite ausgegeben. Diese können initial gefiltert werden (beispielsweise nur Anlässe einer bestimmten Ortsgruppe oder Ebene). Anschliessend direkt auf der Webseite können die Anlässe weiter gefiltert werden (nur Kurse, nur Lager, o.ä.) oder sortiert werden (Altersgruppe bei Kursen, Datum, etc).
 
-Siehe auch: [cevi/event-viewer](https://github.com/cevi/event-viewer)
-
 ## Umsetzung
 
 - Variante A: Webseite, die als iFrame auf verschiedenen Webseiten eingebunden werden kann. Initiale Filterung via GET-Parameter.
