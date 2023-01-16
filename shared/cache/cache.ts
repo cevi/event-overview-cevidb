@@ -1,7 +1,8 @@
 import Redis from "ioredis";
 import {getRedisInstance} from "./redis";
 
-const MAX_CACHE_AGE = 120; // 120 seconds
+// 20 tage
+const MAX_CACHE_AGE = 60 * 60 * 24 * 20;
 
 const in_memory_cache = new Map<string, {
     time_stamp: number,
@@ -55,7 +56,7 @@ export async function cacheResults<t>(
     functor: () => Promise<t>,
     key: string,
     force_refresh = false,
-    max_age = 60): Promise<t> {
+    max_age = MAX_CACHE_AGE): Promise<t> {
 
     if (!force_refresh) {
         const cached = await retrieve<t>(key, max_age);

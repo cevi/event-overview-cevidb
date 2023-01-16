@@ -91,6 +91,6 @@ async function _getEventsData(): Promise<Hitobito_Event[]> {
 
 export async function getEventsData(force_refresh = false): Promise<Hitobito_Event[]> {
 
-    return cacheResults<Hitobito_Event[]>(_getEventsData, 'events', force_refresh, 60);
+    return cacheResults<Hitobito_Event[]>(_getEventsData, 'events', force_refresh);
 
 }
