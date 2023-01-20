@@ -18,8 +18,11 @@ export function dateToString(date: Hitobito_Date) {
     const start_at = new Date(date.start_at);
     const finish_at = new Date(date.finish_at);
 
-    if (start_at === finish_at) {
-        return `${dateFormatter(start_at)} (Ort: ${date.location})`;
+    if (start_at >= finish_at) {
+        return `${dateFormatter(start_at, {
+            year: 'numeric',
+            month: '2-digit'
+        })}`;
     }
 
     let formatter = timeFormatter;

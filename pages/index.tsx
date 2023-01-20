@@ -102,13 +102,24 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
                         <Descriptions.Item label="Motto">{highlighter(event.motto)}</Descriptions.Item>
                         <Descriptions.Item label="Ort">{event.location}</Descriptions.Item>
                         <Descriptions.Item
-                            label="Teilnehmer">{event.participant_count} von {event.maximum_participants}
+                            label="Anzahl Teilnehmer">
+
+                            {event.maximum_participants ? <>
+                                {event.participant_count == event.maximum_participants ? <>Kurs
+                                    ausgebucht</> : <>{event.participant_count} von {event.maximum_participants}</>}
+
+                            </> : <>
+                                Anmeldungen: {event.participant_count}
+                            </>}
+
                         </Descriptions.Item>
 
                         <Descriptions.Item label="Daten">
                             {
                                 event.dates.map((date: Hitobito_Date) => {
-                                    return <div key={event.id + date.label}><b>{date.label}:</b> {dateToString(date)}
+                                    return <div key={event.id + date.label}>
+                                        {date.label !== '' ? (<b>{date.label}: </b>) : (<> </>)}
+                                        {dateToString(date)}
                                     </div>
                                 })
                             }
