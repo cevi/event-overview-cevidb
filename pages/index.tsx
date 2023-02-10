@@ -138,6 +138,12 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
         }
     ];
 
+    // on small screens, hide the description column
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        columns.splice(1, 1);
+        columns[0].width = '100%';
+    }
+
     const tableProps: TableProps<Hitobito_Event> = {
         expandable: {
             expandedRowRender: (event: Hitobito_Event) =>
