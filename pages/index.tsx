@@ -188,10 +188,12 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
     const onChange: TableProps<Hitobito_Event>['onChange'] = (pagination, filters) => {
 
         setReady(true);
+
+
         setQueryParams({
             ...queryParams,
             pagination: pagination.current?.toString() || '1',
-            filter: filters.kind ? JSON.stringify(filters.kind) : '',
+            filter: filters.kind ? JSON.stringify(filters.kind) : '[]'
         });
     };
 
