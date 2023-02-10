@@ -158,7 +158,7 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
                 <div>
                     <Descriptions title={event.name} bordered column={1}>
                         <Descriptions.Item label="Beschreibung">{highlighter(event.description)}</Descriptions.Item>
-                        <Descriptions.Item label="Motto">{highlighter(event.motto)}</Descriptions.Item>
+                        {event.motto && <Descriptions.Item label="Motto">{highlighter(event.motto)}</Descriptions.Item>}
                         <Descriptions.Item label="Ort">{event.location}</Descriptions.Item>
                         <Descriptions.Item
                             label="Anzahl Teilnehmer">
