@@ -28,15 +28,50 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
 
     let allEvents = allDBEvents;
     const [events, setEvents] = React.useState<Hitobito_Event[]>(allDBEvents.slice(0, 10));
-    const [searchText, setSearchText] = React.useState('');
 
     const router = useRouter()
 
+    const [queryParams, setQueryParams] = React.useState({
+        search: router.query.search as string || '',
+        pagination: router.query.pagination as string || '1',
+        filter: router.query.filter as string || '[]',
+    });
+
+    const [ready, setReady] = React.useState(false);
+
     // restore state from url
     React.useEffect(() => {
-        setSearchText(router.query.search as string || '');
-        console.log(router.query.search);
+
+        if (ready) return;
+
+        setQueryParams({
+            ...queryParams,
+            search: router.query.search as string || '',
+            pagination: router.query.pagination as string || '1',
+            filter: router.query.filter as string || '[]',
+        });
+
+        if (router.asPath.includes('?') && JSON.stringify(router.query) === '{}') return;
+        setReady(true);
+
+
     }, [router]);
+
+    // update url when state changes
+    React.useEffect(() => {
+
+        // filter out empty values
+        const params = Object.fromEntries(Object.entries(queryParams)
+            .filter(([_, v]) => v !== ''));
+
+        if (!ready) return;
+
+        router.push({
+            pathname: '/',
+            query: params,
+        }, undefined, {shallow: true});
+
+    }, [queryParams]);
 
 
     // lazy load the rest of the events
@@ -58,11 +93,24 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
     function highlighter(name: string) {
         return <Highlighter
             highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
-            searchWords={[searchText]}
+            searchWords={[queryParams.search]}
             autoEscape
             textToHighlight={name ? name.toString() : ''}
         />;
     }
+
+    React.useEffect(() => {
+
+        const filteredEvents = allEvents.filter(event => {
+            return event.name?.toLowerCase().includes(queryParams.search.toLowerCase()) ||
+                event.description?.toLowerCase().includes(queryParams.search.toLowerCase()) ||
+                event.kind.label?.toLowerCase().includes(queryParams.search.toLowerCase());
+        });
+
+
+        setEvents(filteredEvents);
+
+    }, [queryParams.search]);
 
     const columns: ColumnsType<Hitobito_Event> = [
         {
@@ -84,23 +132,11 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
             render: (kind) => highlighter(kind.label),
             sorter: (a, b) => a.kind.label.localeCompare(b.kind.label),
             filters: event_kindes,
+            filteredValue: JSON.parse(queryParams.filter),
             onFilter: (value, event) => event.kind.label === value,
             width: '18%',
         }
     ];
-
-    React.useEffect(() => {
-
-        const filteredEvents = allEvents.filter(event => {
-            return event.name?.toLowerCase().includes(searchText.toLowerCase()) ||
-                event.description?.toLowerCase().includes(searchText.toLowerCase()) ||
-                event.kind.label?.toLowerCase().includes(searchText.toLowerCase());
-        });
-
-        window.history.replaceState({}, '', searchText.length > 0 ? `/?search=${searchText}` : '/');
-        setEvents(filteredEvents);
-
-    }, [searchText]);
 
     const tableProps: TableProps<Hitobito_Event> = {
         expandable: {
@@ -149,6 +185,17 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
         }
     };
 
+    const onChange: TableProps<Hitobito_Event>['onChange'] = (pagination, filters) => {
+
+        setReady(true);
+        setQueryParams({
+            ...queryParams,
+            pagination: pagination.current?.toString() || '1',
+            filter: filters.kind ? JSON.stringify(filters.kind) : '',
+        });
+    };
+
+
     return (
         <Layout home>
 
@@ -158,12 +205,21 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
                     allowClear
                     enterButton="Search"
                     size="large"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.currentTarget.value)}
-                    onSearch={(value: string) => setSearchText(value)}
+                    value={queryParams.search}
+                    onChange={(e) => {
+                        setQueryParams({...queryParams, search: e.currentTarget.value});
+                        setReady(true);
+                    }}
+                    onSearch={(value: string) => setQueryParams({...queryParams, search: value})}
                     placeholder="Suche nach Events"
                 />
-                <Table {...tableProps}/>
+
+                {ready ? (
+                    <Table {...tableProps}
+                           onChange={onChange}
+                           pagination={{current: +queryParams.pagination}}
+                    />
+                ) : <></>}
 
             </section>
         </Layout>
