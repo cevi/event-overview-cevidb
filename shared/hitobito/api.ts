@@ -21,10 +21,15 @@ async function _getEventsData(): Promise<Hitobito_Event[]> {
     const group_id = process.env.HITOBITO__GROUP_ID;
     const hitobito_instance = process.env.HITOBITO_INSTANCE;
 
+    // today in format DD-MM-YYYY
+    const today_date = new Date();
+    const today = `${today_date.getDate()}-${today_date.getMonth() + 1}-${today_date.getFullYear()}`;
+
     // events and courses must be retrieved separately using different endpoints
+    // Docs: https://github.com/hitobito/hitobito/blob/master/doc/development/05_rest_api.md#endpoints
     const api_endpoints = [
-        `https://${hitobito_instance}/groups/${group_id}/events.json?token=${token}`,
-        `https://${hitobito_instance}/groups/${group_id}/events/course.json?token=${token}`
+        `https://${hitobito_instance}/groups/${group_id}/events.json?token=${token}&start_date=${today}`,
+        `https://${hitobito_instance}/groups/${group_id}/events/course.json?token=${token}&start_date=${today}`
     ];
 
     const events: Hitobito_Event[] = [];
