@@ -184,6 +184,7 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
 
         },
         columns,
+        expandRowByClick: true,
         dataSource: events,
         rowKey: (event) => event.id,
         locale: {
