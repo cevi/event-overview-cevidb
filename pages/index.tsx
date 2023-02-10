@@ -8,6 +8,7 @@ import type {ColumnsType, TableProps} from 'antd/es/table';
 import {dateToString} from "../shared/hitobito/utils";
 import {ColumnFilterItem} from "antd/es/table/interface";
 import Highlighter from 'react-highlight-words';
+import {useRouter} from "next/router";
 
 
 export async function getStaticProps() {
@@ -24,9 +25,18 @@ export async function getStaticProps() {
 
 export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
 
+
     let allEvents = allDBEvents;
     const [events, setEvents] = React.useState<Hitobito_Event[]>(allDBEvents.slice(0, 10));
     const [searchText, setSearchText] = React.useState('');
+
+    const router = useRouter()
+
+    // restore state from url
+    React.useEffect(() => {
+        setSearchText(router.query.search as string || '');
+        console.log(router.query.search);
+    }, [router]);
 
 
     // lazy load the rest of the events
@@ -38,7 +48,6 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
                 setEvents(res);
                 allEvents = res;
             });
-
 
     }, []);
 
@@ -88,6 +97,7 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
                 event.kind.label?.toLowerCase().includes(searchText.toLowerCase());
         });
 
+        window.history.replaceState({}, '', searchText.length > 0 ? `/?search=${searchText}` : '/');
         setEvents(filteredEvents);
 
     }, [searchText]);
@@ -148,7 +158,8 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
                     allowClear
                     enterButton="Search"
                     size="large"
-                    onKeyUp={(e) => setSearchText(e.currentTarget.value)}
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.currentTarget.value)}
                     onSearch={(value: string) => setSearchText(value)}
                     placeholder="Suche nach Events"
                 />
