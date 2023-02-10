@@ -90,13 +90,20 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
         return {text: kind, value: kind}
     });
 
+
+    const [showHighlight, setShowHighlight] = React.useState(false);
+
     function highlighter(name: string) {
-        return <Highlighter
-            highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
-            searchWords={[queryParams.search]}
-            autoEscape
-            textToHighlight={name ? name.toString() : ''}
-        />;
+
+        return (
+            <Highlighter
+                highlightStyle={{backgroundColor: '#ffc069', padding: 0}}
+                searchWords={[queryParams.search]}
+                className={showHighlight ? '' : 'fade-out'}
+                autoEscape
+                textToHighlight={name ? name.toString() : ''}
+            />
+        );
     }
 
     React.useEffect(() => {
@@ -138,6 +145,12 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
         }
     ];
 
+    // on small screens, hide the description column
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        columns.splice(1, 1);
+        columns[0].width = '100%';
+    }
+
     const tableProps: TableProps<Hitobito_Event> = {
         expandable: {
             expandedRowRender: (event: Hitobito_Event) =>
@@ -178,6 +191,7 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
 
         },
         columns,
+        expandRowByClick: true,
         dataSource: events,
         rowKey: (event) => event.id,
         locale: {
@@ -210,6 +224,8 @@ export default function Home({allDBEvents}: { allDBEvents: Hitobito_Event[] }) {
                     value={queryParams.search}
                     onChange={(e) => {
                         setQueryParams({...queryParams, search: e.currentTarget.value});
+                        setShowHighlight(true);
+                        setTimeout(() => setShowHighlight(false), 1_000);
                         setReady(true);
                     }}
                     onSearch={(value: string) => setQueryParams({...queryParams, search: value})}
