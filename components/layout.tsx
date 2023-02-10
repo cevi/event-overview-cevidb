@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
+import layout from './layout.module.css'
 import Link from 'next/link'
 
 const name = 'Kursübersicht'
@@ -18,37 +18,17 @@ export default function Layout({children, home}: { children: any, home?: boolean
                 <meta name="twitter:card" content="summary_large_image"/>
             </Head>
             <header className={styles.header}>
-                {home ? (
-                    <>
-                        <Image
-                            priority
-                            src="/images/logo.png"
-                            className={utilStyles.borderCircle}
-                            height={77}
-                            width={475}
-                            alt={name}
-                        />
-                        <h1 className={utilStyles.heading2Xl}>{name}</h1>
-                    </>
-                ) : (
-                    <>
-                        <Link href="/">
-                            <Image
-                                priority
-                                src="/images/logo.png"
-                                className={utilStyles.borderCircle}
-                                height={77}
-                                width={475}
-                                alt={name}
-                            />
-                        </Link>
-                        <h2 className={utilStyles.headingLg}>
-                            <Link href="/" className={utilStyles.colorInherit}>
-                                {name}
-                            </Link>
-                        </h2>
-                    </>
-                )}
+                <>
+                    <Image
+                        priority
+                        src="/images/logo.png"
+                        className={layout.cevi_logo}
+                        height={77}
+                        width={475}
+                        alt={name}
+                    />
+                    <h1 className={layout.page_header}>{name}</h1>
+                </>
             </header>
 
             <main>{children}</main>
