@@ -35,7 +35,7 @@ The application is written in TypeScript using NextJS and React. The data is fet
 
 ### Prerequisites
 
-  * Node 18+
+  * Node 16+
   * Openslide
   * Cevi.DB API Token with Scope `Anlässe dieser und der darunterliegenden Ebenen` for the integration environment.
 
@@ -53,6 +53,8 @@ Note: you need to replace xxx with the proper token.
 The webpage is available under http://localhost:3000
 
 ### Proof of Concept: Production
+
+Copy the file example.env to .env and adjust HITOBITO_API_TOKEN and REDIS_PASSWORD
 
 To build the production version, run:
 
