@@ -33,20 +33,56 @@ einfachen Umgebung finden.
 The following code is a proof of concept for the idea. It is not yet production ready.
 The application is written in TypeScript using NextJS and React. The data is fetched from the CeviDB via the Event API.
 
+### Prerequisites
+
+  * Node 16+
+  * Openslide
+  * Cevi.DB API Token with Scope `Anlässe dieser und der darunterliegenden Ebenen` for the integration environment.
+
 ### Proof of Concept: Development
 
 To start the development server, run:
 
 ```bash
-CEVI_DB_TOKEN=xxx npm run dev
+npm install
+HITOBITO_INSTANCE=cevi.puzzle.ch HITOBITO_API_TOKEN=xxx HITOBITO__GROUP_ID=1 npm run dev
 ```
 
-Where `xxx` is the API token for the CeviDB API with the `Anlässe dieser und der darunterliegenden Ebenen` scope.
+Note: you need to replace xxx with the proper token.
+
+The webpage is available under http://localhost:3000
 
 ### Proof of Concept: Production
+
+Copy the file example.env to .env and adjust HITOBITO_API_TOKEN and REDIS_PASSWORD
 
 To build the production version, run:
 
 ```bash
 docker-compose up --build
+```
+
+The webpage is available under http://localhost:3000
+
+### Troubleshooting
+
+Depending on your (firewall) configuration you might encounter the following error when running ```npm install```
+```
+gyp ERR! stack FetchError: request to https://nodejs.org/download/release/v18.18.0/node-v18.18.0-headers.tar.gz failed, reason: unable to get local issuer certificate
+```
+
+This seems to be related to the following error (https://github.com/nodejs/help/issues/3686#issuecomment-1011865975) and can be resolved with the following command:
+```
+wget https://nodejs.org/download/release/v18.18.0/node-v18.18.0-headers.tar.gz --directory-prefix=/tmp
+npm install --tarball=/tmp/node-v18.18.0-headers.tar.gz
+```
+
+Another problem you might encounter is
+```
+unable to load "/usr/lib/vips-modules-8.14/vips-openslide.so" -- libopenslide.so.0: cannot open shared object file: No such file or directory
+```
+
+To solve this you need to intall openslide (example for Arch Linux):
+```
+sudo pacman -S openslide
 ```
