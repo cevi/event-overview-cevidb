@@ -3,7 +3,7 @@ import {cacheResults} from "../cache/cache";
 
 async function _getEventsData(): Promise<Hitobito_Event[]> {
 
-    console.log('Query Hitobito Instance for (new) events...');
+    console.log('Query Hitobito Instance for (new) events and courses...');
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -36,18 +36,26 @@ async function _getEventsData(): Promise<Hitobito_Event[]> {
 
     for (const api_endpoint of api_endpoints) {
         const response = await fetch(api_endpoint, requestOptions);
-        const data = await response.json();
+        let data = await response.json();
 
-        // TODO: paging is not implemented yet;
-        //       only events from the first page are loaded
+        processAndAddEvents(data.events, data.linked.event_dates, data.linked.event_kinds, events);
 
-        console.log(JSON.stringify(data.events[0]))
+        while (data.next_page_link !== null) {
+            const pageResponse = await fetch(data.next_page_link, requestOptions);
+            data = await pageResponse.json();
+            processAndAddEvents(data.events, data.linked.event_dates, data.linked.event_kinds, events);
+        }
+    }
 
-        // extract date of event
-        data.events.forEach((event: any) => {
+    return events;
+
+}
+
+function processAndAddEvents(eventsToProcess: any[], eventDates: any, linkedEventKinds: any, processedEvents: Hitobito_Event[]) {
+    eventsToProcess.forEach((event: any) => {
 
             const date_ids = event.links.dates;
-            const date_objs = data.linked.event_dates;
+            const date_objs = eventDates;
 
             // find all associated dates objects
             event.dates = date_objs
@@ -68,13 +76,13 @@ async function _getEventsData(): Promise<Hitobito_Event[]> {
             event.links.kind ||= "-1"; // events don't have a kind, so we set it to -1
 
             // find the kind of the event
-            let kind_obj = data.linked.event_kinds?.find((kind_obj: any) => kind_obj.id == event.links.kind);
+            let kind_obj = linkedEventKinds?.find((kind_obj: any) => kind_obj.id == event.links.kind);
             kind_obj ||= {}; // if kind_obj is undefined, set it to an empty object
             kind_obj.label ||= "Event"; // if kind_obj is undefined, set it to an empty object
             kind_obj.short_name ||= "Event"; // if short_name is undefined, set it to "Event"
             kind_obj.minimum_age ||= 0; // if minimum_age is undefined, set it to 0
 
-            events.push({
+            processedEvents.push({
                 id: event.id,
                 name: event.name,
                 motto: event.motto,
@@ -87,11 +95,6 @@ async function _getEventsData(): Promise<Hitobito_Event[]> {
                 external_application_link: event.external_application_link
             });
         });
-
-    }
-
-    return events;
-
 }
 
 export async function getEventsData(force_refresh = false): Promise<Hitobito_Event[]> {
