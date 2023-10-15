@@ -4,7 +4,7 @@ import styles from './layout.module.css'
 import layout from './layout.module.css'
 import Link from 'next/link'
 
-const name = 'Kursübersicht'
+const name = 'Anlass- und Kursübersicht'
 
 export default function Layout({children, home}: { children: any, home?: boolean }) {
     return (
@@ -13,7 +13,7 @@ export default function Layout({children, home}: { children: any, home?: boolean
                 <link rel="icon" href="/favicon.ico"/>
                 <meta
                     name="description"
-                    content="Kursübersicht Cevi Schweiz"
+                    content="Anlass- und Kursübersicht Cevi Schweiz"
                 />
                 <meta name="twitter:card" content="summary_large_image"/>
             </Head>
