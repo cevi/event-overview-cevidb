@@ -1,0 +1,228 @@
+{
+  "current_page": 2,
+  "total_pages": 2,
+  "next_page_link": "back",
+  "prev_page_link": null,
+  "events": [
+    {
+      "id": "3457",
+      "type": "events",
+      "name": "Cevi News-Versand",
+      "description": "Newsletter, Sammlung der Newseinträge auf ceviregionzuerich.ch",
+      "motto": "",
+      "cost": "",
+      "maximum_participants": null,
+      "participant_count": 0,
+      "location": "",
+      "application_opening_at": null,
+      "application_closing_at": null,
+      "application_conditions": null,
+      "state": null,
+      "teamer_count": 0,
+      "external_application_link": "https://db.cevi.ch/groups/5/public_events/3457",
+      "links": {
+        "dates": [
+          "3914",
+          "3915",
+          "3939",
+          "3940",
+          "3941",
+          "3942",
+          "3943",
+          "3944",
+          "3945",
+          "3946",
+          "3947",
+          "3948"
+        ],
+        "groups": [
+          "5"
+        ]
+      },
+      "tags": []
+    }
+  ],
+  "linked": {
+    "event_dates": [
+      {
+        "id": "3914",
+        "label": "Januar",
+        "start_at": "2023-01-04T00:00:00.000+01:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+      "id": "3915",
+      "label": "Februar",
+      "start_at": "2023-02-08T00:00:00.000+01:00",
+      "finish_at": null,
+      "location": ""
+      },
+      {
+        "id": "3939",
+        "label": "März",
+        "start_at": "2023-03-01T00:00:00.000+01:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3940",
+        "label": "April",
+        "start_at": "2023-04-05T00:00:00.000+02:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3941",
+        "label": "Mai",
+        "start_at": "2023-05-03T00:00:00.000+02:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3942",
+        "label": "Juni",
+        "start_at": "2023-06-07T00:00:00.000+02:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3943",
+        "label": "Juli",
+        "start_at": "2023-07-05T00:00:00.000+02:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3944",
+        "label": "August",
+        "start_at": "2023-08-09T00:00:00.000+02:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3945",
+        "label": "September",
+        "start_at": "2023-09-06T00:00:00.000+02:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3946",
+        "label": "Oktober",
+        "start_at": "2023-10-11T00:00:00.000+02:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3947",
+        "label": "November",
+        "start_at": "2023-11-01T00:00:00.000+01:00",
+        "finish_at": null,
+        "location": ""
+      },
+      {
+        "id": "3948",
+        "label": "Dezember",
+        "start_at": "2023-12-06T00:00:00.000+01:00",
+        "finish_at": null,
+        "location": ""
+      }
+    ],
+    "groups": [
+      {
+        "id": "5",
+        "href": "https://db.cevi.ch/groups/5.json",
+        "group_type": "Geschäftsstelle",
+        "layer": false,
+        "name": "Geschäftsstelle",
+        "short_name": "",
+        "email": "info@ceviregionzuerich.ch",
+        "address": "Sihlstrasse 33",
+        "zip_code": 8001,
+        "town": "Zürich",
+        "country": "",
+        "links": {
+          "additional_emails": [
+            "9243",
+            "12972",
+            "12973",
+            "12974",
+            "12975"
+          ],
+          "phone_numbers": [
+            "5"
+          ],
+          "parent": "2",
+          "layer_group": "2",
+          "hierarchies": [
+            "1",
+            "2",
+            "5"
+          ]
+        },
+        "founding_date": "2006-05-19",
+        "available_roles": [
+          {
+            "name": "Geschäftsleiter/-in",
+            "role_class": "Group::MitgliederorganisationGeschaeftsstelle::Geschaeftsleiter"
+          },
+          {
+            "name": "Angestellte/-r",
+            "role_class": "Group::MitgliederorganisationGeschaeftsstelle::Angestellter"
+          },
+          {
+            "name": "Finanzverantwortliche/-r",
+            "role_class": "Group::MitgliederorganisationGeschaeftsstelle::Finanzverantwortlicher"
+          },
+          {
+            "name": "Administrator/-in Ortsgruppen",
+            "role_class": "Group::MitgliederorganisationGeschaeftsstelle::AdminOrtsgruppen"
+          }
+        ]
+      }
+    ],
+    "people": [
+    ],
+    "social_accounts": [
+    ]
+  },
+  "links": {
+    "groups.parent": {
+      "href": "https://db.cevi.ch/groups/{groups.parent}.json",
+      "type": "groups"
+    },
+    "groups.layer_group": {
+      "href": "https://db.cevi.ch/groups/{groups.layer_group}.json",
+      "type": "groups"
+    },
+    "groups.hierarchy": {
+      "href": "https://db.cevi.ch/groups/{groups.hierarchy}.json",
+      "type": "groups"
+    },
+    "groups.children": {
+      "href": "https://db.cevi.ch/groups/{groups.children}.json",
+      "type": "groups"
+    },
+    "groups.people": {
+      "href": "https://db.cevi.ch/groups/{groups.id}/people.json",
+      "type": "people"
+    },
+    "groups.contact": {
+      "href": "https://db.cevi.ch/groups/{groups.id}/people/{groups.contact}.json",
+      "type": "people"
+    },
+    "groups.creator": {
+      "href": "https://db.cevi.ch/people/{groups.creator}.json",
+      "type": "people"
+    },
+    "groups.updater": {
+      "href": "https://db.cevi.ch/people/{groups.updater}.json",
+      "type": "people"
+    },
+    "groups.deleter": {
+      "href": "https://db.cevi.ch/people/{groups.deleter}.json",
+      "type": "people"
+    }
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "current_page": 1,
+  "total_pages": 2,
+  "next_page_link": null,
+  "prev_page_link": "next",
+  "events": [
+    {
+      "id": "3213",
+      "type": "events",
+      "name": "European YWCA General Assembly 2023",
+      "description": "Nimm teil an der Generalversammlung des European YWCA’s.",
+      "motto": "",
+      "cost": "",
+      "maximum_participants": null,
+      "participant_count": 3,
+      "location": "",
+      "application_opening_at": null,
+      "application_closing_at": null,
+      "application_conditions": null,
+      "state": null,
+      "teamer_count": 0,
+      "external_application_link": "https://db.cevi.ch/groups/1971/public_events/3213",
+      "links": {
+        "dates": [
+          "3636"
+        ],
+        "groups": [
+          "1971"
+        ]
+      },
+      "tags": []
+    },
+    {
+      "id": "8000",
+      "type": "events",
+      "name": "SomeFilteredEvent",
+      "description": "...",
+      "motto": "",
+      "cost": "",
+      "maximum_participants": null,
+      "participant_count": 3,
+      "location": "",
+      "application_opening_at": null,
+      "application_closing_at": null,
+      "application_conditions": null,
+      "state": null,
+      "teamer_count": 0,
+      "external_application_link": "https://db.cevi.ch/groups/9000/public_events/8000",
+      "links": {
+        "dates": [
+          "3636"
+        ],
+        "groups": [
+          "9000"
+        ]
+      },
+      "tags": []
+    }
+  ],
+  "linked": {
+    "event_dates": [
+      {
+        "id": "3636",
+        "label": "",
+        "start_at": "2023-05-18T00:00:00.000+02:00",
+        "finish_at": "2023-05-21T00:00:00.000+02:00",
+        "location": "Antwerpen (Belgien)"
+      }
+    ],
+    "groups": [
+      {
+        "id": "1971",
+        "href": "https://db.cevi.ch/groups/1971.json",
+        "group_type": "Gremium",
+        "layer": false,
+        "name": "Fachgruppen",
+        "short_name": "",
+        "email": "",
+        "address": "",
+        "zip_code": null,
+        "town": "",
+        "country": "",
+        "founding_date": null,
+        "created_at": "2018-05-16T14:06:26.000+02:00",
+        "updated_at": "2018-05-16T14:06:26.000+02:00",
+        "links": {
+          "creator": "20294",
+          "updater": "20294",
+          "parent": "1",
+          "layer_group": "1",
+          "hierarchies": [
+            "1",
+            "1971"
+          ],
+          "children": [
+            "2387",
+            "2390",
+            "1975",
+            "1819",
+            "1652",
+            "2753",
+            "1459"
+          ]
+        },
+        "deleted_at": null,
+        "available_roles": [
+          {
+            "name": "Leitung",
+            "role_class": "Group::DachverbandGremium::Leitung"
+          },
+          {
+            "name": "Mitglied",
+            "role_class": "Group::DachverbandGremium::Mitglied"
+          },
+          {
+            "name": "Aktive/-r Kursleiter/-in",
+            "role_class": "Group::DachverbandGremium::AktiverKursleiter"
+          },
+          {
+            "name": "Kassier",
+            "role_class": "Group::DachverbandGremium::Kassier"
+          }
+        ]
+      },
+      {
+        "id": "9000",
+        "href": "https://db.cevi.ch/groups/9000.json",
+        "group_type": "Gremium",
+        "layer": false,
+        "name": "SomeFilteredGroup",
+        "short_name": "",
+        "email": "",
+        "address": "",
+        "zip_code": null,
+        "town": "",
+        "country": "",
+        "founding_date": null,
+        "created_at": "2018-05-16T14:06:26.000+02:00",
+        "updated_at": "2018-05-16T14:06:26.000+02:00",
+        "links": {
+          "creator": "20294",
+          "updater": "20294",
+          "parent": "1",
+          "layer_group": "1",
+          "hierarchies": [
+            "1",
+            "9999"
+          ],
+          "children": [
+          ]
+        },
+        "deleted_at": null,
+        "available_roles": [
+          {
+            "name": "Leitung",
+            "role_class": "Group::DachverbandGremium::Leitung"
+          },
+          {
+            "name": "Mitglied",
+            "role_class": "Group::DachverbandGremium::Mitglied"
+          },
+          {
+            "name": "Aktive/-r Kursleiter/-in",
+            "role_class": "Group::DachverbandGremium::AktiverKursleiter"
+          },
+          {
+            "name": "Kassier",
+            "role_class": "Group::DachverbandGremium::Kassier"
+          }
+        ]
+      }
+    ],
+    "people": [
+    ],
+    "social_accounts": [
+    ]
+  },
+  "links": {
+    "groups.parent": {
+      "href": "https://db.cevi.ch/groups/{groups.parent}.json",
+      "type": "groups"
+    },
+    "groups.layer_group": {
+      "href": "https://db.cevi.ch/groups/{groups.layer_group}.json",
+      "type": "groups"
+    },
+    "groups.hierarchy": {
+      "href": "https://db.cevi.ch/groups/{groups.hierarchy}.json",
+      "type": "groups"
+    },
+    "groups.children": {
+      "href": "https://db.cevi.ch/groups/{groups.children}.json",
+      "type": "groups"
+    },
+    "groups.people": {
+      "href": "https://db.cevi.ch/groups/{groups.id}/people.json",
+      "type": "people"
+    },
+    "groups.contact": {
+      "href": "https://db.cevi.ch/groups/{groups.id}/people/{groups.contact}.json",
+      "type": "people"
+    },
+    "groups.creator": {
+      "href": "https://db.cevi.ch/people/{groups.creator}.json",
+      "type": "people"
+    },
+    "groups.updater": {
+      "href": "https://db.cevi.ch/people/{groups.updater}.json",
+      "type": "people"
+    },
+    "groups.deleter": {
+      "href": "https://db.cevi.ch/people/{groups.deleter}.json",
+      "type": "people"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+name: Build Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_dockerimage:
+    name: Build dockerimage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v4
+      
+      - name: ⛏ Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: 🔐 Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cevi.tools
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+      - name: 🔐 Prepare Hitobito Token
+        run: 'echo "$HITOBITO_PROD_TOKEN" > hitobito_token'
+        working-directory: ./backend
+        env:
+          HITOBITO_PROD_TOKEN: ${{secrets.HITOBITO_PROD_TOKEN}}
+          
+      - name: 🏗️ Build backend dockerimage
+        run: |
+          APPLICATION_HITOBITO_API_TOKEN_FILE=hitobito_token ./mvnw verify
+          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=registry.cevi.tools/cevi/event_overview_backend:latest
+        working-directory: ./backend
+       
+      - name: 🏗️ Build frontend dockerimage
+        run: docker build . --tag "registry.cevi.tools/cevi/event_overview_frontend:latest"
+        working-directory: ./frontend
+          
+      - name: 🚀 Push containers to registry
+        run: |
+          docker push registry.cevi.tools/cevi/event_overview_backend:latest
+          docker push registry.cevi.tools/cevi/event_overview_frontend:latest

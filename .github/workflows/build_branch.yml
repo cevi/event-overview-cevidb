@@ -1,0 +1,44 @@
+name: Build branches
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  build_and_test:
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+          
+      - name: 🔐 Prepare Hitobito Token
+        run: 'echo "$HITOBITO_PROD_TOKEN" > hitobito_token'
+        working-directory: ./backend
+        env:
+          HITOBITO_PROD_TOKEN: ${{secrets.HITOBITO_PROD_TOKEN}}
+          
+          
+      - name: Build and test backend
+        run: APPLICATION_HITOBITO_API_TOKEN_FILE=hitobito_token ./mvnw verify
+        working-directory: ./backend
+        
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+        
+      - name: Build frontend
+        run: |
+          npm ci
+          ng build
+        working-directory: ./frontend

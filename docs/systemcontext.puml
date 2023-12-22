@@ -1,0 +1,20 @@
+@startuml Event Finder Systemcontext
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!include DEVICONS/angular.puml
+!include DEVICONS/java.puml
+
+ LAYOUT_LANDSCAPE()
+
+Person(cevianer, "CevianerIn")
+System_Boundary(c1, "Event Overview") {
+    Container(spa, "Web Frontend", "angular", "Search and filter courses and events.", $sprite="angular")
+    Container(api, "Backend", "spring boot", "Communicates with the Cevi.db", $sprite="java")
+}
+System_Ext(cevi.db, "Cevi.db", "[hitobito]")
+
+Rel(spa, api, "Uses", "HTTPS")
+Rel(cevianer, spa, "Uses", "HTTPS")
+Rel(api, cevi.db, "Gets events and courses from", "HTTPS")
+@enduml

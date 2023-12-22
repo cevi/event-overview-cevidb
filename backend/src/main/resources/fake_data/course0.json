@@ -1,0 +1,243 @@
+{
+  "current_page": 1,
+  "total_pages": 2,
+  "next_page_link": "next",
+  "prev_page_link": null,
+  "events": [
+    {
+      "id": "3208",
+      "type": "events",
+      "name": "Gruppenleiterkurs GLK 2023",
+      "description": "Du willst eine Gruppe selbstständig leiten?",
+      "motto": "",
+      "cost": "300.-",
+      "maximum_participants": 29,
+      "participant_count": 36,
+      "location": "Florastrasse 21\r\n4600 Olten",
+      "application_opening_at": "2022-11-22",
+      "application_closing_at": "2023-01-15",
+      "application_conditions": "Bla",
+      "state": "closed",
+      "teamer_count": 16,
+      "external_application_link": "https://db.cevi.ch/groups/2569/public_events/3208",
+      "links": {
+        "kind": "2",
+        "dates": [
+          "3629",
+          "3691"
+        ],
+        "groups": [
+          "2569"
+        ]
+      },
+      "tags": []
+    },
+    {
+      "id": "9050",
+      "type": "events",
+      "name": "SomeFilteredCourse",
+      "description": "...",
+      "motto": "",
+      "cost": "300.-",
+      "maximum_participants": 29,
+      "participant_count": 36,
+      "location": "Florastrasse 21\r\n4600 Olten",
+      "application_opening_at": "2022-11-22",
+      "application_closing_at": "2023-01-15",
+      "application_conditions": "Bla",
+      "state": "closed",
+      "teamer_count": 16,
+      "external_application_link": "https://db.cevi.ch/groups/2569/public_events/3208",
+      "links": {
+        "kind": "2",
+        "dates": [
+          "3629"
+        ],
+        "groups": [
+          "8010"
+        ]
+      },
+      "tags": []
+    }
+  ],
+  "linked": {
+    "event_kinds": [
+      {
+        "id": "2",
+        "label": "J+S-Leiter*innenkurs LS/T Jugendliche",
+        "short_name": null,
+        "minimum_age": 17,
+        "general_information": null,
+        "application_conditions": null
+      }
+    ],
+    "event_dates": [
+      {
+        "id": "3629",
+        "label": "Vorweekend GLK Gruppenleiterkurs 2023",
+        "start_at": "2023-03-04T09:00:00.000+01:00",
+        "finish_at": "2023-03-05T17:00:00.000+01:00",
+        "location": "Windisch"
+      },
+      {
+        "id": "3691",
+        "label": "Kurswoche GLK Gruppenleiterkurs 2023",
+        "start_at": "2023-04-08T09:00:00.000+02:00",
+        "finish_at": "2023-04-15T17:00:00.000+02:00",
+        "location": "Stäfa"
+      }
+    ],
+    "groups": [
+      {
+        "id": "2569",
+        "href": "https://db.cevi.ch/groups/2569.json",
+        "group_type": "Mitgliederorganisation",
+        "layer": true,
+        "name": "Cevi Regionalverband AG-SO-LU-ZG",
+        "short_name": "AG-SO-LU-ZG",
+        "email": null,
+        "address": "",
+        "zip_code": null,
+        "town": "",
+        "country": "",
+        "founding_date": null,
+        "created_at": "2020-06-27T20:53:28.000+02:00",
+        "updated_at": "2023-11-26T21:55:47.000+01:00",
+        "links": {
+          "creator": "4",
+          "updater": "4",
+          "parent": "1",
+          "layer_group": "2569",
+          "hierarchies": [
+            "1",
+            "2569"
+          ],
+          "children": [
+            "2658",
+            "2978",
+            "2663",
+            "2742",
+            "2660",
+            "2664",
+            "2667",
+            "2669",
+            "2737",
+            "3101",
+            "2676",
+            "2678",
+            "2684",
+            "2681",
+            "2689",
+            "2693",
+            "2701",
+            "2696",
+            "2704",
+            "2706",
+            "2708",
+            "2744",
+            "2711",
+            "2713",
+            "2740",
+            "2721",
+            "2724",
+            "2729",
+            "2746",
+            "2734",
+            "3595",
+            "3002",
+            "2606",
+            "2641",
+            "2642",
+            "2698",
+            "2649",
+            "3015",
+            "2972",
+            "2571",
+            "2603",
+            "2659",
+            "2570"
+          ]
+        },
+        "deleted_at": null,
+        "available_roles": [
+          {
+            "name": "Administrator/-in",
+            "role_class": "Group::Mitgliederorganisation::Administrator"
+          }
+        ]
+      },
+      {
+        "id": "8010",
+        "href": "https://db.cevi.ch/groups/8010.json",
+        "group_type": "Mitgliederorganisation",
+        "layer": true,
+        "name": "FilteredVerband",
+        "short_name": "FilteredVerband",
+        "email": null,
+        "address": "",
+        "zip_code": null,
+        "town": "",
+        "country": "",
+        "founding_date": null,
+        "created_at": "2020-06-27T20:53:28.000+02:00",
+        "updated_at": "2023-11-26T21:55:47.000+01:00",
+        "links": {
+          "creator": "4",
+          "updater": "4",
+          "parent": "1",
+          "layer_group": "2569",
+          "hierarchies": [
+            "1",
+            "2569"
+          ],
+          "children": []
+        },
+        "deleted_at": null,
+        "available_roles": [
+          {
+            "name": "Administrator/-in",
+            "role_class": "Group::Mitgliederorganisation::Administrator"
+          }
+        ]
+      }
+    ],
+    "phone_numbers": [
+    ],
+    "social_accounts": [
+    ]
+  },
+  "links": {
+    "groups.parent": {
+      "href": "https://db.cevi.ch/groups/{groups.parent}.json",
+      "type": "groups"
+    },
+    "groups.layer_group": {
+      "href": "https://db.cevi.ch/groups/{groups.layer_group}.json",
+      "type": "groups"
+    },
+    "groups.hierarchy": {
+      "href": "https://db.cevi.ch/groups/{groups.hierarchy}.json",
+      "type": "groups"
+    },
+    "groups.children": {
+      "href": "https://db.cevi.ch/groups/{groups.children}.json",
+      "type": "groups"
+    },
+    "groups.people": {
+      "href": "https://db.cevi.ch/groups/{groups.id}/people.json",
+      "type": "people"
+    },
+    "groups.creator": {
+      "href": "https://db.cevi.ch/people/{groups.creator}.json",
+      "type": "people"
+    },
+    "groups.updater": {
+      "href": "https://db.cevi.ch/people/{groups.updater}.json",
+      "type": "people"
+    },
+    "groups.deleter": {
+      "href": "https://db.cevi.ch/people/{groups.deleter}.json",
+      "type": "people"
+    }
+  }
+}
