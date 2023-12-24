@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from './../../environments/environment';
 
 export interface CeviEvent {
   id: string;
@@ -18,6 +19,6 @@ export class EventService {
   constructor(private http: HttpClient) { }
 
   getEvents() {
-    return this.http.get<CeviEvent[]>('http://localhost:8080/events')
+    return this.http.get<CeviEvent[]>(environment.apiUri + '/events')
   }
 }
