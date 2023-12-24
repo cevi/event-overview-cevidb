@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { CeviEvent, EventService } from './event/event.service';
@@ -26,6 +26,7 @@ export class AppComponent {
   organisations = [] as string[];
   types = [] as string[];
   isLoading = true;
+  isError = false;
   displayedColumns: string[] = ['group', 'name', 'startsAt', 'finishAt', 'link'];
 
   private sort!: MatSort;
@@ -42,11 +43,17 @@ export class AppComponent {
   }
 
   constructor(private service: EventService) {
-    service.getEvents().subscribe(data => {
-      this.events.data = data;
-      this.data = data;
-      this.organisations = [...new Set(data.map(o => o.group))];
-      this.types = [...new Set(data.map(o => o.eventType))];
-      this.isLoading = false});
-   }
+    service.getEvents().subscribe({
+      next: (data) => {
+        this.events.data = data;
+        this.data = data;
+        this.organisations = [...new Set(data.map(o => o.group))];
+        this.types = [...new Set(data.map(o => o.eventType))];
+        this.isLoading = false},
+      error: (e) => {
+        this.isLoading = false;
+        this.isError = true;
+      }
+    });
+  }
 }

@@ -4,6 +4,9 @@
   @if (this.isLoading) {
     <mat-spinner></mat-spinner>
   }
+  @else if (this.isError) {
+    <p>Fehler beim Laden der Anlässe und/oder Kurse. Bitte versuchen sie es später nochmal.</p>
+  }
   @else {
     Filter:
     <mat-form-field>

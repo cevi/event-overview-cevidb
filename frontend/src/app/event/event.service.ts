@@ -19,6 +19,6 @@ export class EventService {
   constructor(private http: HttpClient) { }
 
   getEvents() {
-    return this.http.get<CeviEvent[]>(environment.apiUri + '/events')
+    return this.http.get<CeviEvent[]>(environment.apiUri + '/events');
   }
 }
