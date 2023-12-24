@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import localeDECH from '@angular/common/locales/de-CH';
 import { registerLocaleData } from '@angular/common';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginatorIntlDeu } from './util/MatPaginatorIntlDeu';
 
 registerLocaleData(localeDECH)
 
@@ -15,5 +17,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     provideAnimations(),
     { provide: LOCALE_ID, useValue: 'de-CH' },
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlDeu}
 ]
 };
