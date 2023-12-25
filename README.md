@@ -23,7 +23,7 @@ cd backend
 ./mvnw spring-boot:run
 ```
 
-The backend is accessible under port 8080. e. g. http://localhost:8080/events
+The backend is accessible under port 8080. e. g. http://localhost:8080/events. You can view an OpenApi specification under http://localhost:8080/swagger-ui/index.html
 
 ## Build and run the frontend
 
