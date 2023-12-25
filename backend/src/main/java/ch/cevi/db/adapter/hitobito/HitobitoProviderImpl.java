@@ -2,6 +2,7 @@ package ch.cevi.db.adapter.hitobito;
 
 import ch.cevi.db.adapter.domain.CeviEvent;
 import ch.cevi.db.adapter.domain.CeviEventType;
+import ch.cevi.db.adapter.domain.Organisation;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -14,8 +15,8 @@ class HitobitoProviderImpl implements HitobitoProvider {
     private final HitobitoApiProvider provider;
 
     private List<CeviEvent> ceviEvents;
-    private List<String> eventGroups;
-    private List<String> courseGroups;
+    private final List<String> eventGroups;
+    private final List<String> courseGroups;
 
     public HitobitoProviderImpl(HitobitoApiProvider provider, String[] eventGroups, String[] courseGroups) {
         Objects.requireNonNull(eventGroups);
@@ -54,6 +55,14 @@ class HitobitoProviderImpl implements HitobitoProvider {
                 .filter(e -> eventType.map(d -> e.eventType().equals(d)).orElse(true))
                 .toList();
 
+    }
+
+    @Override
+    public List<Organisation> getOrganisations() {
+        if (this.ceviEvents == null) {
+            this.getEvents(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        }
+        return this.ceviEvents.stream().map(e -> new Organisation(e.group())).distinct().toList();
     }
 
     private static Stream<CeviEvent> toCeviEvents(HitobitoEventPage page) {

@@ -2,6 +2,7 @@ package ch.cevi.db.adapter.hitobito;
 
 import ch.cevi.db.adapter.domain.CeviEvent;
 import ch.cevi.db.adapter.domain.CeviEventType;
+import ch.cevi.db.adapter.domain.Organisation;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,4 +14,5 @@ public interface HitobitoProvider {
                               Optional<LocalDate> lastStartAt,
                               Optional<String> nameContains,
                               Optional<CeviEventType> eventType);
+    List<Organisation> getOrganisations();
 }
