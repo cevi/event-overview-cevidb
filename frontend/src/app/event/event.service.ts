@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
 export interface CeviEvent {
@@ -18,11 +18,16 @@ export interface CeviEvent {
 export class EventService {
   constructor(private http: HttpClient) { }
 
-  getEvents() {
-    return this.http.get<CeviEvent[]>(environment.apiUri + '/events');
-  }
+  getEventsWithFilter(filterOrganisation: string, filterEventType: string) {
+    let params = new HttpParams();
 
-  getEventsForGroup(filterOrganisation: string) {
-    return this.http.get<CeviEvent[]>(environment.apiUri + '/events?groupFilter=' + filterOrganisation);
+    if (filterOrganisation !== 'all') {
+      params = params.set('groupFilter', filterOrganisation);
+    }
+    if (filterEventType !== 'all') {
+      params = params.set('eventType', filterEventType);
+    }
+
+    return this.http.get<CeviEvent[]>(environment.apiUri + '/events?' + params.toString());
   }
 }

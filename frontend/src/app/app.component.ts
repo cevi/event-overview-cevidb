@@ -29,6 +29,8 @@ export class AppComponent {
   isError = false;
   isLoadingMasterdata = true;
   isErrorMasterdata = false;
+  organisation = 'all';
+  eventType = 'all';
   displayedColumns: string[] = ['group', 'name', 'startsAt', 'finishAt', 'link'];
 
   private sort!: MatSort;
@@ -45,7 +47,7 @@ export class AppComponent {
   }
 
   constructor(private service: EventService, private masterdataService: MasterdataService) {
-    this.loadEventsWithFilter('all');
+    this.loadEventsWithFilter();
 
     masterdataService.getMasterdata().subscribe({
       next: (data: Masterdata) => {
@@ -60,31 +62,35 @@ export class AppComponent {
     });
   }
 
-  filterByOrganisation($event: MatSelectChange) {
-    this.loadEventsWithFilter($event.value);
+  translateEventTypes(eventType: string): string {
+    if (eventType === 'COURSE') {
+      return 'Kurs';
+    } else if (eventType === 'EVENT') {
+      return 'Anlass'
+    } else {
+      return eventType;
+    }
   }
 
-  loadEventsWithFilter(organisation: string) {
-    if (organisation === 'all') {
-      this.service.getEvents().subscribe({
-        next: (data: CeviEvent[]) => {
-          this.events.data = data;
-          this.isLoading = false},
-        error: (e: any) => {
-          this.isLoading = false;
-          this.isError = true;
-        }
-      });
-    } else {
-      this.service.getEventsForGroup(organisation).subscribe({
-        next: (data: CeviEvent[]) => {
-          this.events.data = data;
-          this.isLoading = false},
-        error: (e: any) => {
-          this.isLoading = false;
-          this.isError = true;
-        }
-      });
-    }
+  filterByOrganisation($event: MatSelectChange) {
+    this.organisation = $event.value;
+    this.loadEventsWithFilter();
+  }
+
+  filterByEventType($event: MatSelectChange) {
+    this.eventType = $event.value;
+    this.loadEventsWithFilter();
+  }
+
+  loadEventsWithFilter() {
+    this.service.getEventsWithFilter(this.organisation, this.eventType).subscribe({
+      next: (data: CeviEvent[]) => {
+        this.events.data = data;
+        this.isLoading = false},
+      error: (e: any) => {
+        this.isLoading = false;
+        this.isError = true;
+      }
+    });
   }
 }

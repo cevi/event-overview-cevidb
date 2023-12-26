@@ -17,10 +17,10 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Typ</mat-label>
-      <mat-select>
+      <mat-select (selectionChange)="filterByEventType($event)">
         <mat-option value="all">Alle</mat-option>
         @for (type of types; track type) {
-          <mat-option [value]="type">{{type}}</mat-option>
+          <mat-option [value]="type">{{ this.translateEventTypes(type) }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
