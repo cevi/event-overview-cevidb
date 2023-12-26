@@ -18,7 +18,7 @@ export interface CeviEvent {
 export class EventService {
   constructor(private http: HttpClient) { }
 
-  getEventsWithFilter(filterOrganisation: string, filterEventType: string) {
+  getEventsWithFilter(filterOrganisation: string, filterEventType: string, nameFilter: string) {
     let params = new HttpParams();
 
     if (filterOrganisation !== 'all') {
@@ -26,6 +26,9 @@ export class EventService {
     }
     if (filterEventType !== 'all') {
       params = params.set('eventType', filterEventType);
+    }
+    if (nameFilter !== '') {
+      params = params.set('nameContains', nameFilter);
     }
 
     return this.http.get<CeviEvent[]>(environment.apiUri + '/events?' + params.toString());

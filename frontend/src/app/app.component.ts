@@ -9,14 +9,15 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Masterdata, MasterdataService } from './event/masterdata.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, MatProgressSpinnerModule, MatTableModule, MatSortModule,
-    MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule],
+    MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -31,7 +32,9 @@ export class AppComponent {
   isErrorMasterdata = false;
   organisation = 'all';
   eventType = 'all';
+
   displayedColumns: string[] = ['group', 'name', 'startsAt', 'finishAt', 'link'];
+  public nameFilter!: FormControl;
 
   private sort!: MatSort;
   private paginator!: MatPaginator;
@@ -47,6 +50,13 @@ export class AppComponent {
   }
 
   constructor(private service: EventService, private masterdataService: MasterdataService) {
+    this.nameFilter = new FormControl('');
+    this.nameFilter.valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe(query => {
+        this.loadEventsWithFilter();
+      });
+
     this.loadEventsWithFilter();
 
     masterdataService.getMasterdata().subscribe({
@@ -83,7 +93,7 @@ export class AppComponent {
   }
 
   loadEventsWithFilter() {
-    this.service.getEventsWithFilter(this.organisation, this.eventType).subscribe({
+    this.service.getEventsWithFilter(this.organisation, this.eventType, this.nameFilter.value).subscribe({
       next: (data: CeviEvent[]) => {
         this.events.data = data;
         this.isLoading = false},
