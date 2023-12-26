@@ -7,9 +7,10 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { Masterdata, MasterdataService } from './event/masterdata.service';
 
 @Component({
   selector: 'app-root',
@@ -22,11 +23,12 @@ import { FormsModule } from '@angular/forms';
 export class AppComponent {
   title = 'eventoverview';
   events = new MatTableDataSource([] as CeviEvent[]);
-  data = [] as CeviEvent[];
   organisations = [] as string[];
   types = [] as string[];
   isLoading = true;
   isError = false;
+  isLoadingMasterdata = true;
+  isErrorMasterdata = false;
   displayedColumns: string[] = ['group', 'name', 'startsAt', 'finishAt', 'link'];
 
   private sort!: MatSort;
@@ -42,18 +44,47 @@ export class AppComponent {
     this.events.paginator = this.paginator;
   }
 
-  constructor(private service: EventService) {
-    service.getEvents().subscribe({
-      next: (data) => {
-        this.events.data = data;
-        this.data = data;
-        this.organisations = [...new Set(data.map(o => o.group))];
-        this.types = [...new Set(data.map(o => o.eventType))];
-        this.isLoading = false},
-      error: (e) => {
-        this.isLoading = false;
-        this.isError = true;
+  constructor(private service: EventService, private masterdataService: MasterdataService) {
+    this.loadEventsWithFilter('all');
+
+    masterdataService.getMasterdata().subscribe({
+      next: (data: Masterdata) => {
+        this.organisations = data.organisations.map(o => o.name);
+        this.types = data.eventTypes;
+        this.isLoadingMasterdata = false
+      },
+      error: (e: any) => {
+        this.isLoadingMasterdata = false;
+        this.isErrorMasterdata = true;
       }
     });
+  }
+
+  filterByOrganisation($event: MatSelectChange) {
+    this.loadEventsWithFilter($event.value);
+  }
+
+  loadEventsWithFilter(organisation: string) {
+    if (organisation === 'all') {
+      this.service.getEvents().subscribe({
+        next: (data: CeviEvent[]) => {
+          this.events.data = data;
+          this.isLoading = false},
+        error: (e: any) => {
+          this.isLoading = false;
+          this.isError = true;
+        }
+      });
+    } else {
+      this.service.getEventsForGroup(organisation).subscribe({
+        next: (data: CeviEvent[]) => {
+          this.events.data = data;
+          this.isLoading = false},
+        error: (e: any) => {
+          this.isLoading = false;
+          this.isError = true;
+        }
+      });
+    }
   }
 }

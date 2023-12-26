@@ -1,18 +1,15 @@
 <main class="main">
   <h1>Anlass- und Kursübersicht</h1>
 
-  @if (this.isLoading) {
-    <mat-spinner></mat-spinner>
+  @if (this.isError) {
+    <p>Fehler beim Laden der Filterkriterien. Bitte versuchen sie es später nochmal.</p>
   }
-  @else if (this.isError) {
-    <p>Fehler beim Laden der Anlässe und/oder Kurse. Bitte versuchen sie es später nochmal.</p>
-  }
-  @else {
+  @else if (!this.isLoadingMasterdata) {
     Filter:
     <mat-form-field>
       <mat-label>Organisation</mat-label>
-      <mat-select>
-        <mat-option>Alle</mat-option>
+      <mat-select (selectionChange)="filterByOrganisation($event)">
+        <mat-option value="all">Alle</mat-option>
         @for (organisation of organisations; track organisation) {
           <mat-option [value]="organisation">{{organisation}}</mat-option>
         }
@@ -21,7 +18,7 @@
     <mat-form-field>
       <mat-label>Typ</mat-label>
       <mat-select>
-        <mat-option>Alle</mat-option>
+        <mat-option value="all">Alle</mat-option>
         @for (type of types; track type) {
           <mat-option [value]="type">{{type}}</mat-option>
         }
@@ -31,7 +28,16 @@
       <mat-label>Text im Name</mat-label>
       <input matInput value="">
     </mat-form-field>
+  }
 
+  @if (this.isLoadingMasterdata || this.isLoading) {
+    <mat-spinner></mat-spinner>
+  }
+
+  @if (this.isError) {
+    <p>Fehler beim Laden der Anlässe und/oder Kurse. Bitte versuchen sie es später nochmal.</p>
+  }
+  @else if (!this.isLoading) {
     <table mat-table [dataSource]="events" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>

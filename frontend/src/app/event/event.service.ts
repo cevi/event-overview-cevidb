@@ -21,4 +21,8 @@ export class EventService {
   getEvents() {
     return this.http.get<CeviEvent[]>(environment.apiUri + '/events');
   }
+
+  getEventsForGroup(filterOrganisation: string) {
+    return this.http.get<CeviEvent[]>(environment.apiUri + '/events?groupFilter=' + filterOrganisation);
+  }
 }
