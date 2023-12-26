@@ -51,7 +51,7 @@ class HitobitoProviderImpl implements HitobitoProvider {
         return this.ceviEvents.stream().filter(e -> groupFilter.map(f -> e.group().equals(f)).orElse(true))
                 .filter(e -> earliestStartAt.map(d -> e.startsAt().toLocalDate().isEqual(d) || e.startsAt().toLocalDate().isAfter(d)).orElse(true))
                 .filter(e -> latestStartAt.map(d -> e.startsAt().toLocalDate().isEqual(d) || e.startsAt().toLocalDate().isBefore(d)).orElse(true))
-                .filter(e -> nameContains.map(d -> e.name().contains(d)).orElse(true))
+                .filter(e -> nameContains.map(d -> e.name().toLowerCase(Locale.ROOT).contains(d.toLowerCase(Locale.ROOT))).orElse(true))
                 .filter(e -> eventType.map(d -> e.eventType().equals(d)).orElse(true))
                 .toList();
 

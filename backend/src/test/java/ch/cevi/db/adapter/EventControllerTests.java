@@ -94,7 +94,7 @@ class EventControllerTests {
         // a course with multiple occurrences
         var glk = events.stream().filter(e -> e.id().equals("3208")).toList();
         assertThat(glk).hasSize(2);
-        var firstGlk = glk.get(0);
+        var firstGlk = glk.getFirst();
         assertThat(firstGlk.id()).isEqualTo("3208");
         assertThat(firstGlk.name()).isEqualTo("Gruppenleiterkurs GLK 2023");
         assertThat(firstGlk.description()).isEqualTo("Du willst eine Gruppe selbstständig leiten?");
@@ -139,7 +139,7 @@ class EventControllerTests {
         // a course with multiple occurrences
         var glk = events.stream().filter(e -> e.id().equals("3208")).toList();
         assertThat(glk).hasSize(2);
-        var firstGlk = glk.get(0);
+        var firstGlk = glk.getFirst();
         assertThat(firstGlk.id()).isEqualTo("3208");
         assertThat(firstGlk.name()).isEqualTo("Gruppenleiterkurs GLK 2023");
         assertThat(firstGlk.eventType()).isEqualTo(CeviEventType.COURSE);
@@ -194,6 +194,18 @@ class EventControllerTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {
+        });
+        assertThat(events).hasSize(2);
+        assertThat(events).allMatch(e -> e.name().contains("Gruppenleiterkurs"));
+
+        // with wrong casing
+        content = mockMvc.perform(
+                        get("/events")
+                                .queryParam("nameContains", "gruppenleiterkurs")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        events = objectMapper.readValue(content, new TypeReference<>() {
         });
         assertThat(events).hasSize(2);
         assertThat(events).allMatch(e -> e.name().contains("Gruppenleiterkurs"));
