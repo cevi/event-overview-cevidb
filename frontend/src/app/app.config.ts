@@ -7,7 +7,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import localeDECH from '@angular/common/locales/de-CH';
 import { registerLocaleData } from '@angular/common';
 import { MatPaginatorIntl } from '@angular/material/paginator';
-import { MatPaginatorIntlDeu } from './util/MatPaginatorIntlDeu';
+import { MatPaginatorIntlDeu } from './core/internationalization/MatPaginatorIntlDeu';
 
 registerLocaleData(localeDECH)
 

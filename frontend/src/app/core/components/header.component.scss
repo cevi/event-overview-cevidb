@@ -1,0 +1,53 @@
+.header-bar {
+  position: fixed;
+  background: #c41333;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  display: flex;
+  height: 5rem;
+}
+
+.logowrapper {
+  display: flex;
+  align-items: center;
+  flex-grow: 100;
+  padding: 12px;
+  padding-right: 0;
+  max-height: 40px;
+  height: 40px;
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+
+.textwrapper {
+  justify-content: flex-start;
+  color: white;
+  margin-left: 1rem;
+}
+
+h1 {
+  margin: 0;
+  padding: 12px;
+  padding-left: 0;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.logo .image {
+  display: block;
+  max-height: 40px;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+}
+
+@media screen and (max-width: 750px) {
+  h1 {
+    display: none;
+  }
+}
