@@ -5,9 +5,14 @@ import { environment } from '../../../environments/environment';
 export interface Masterdata {
   organisations: Organisation[];
   eventTypes: string[];
+  kursarten: Kursart[];
 }
 
 export interface Organisation {
+  name: string;
+}
+
+export interface Kursart {
   name: string;
 }
 

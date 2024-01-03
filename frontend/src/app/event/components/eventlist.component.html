@@ -25,6 +25,15 @@
     <mat-label>Text im Name</mat-label>
     <input type="text" [formControl]="this.nameFilter" matInput>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Kursart</mat-label>
+    <mat-select (selectionChange)="filterByKursart($event)">
+      <mat-option value="all">Alle</mat-option>
+      @for (kursart of kursarten; track kursart) {
+        <mat-option [value]="kursart">{{kursart}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 }
 
 @if (this.isLoadingMasterdata || this.isLoading) {

@@ -29,6 +29,7 @@ export class EventListComponent {
   title = 'eventoverview';
   events = new MatTableDataSource([] as CeviEvent[]);
   organisations = [] as string[];
+  kursarten = [] as string[];
   types = [] as string[];
   isLoading = true;
   isError = false;
@@ -36,6 +37,7 @@ export class EventListComponent {
   isErrorMasterdata = false;
   organisation = 'all';
   eventType = 'all';
+  kursart = 'all';
 
   displayedColumns: string[] = ['group', 'name', 'startsAt', 'finishAt', 'link'];
   public nameFilter!: FormControl;
@@ -67,6 +69,7 @@ export class EventListComponent {
       next: (data: Masterdata) => {
         this.organisations = data.organisations.map(o => o.name);
         this.types = data.eventTypes;
+        this.kursarten = data.kursarten.map(k => k.name);
         this.isLoadingMasterdata = false
       },
       error: (e: any) => {
@@ -96,8 +99,13 @@ export class EventListComponent {
     this.loadEventsWithFilter();
   }
 
+  filterByKursart($event: MatSelectChange) {
+    this.kursart = $event.value;
+    this.loadEventsWithFilter();
+  }
+
   loadEventsWithFilter() {
-    this.service.getEventsWithFilter(this.organisation, this.eventType, this.nameFilter.value).subscribe({
+    this.service.getEventsWithFilter(this.organisation, this.eventType, this.nameFilter.value, this.kursart).subscribe({
       next: (data: CeviEvent[]) => {
         this.events.data = data;
         this.isLoading = false},
