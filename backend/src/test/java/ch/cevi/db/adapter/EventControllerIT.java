@@ -39,6 +39,5 @@ class EventControllerIT {
         assertThat(events).hasSizeGreaterThan(20);
         assertThat(events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow().name()).isEqualTo("European YWCA General Assembly 2023");
         assertThat(events.stream().filter(e -> e.id().equals("3208")).findFirst().orElseThrow().name()).isEqualTo("Gruppenleiterkurs GLK 2023");
-
     }
 }

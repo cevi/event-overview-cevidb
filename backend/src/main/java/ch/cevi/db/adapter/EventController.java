@@ -25,7 +25,8 @@ class EventController {
                                               @RequestParam Optional<LocalDate> earliestStartAt,
                                               @RequestParam Optional<LocalDate> latestStartAt,
                                               @RequestParam Optional<String> nameContains,
-                                              @RequestParam Optional<CeviEventType> eventType) {
-        return ResponseEntity.ok(provider.getEvents(groupFilter, earliestStartAt, latestStartAt, nameContains, eventType));
+                                              @RequestParam Optional<CeviEventType> eventType,
+                                              @RequestParam Optional<String> kursartFilter) {
+        return ResponseEntity.ok(provider.getEvents(groupFilter, earliestStartAt, latestStartAt, nameContains, eventType, kursartFilter));
     }
 }

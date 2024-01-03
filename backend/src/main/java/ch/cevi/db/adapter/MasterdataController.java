@@ -22,6 +22,7 @@ class MasterdataController {
     @GetMapping("/masterdata")
     ResponseEntity<Masterdata> getMasterdata() {
         var organisations = provider.getOrganisations();
-        return ResponseEntity.ok(new Masterdata(organisations, Arrays.stream(CeviEventType.values()).toList()));
+        var kursarten = provider.getKursarten();
+        return ResponseEntity.ok(new Masterdata(organisations, Arrays.stream(CeviEventType.values()).toList(), kursarten));
     }
 }

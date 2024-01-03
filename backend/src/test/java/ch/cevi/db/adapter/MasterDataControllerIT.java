@@ -37,5 +37,6 @@ class MasterDataControllerIT {
         Masterdata masterdata = objectMapper.readValue(content, new TypeReference<>() {});
         assertThat(masterdata.organisations()).hasSizeGreaterThan(5);
         assertThat(masterdata.eventTypes()).hasSizeGreaterThanOrEqualTo(2);
+        assertThat(masterdata.kursarten()).hasSizeGreaterThan(25);
     }
 }

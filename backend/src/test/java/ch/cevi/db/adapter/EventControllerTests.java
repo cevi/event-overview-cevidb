@@ -235,4 +235,30 @@ class EventControllerTests {
         assertThat(events).hasSize(2);
         assertThat(events).allMatch(e -> e.eventType().equals(CeviEventType.COURSE));
     }
+
+    @Test
+    void should_filter_by_kursart() throws Exception {
+        String content = mockMvc.perform(
+                        get("/events")
+                                .queryParam("kursartFilter", "J+S-Leiter*innenkurs LS/T Jugendliche")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {
+        });
+        assertThat(events).hasSize(2);
+        assertThat(events).allMatch(e -> e.kind().equals("J+S-Leiter*innenkurs LS/T Jugendliche"));
+
+        // with wrong casing
+        content = mockMvc.perform(
+                        get("/events")
+                                .queryParam("kursartFilter", "j+s-leiter*innenkurs ls/T Jugendliche")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        events = objectMapper.readValue(content, new TypeReference<>() {
+        });
+        assertThat(events).hasSize(2);
+        assertThat(events).allMatch(e -> e.kind().equals("J+S-Leiter*innenkurs LS/T Jugendliche"));
+    }
 }

@@ -2,6 +2,7 @@ package ch.cevi.db.adapter.hitobito;
 
 import ch.cevi.db.adapter.domain.CeviEvent;
 import ch.cevi.db.adapter.domain.CeviEventType;
+import ch.cevi.db.adapter.domain.Kursart;
 import ch.cevi.db.adapter.domain.Organisation;
 
 import java.time.LocalDate;
@@ -38,7 +39,8 @@ class HitobitoProviderImpl implements HitobitoProvider {
                                      Optional<LocalDate> earliestStartAt,
                                      Optional<LocalDate> latestStartAt,
                                      Optional<String> nameContains,
-                                     Optional<CeviEventType> eventType) {
+                                     Optional<CeviEventType> eventType,
+                                     Optional<String> kursartFilter) {
         if (ceviEvents == null) {
             this.ceviEvents = this.provider.getEventPages().stream()
                     .flatMap(HitobitoProviderImpl::toCeviEvents)
@@ -53,6 +55,7 @@ class HitobitoProviderImpl implements HitobitoProvider {
                 .filter(e -> latestStartAt.map(d -> e.startsAt().toLocalDate().isEqual(d) || e.startsAt().toLocalDate().isBefore(d)).orElse(true))
                 .filter(e -> nameContains.map(d -> e.name().toLowerCase(Locale.ROOT).contains(d.toLowerCase(Locale.ROOT))).orElse(true))
                 .filter(e -> eventType.map(d -> e.eventType().equals(d)).orElse(true))
+                .filter(e -> kursartFilter.map(d -> e.kind().toLowerCase(Locale.ROOT).equals(d.toLowerCase(Locale.ROOT))).orElse(true))
                 .toList();
 
     }
@@ -60,9 +63,17 @@ class HitobitoProviderImpl implements HitobitoProvider {
     @Override
     public List<Organisation> getOrganisations() {
         if (this.ceviEvents == null) {
-            this.getEvents(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+            this.getEvents(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
         }
         return this.ceviEvents.stream().map(e -> new Organisation(e.group())).distinct().toList();
+    }
+
+    @Override
+    public List<Kursart> getKursarten() {
+        if (this.ceviEvents == null) {
+            this.getEvents(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        }
+        return this.ceviEvents.stream().filter(e -> e.kind() != null).map(e -> new Kursart(e.kind())).distinct().toList();
     }
 
     private static Stream<CeviEvent> toCeviEvents(HitobitoEventPage page) {
