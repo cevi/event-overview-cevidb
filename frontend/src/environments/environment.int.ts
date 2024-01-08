@@ -1,3 +1,3 @@
 export const environment = {
-  apiUri: 'https://events-int-api.cevi.tools'
+  apiUri: 'https://events-api-int.cevi.tools'
 };
