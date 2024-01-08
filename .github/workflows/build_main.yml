@@ -40,8 +40,12 @@ jobs:
           ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=registry.cevi.tools/cevi/event_overview_backend:latest
         working-directory: ./backend
        
-      - name: 🏗️ Build frontend dockerimage
-        run: docker build . --tag "registry.cevi.tools/cevi/event_overview_frontend:latest"
+      - name: 🏗️ Build frontend prod dockerimage
+        run: docker build --build-arg="ENV=prod" . --tag "registry.cevi.tools/cevi/event_overview_frontend_prod:latest"
+        working-directory: ./frontend
+        
+      - name: 🏗️ Build frontend int dockerimage
+        run: docker build --build-arg="ENV=int" . --tag "registry.cevi.tools/cevi/event_overview_frontend_int:latest"
         working-directory: ./frontend
           
       - name: 🚀 Push containers to registry

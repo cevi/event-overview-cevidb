@@ -35,7 +35,7 @@
 						"scripts": []
 					},
 					"configurations": {
-						"production": {
+						"prod": {
 							"budgets": [
 								{
 									"type": "initial",
@@ -48,33 +48,44 @@
 									"maximumError": "4kb"
 								}
 							],
-							"outputHashing": "all"
+							"outputHashing": "all",
+              "fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.prod.ts"
+								}
+							]
 						},
-						"development": {
+						"local": {
 							"optimization": false,
 							"extractLicenses": false,
-							"sourceMap": true,
+							"sourceMap": true
+						},
+						"int": {
 							"fileReplacements": [
 								{
 									"replace": "src/environments/environment.ts",
-									"with": "src/environments/environment.development.ts"
+									"with": "src/environments/environment.int.ts"
 								}
 							]
 						}
 					},
-					"defaultConfiguration": "production"
+					"defaultConfiguration": "local"
 				},
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
-						"production": {
-							"buildTarget": "eventoverview:build:production"
+						"prod": {
+							"buildTarget": "eventoverview:build:prod"
 						},
-						"development": {
-							"buildTarget": "eventoverview:build:development"
+						"int": {
+							"buildTarget": "eventoverview:build:int"
+						},
+						"local": {
+							"buildTarget": "eventoverview:build:local"
 						}
 					},
-					"defaultConfiguration": "development"
+					"defaultConfiguration": "local"
 				},
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
