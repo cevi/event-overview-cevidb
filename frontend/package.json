@@ -7,7 +7,7 @@
     "start:prod": "ng serve --configuration prod",
     "build": "ng build",
     "build:int": "ng build --configuration int",
-    "build:production": "ng build --configuration prod",
+    "build:prod": "ng build --configuration prod",
     "test": "ng test"
   },
   "private": true,

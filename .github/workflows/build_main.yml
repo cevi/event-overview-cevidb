@@ -41,11 +41,11 @@ jobs:
         working-directory: ./backend
        
       - name: 🏗️ Build frontend prod dockerimage
-        run: docker build --build-arg="ENV=prod" . --tag "registry.cevi.tools/cevi/event_overview_frontend_prod:latest"
+        run: docker build --build-arg build_configuration prod --tag "registry.cevi.tools/cevi/event_overview_frontend_prod:latest" .
         working-directory: ./frontend
         
       - name: 🏗️ Build frontend int dockerimage
-        run: docker build --build-arg="ENV=int" . --tag "registry.cevi.tools/cevi/event_overview_frontend_int:latest"
+        run: docker build --build-arg build_configuration=int --tag "registry.cevi.tools/cevi/event_overview_frontend_int:latest" .
         working-directory: ./frontend
           
       - name: 🚀 Push containers to registry
