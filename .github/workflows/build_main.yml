@@ -51,4 +51,5 @@ jobs:
       - name: 🚀 Push containers to registry
         run: |
           docker push registry.cevi.tools/cevi/event_overview_backend:latest
-          docker push registry.cevi.tools/cevi/event_overview_frontend:latest
+          docker push registry.cevi.tools/cevi/event_overview_frontend_prod:latest
+          docker push registry.cevi.tools/cevi/event_overview_frontend_int:latest
