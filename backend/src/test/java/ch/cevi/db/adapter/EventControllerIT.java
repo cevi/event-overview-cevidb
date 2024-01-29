@@ -37,7 +37,7 @@ class EventControllerIT {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
         assertThat(events).hasSizeGreaterThan(20);
-        assertThat(events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow().name()).isEqualTo("European YWCA General Assembly 2023");
-        assertThat(events.stream().filter(e -> e.id().equals("3208")).findFirst().orElseThrow().name()).isEqualTo("Gruppenleiterkurs GLK 2023");
+        assertThat(events.stream().filter(e -> e.id().equals("3821")).findFirst().orElseThrow().name()).isEqualTo("YMCA Europe / General Assembly");
+        assertThat(events.stream().filter(e -> e.id().equals("3860")).findFirst().orElseThrow().name()).isEqualTo("Gruppenleiterkurs GLK 2024");
     }
 }

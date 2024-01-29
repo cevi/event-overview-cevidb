@@ -1,5 +1,7 @@
 # Event Overview
 
+Visit https://events.cevi.tools/
+
 Allows the user to search and filter events and courses from the cevi.db. The data is loaded at startup and refreshed once per day.
 
 ![Systemcontext](docs/systemcontext.png)
