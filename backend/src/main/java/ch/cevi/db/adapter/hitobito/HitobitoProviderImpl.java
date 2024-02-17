@@ -4,6 +4,8 @@ import ch.cevi.db.adapter.domain.CeviEvent;
 import ch.cevi.db.adapter.domain.CeviEventType;
 import ch.cevi.db.adapter.domain.Kursart;
 import ch.cevi.db.adapter.domain.Organisation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -13,6 +15,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class HitobitoProviderImpl implements HitobitoProvider {
+    Logger logger = LoggerFactory.getLogger(HitobitoApi.class);
+
     private final HitobitoApiProvider provider;
 
     private List<CeviEvent> ceviEvents;
@@ -32,6 +36,18 @@ class HitobitoProviderImpl implements HitobitoProvider {
         this.provider = provider;
         this.eventGroups = Arrays.stream(eventGroups).toList();
         this.courseGroups = Arrays.stream(courseGroups).toList();
+        this.refreshData();
+    }
+
+    @Override
+    public void refreshData() {
+        logger.atInfo().log("refreshing Data from Hitobito");
+        this.ceviEvents = this.provider.getEventPages().stream()
+                .flatMap(HitobitoProviderImpl::toCeviEvents)
+                .sorted(Comparator.comparing(CeviEvent::startsAt))
+                .filter(e -> e.eventType() != CeviEventType.EVENT || eventGroups.contains(e.group()))
+                .filter(e -> e.eventType() != CeviEventType.COURSE || courseGroups.contains(e.group()))
+                .toList();
     }
 
     @Override
@@ -41,15 +57,6 @@ class HitobitoProviderImpl implements HitobitoProvider {
                                      Optional<String> nameContains,
                                      Optional<CeviEventType> eventType,
                                      Optional<String> kursartFilter) {
-        if (ceviEvents == null) {
-            this.ceviEvents = this.provider.getEventPages().stream()
-                    .flatMap(HitobitoProviderImpl::toCeviEvents)
-                    .sorted(Comparator.comparing(CeviEvent::startsAt))
-                    .filter(e -> e.eventType() != CeviEventType.EVENT || eventGroups.contains(e.group()))
-                    .filter(e -> e.eventType() != CeviEventType.COURSE || courseGroups.contains(e.group()))
-                    .toList();
-        }
-
         return this.ceviEvents.stream().filter(e -> groupFilter.map(f -> e.group().equals(f)).orElse(true))
                 .filter(e -> earliestStartAt.map(d -> e.startsAt().toLocalDate().isEqual(d) || e.startsAt().toLocalDate().isAfter(d)).orElse(true))
                 .filter(e -> latestStartAt.map(d -> e.startsAt().toLocalDate().isEqual(d) || e.startsAt().toLocalDate().isBefore(d)).orElse(true))

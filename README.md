@@ -6,11 +6,13 @@ Allows the user to search and filter events and courses from the cevi.db. The da
 
 ![Systemcontext](docs/systemcontext.png)
 
+See [Changelog Backend](backend/CHANGELOG.md) and [Changelog Frontend](frontend/CHANGELOG.md)
+
 ## Prepare
 
 Prerequisites
   * JDK 21
-  * Node 18+
+  * Node 20+
   * Cevi.DB API Token with Scope `Anlässe dieser Ebene`.
 
 Put the token in a file and configure the file path in the environment variable APPLICATION_HITOBITO_API_TOKEN_FILE

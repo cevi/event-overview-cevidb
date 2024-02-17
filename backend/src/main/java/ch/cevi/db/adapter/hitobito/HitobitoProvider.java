@@ -18,4 +18,5 @@ public interface HitobitoProvider {
                               Optional<String> kursartFilter);
     List<Organisation> getOrganisations();
     List<Kursart> getKursarten();
+    void refreshData();
 }
