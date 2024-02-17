@@ -50,7 +50,8 @@ class EventControllerTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
-        assertThat(events).hasSize(15);
+        // note: one is filtered because it lies in the past
+        assertThat(events).hasSize(14);
 
         // events are sorted ascending
         var startDates = events.stream().map(CeviEvent::startsAt).toList();
@@ -77,11 +78,11 @@ class EventControllerTests {
         // an event from FGI
         var ga = events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow();
         assertThat(ga.id()).isEqualTo("3213");
-        assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2023");
+        assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2030");
         assertThat(ga.description()).isEqualTo("Nimm teil an der Generalversammlung des European YWCA’s.");
         assertThat(ga.applicationLink()).isEqualTo("https://db.cevi.ch/groups/1971/public_events/3213");
-        assertThat(ga.startsAt()).isEqualTo(LocalDateTime.of(LocalDate.of(2023, Month.MAY, 18), LocalTime.of(0, 0, 0)));
-        assertThat(ga.finishAt()).isEqualTo(LocalDateTime.of(LocalDate.of(2023, Month.MAY, 21), LocalTime.of(0, 0, 0)));
+        assertThat(ga.startsAt()).isEqualTo(LocalDateTime.of(LocalDate.of(2030, Month.MAY, 18), LocalTime.of(0, 0, 0)));
+        assertThat(ga.finishAt()).isEqualTo(LocalDateTime.of(LocalDate.of(2030, Month.MAY, 21), LocalTime.of(0, 0, 0)));
         assertThat(ga.group()).isEqualTo("Fachgruppen");
         assertThat(ga.location()).isEqualTo("Antwerpen (Belgien)");
         assertThat(ga.kind()).isEqualTo("N/A");
@@ -89,18 +90,18 @@ class EventControllerTests {
 
         // an event with multiple occurences
         var versaende = events.stream().filter(e -> e.id().equals("3457")).toList();
-        assertThat(versaende).hasSize(12);
+        assertThat(versaende).hasSize(11);
 
         // a course with multiple occurrences
         var glk = events.stream().filter(e -> e.id().equals("3208")).toList();
         assertThat(glk).hasSize(2);
         var firstGlk = glk.getFirst();
         assertThat(firstGlk.id()).isEqualTo("3208");
-        assertThat(firstGlk.name()).isEqualTo("Gruppenleiterkurs GLK 2023");
+        assertThat(firstGlk.name()).isEqualTo("Gruppenleiterkurs GLK 2030");
         assertThat(firstGlk.description()).isEqualTo("Du willst eine Gruppe selbstständig leiten?");
         assertThat(firstGlk.applicationLink()).isEqualTo("https://db.cevi.ch/groups/2569/public_events/3208");
-        assertThat(firstGlk.startsAt()).isEqualTo(LocalDateTime.of(LocalDate.of(2023, Month.MARCH, 4), LocalTime.of(9, 0, 0)));
-        assertThat(firstGlk.finishAt()).isEqualTo(LocalDateTime.of(LocalDate.of(2023, Month.MARCH, 5), LocalTime.of(17, 0, 0)));
+        assertThat(firstGlk.startsAt()).isEqualTo(LocalDateTime.of(LocalDate.of(2030, Month.MARCH, 4), LocalTime.of(9, 0, 0)));
+        assertThat(firstGlk.finishAt()).isEqualTo(LocalDateTime.of(LocalDate.of(2030, Month.MARCH, 5), LocalTime.of(17, 0, 0)));
         assertThat(firstGlk.group()).isEqualTo("Cevi Regionalverband AG-SO-LU-ZG");
         assertThat(firstGlk.location()).isEqualTo("Windisch");
         assertThat(firstGlk.kind()).isEqualTo("J+S-Leiter*innenkurs LS/T Jugendliche");
@@ -120,7 +121,7 @@ class EventControllerTests {
 
         // an event from FGI
         var ga = events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow();
-        assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2023");
+        assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2030");
         assertThat(ga.eventType()).isEqualTo(CeviEventType.EVENT);
     }
 
@@ -141,7 +142,7 @@ class EventControllerTests {
         assertThat(glk).hasSize(2);
         var firstGlk = glk.getFirst();
         assertThat(firstGlk.id()).isEqualTo("3208");
-        assertThat(firstGlk.name()).isEqualTo("Gruppenleiterkurs GLK 2023");
+        assertThat(firstGlk.name()).isEqualTo("Gruppenleiterkurs GLK 2030");
         assertThat(firstGlk.eventType()).isEqualTo(CeviEventType.COURSE);
     }
 
@@ -149,40 +150,41 @@ class EventControllerTests {
     void should_filter_earliest_start_at() throws Exception {
         String content = mockMvc.perform(
                         get("/events")
-                                .queryParam("earliestStartAt", LocalDate.of(2023, Month.JULY, 5).toString())
+                                .queryParam("earliestStartAt", LocalDate.of(2030, Month.JULY, 5).toString())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
         assertThat(events).hasSize(6);
-        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isAfter(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)));
+        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isAfter(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)));
     }
 
     @Test
     void should_filter_latest_start_at() throws Exception {
         String content = mockMvc.perform(
                         get("/events")
-                                .queryParam("latestStartAt", LocalDate.of(2023, Month.JULY, 5).toString())
+                                .queryParam("latestStartAt", LocalDate.of(2030, Month.JULY, 5).toString())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
-        assertThat(events).hasSize(10);
-        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isBefore(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)));
+        // note: one is filtered because it lies in the past
+        assertThat(events).hasSize(9);
+        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isBefore(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)));
     }
 
     @Test
     void should_filter_earliest_and_latest_start_at() throws Exception {
         String content = mockMvc.perform(
                         get("/events")
-                                .queryParam("latestStartAt", LocalDate.of(2023, Month.JULY, 5).toString())
-                                .queryParam("earliestStartAt", LocalDate.of(2023, Month.MARCH, 5).toString())
+                                .queryParam("latestStartAt", LocalDate.of(2030, Month.JULY, 5).toString())
+                                .queryParam("earliestStartAt", LocalDate.of(2030, Month.MARCH, 5).toString())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
         assertThat(events).hasSize(6);
-        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isBefore(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)));
+        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isBefore(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)));
     }
 
     @Test
@@ -221,7 +223,8 @@ class EventControllerTests {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {
         });
-        assertThat(events).hasSize(13);
+        // note: one is filltered because it is in the past
+        assertThat(events).hasSize(12);
         assertThat(events).allMatch(e -> e.eventType().equals(CeviEventType.EVENT));
 
         content = mockMvc.perform(

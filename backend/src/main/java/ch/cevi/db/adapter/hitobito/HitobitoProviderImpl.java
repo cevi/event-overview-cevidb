@@ -69,17 +69,11 @@ class HitobitoProviderImpl implements HitobitoProvider {
 
     @Override
     public List<Organisation> getOrganisations() {
-        if (this.ceviEvents == null) {
-            this.getEvents(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
-        }
         return this.ceviEvents.stream().map(e -> new Organisation(e.group())).distinct().toList();
     }
 
     @Override
     public List<Kursart> getKursarten() {
-        if (this.ceviEvents == null) {
-            this.getEvents(Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
-        }
         return this.ceviEvents.stream().filter(e -> e.kind() != null).map(e -> new Kursart(e.kind())).distinct().toList();
     }
 
@@ -88,7 +82,8 @@ class HitobitoProviderImpl implements HitobitoProvider {
         var groupLoockup = Arrays.stream(page.linked().groups()).distinct().collect(Collectors.toMap(HitobitoGroup::id, HitobitoGroup::name));
         Map<String, String> kindLookup = page.linked().event_kinds() == null ? Map.of() : Arrays.stream(page.linked().event_kinds()).distinct().collect(Collectors.toMap(HitobitoEventKind::id, HitobitoEventKind::label));
 
-        return Arrays.stream(page.events()).map(e -> toCeviEvents(e, dateLoockup, groupLoockup, kindLookup)).flatMap(Collection::stream);
+        return Arrays.stream(page.events()).map(e -> toCeviEvents(e, dateLoockup, groupLoockup, kindLookup)).flatMap(Collection::stream)
+                .filter(e -> e.startsAt().isAfter(LocalDate.now().atStartOfDay()));
     }
 
     private static List<CeviEvent> toCeviEvents(HitobitoEvent event, Map<String, HitobitoEventDate> dateLoockup, Map<String, String> groupLookup,

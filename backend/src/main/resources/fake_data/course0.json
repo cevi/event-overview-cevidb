@@ -7,15 +7,15 @@
     {
       "id": "3208",
       "type": "events",
-      "name": "Gruppenleiterkurs GLK 2023",
+      "name": "Gruppenleiterkurs GLK 2030",
       "description": "Du willst eine Gruppe selbstständig leiten?",
       "motto": "",
       "cost": "300.-",
       "maximum_participants": 29,
       "participant_count": 36,
       "location": "Florastrasse 21\r\n4600 Olten",
-      "application_opening_at": "2022-11-22",
-      "application_closing_at": "2023-01-15",
+      "application_opening_at": "2030-11-22",
+      "application_closing_at": "2031-01-15",
       "application_conditions": "Bla",
       "state": "closed",
       "teamer_count": 16,
@@ -42,8 +42,8 @@
       "maximum_participants": 29,
       "participant_count": 36,
       "location": "Florastrasse 21\r\n4600 Olten",
-      "application_opening_at": "2022-11-22",
-      "application_closing_at": "2023-01-15",
+      "application_opening_at": "2030-11-22",
+      "application_closing_at": "2031-01-15",
       "application_conditions": "Bla",
       "state": "closed",
       "teamer_count": 16,
@@ -74,16 +74,16 @@
     "event_dates": [
       {
         "id": "3629",
-        "label": "Vorweekend GLK Gruppenleiterkurs 2023",
-        "start_at": "2023-03-04T09:00:00.000+01:00",
-        "finish_at": "2023-03-05T17:00:00.000+01:00",
+        "label": "Vorweekend GLK Gruppenleiterkurs 2030",
+        "start_at": "2030-03-04T09:00:00.000+01:00",
+        "finish_at": "2030-03-05T17:00:00.000+01:00",
         "location": "Windisch"
       },
       {
         "id": "3691",
-        "label": "Kurswoche GLK Gruppenleiterkurs 2023",
-        "start_at": "2023-04-08T09:00:00.000+02:00",
-        "finish_at": "2023-04-15T17:00:00.000+02:00",
+        "label": "Kurswoche GLK Gruppenleiterkurs 2030",
+        "start_at": "2030-04-08T09:00:00.000+02:00",
+        "finish_at": "2030-04-15T17:00:00.000+02:00",
         "location": "Stäfa"
       }
     ],

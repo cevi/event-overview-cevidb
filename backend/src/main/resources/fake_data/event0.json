@@ -7,7 +7,7 @@
     {
       "id": "3213",
       "type": "events",
-      "name": "European YWCA General Assembly 2023",
+      "name": "European YWCA General Assembly 2030",
       "description": "Nimm teil an der Generalversammlung des European YWCA’s.",
       "motto": "",
       "cost": "",
@@ -62,8 +62,8 @@
       {
         "id": "3636",
         "label": "",
-        "start_at": "2023-05-18T00:00:00.000+02:00",
-        "finish_at": "2023-05-21T00:00:00.000+02:00",
+        "start_at": "2030-05-18T00:00:00.000+02:00",
+        "finish_at": "2030-05-21T00:00:00.000+02:00",
         "location": "Antwerpen (Belgien)"
       }
     ],
