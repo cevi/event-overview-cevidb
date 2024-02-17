@@ -30,14 +30,12 @@ public class HitobitoConfig {
             @Value("${application.hitobito.group.id}")
             int hitobitoGroupId,
             @Value("${application.hitobito.api.token.file}")
-            String hitobitoTokenFile,
-            @Value("${application.hitobito.start.date}")
-            String hitobitoStartDate) throws IOException {
+            String hitobitoTokenFile) throws IOException {
         if (!Files.exists(Path.of(hitobitoTokenFile))) {
             throw new IllegalArgumentException("Need to configure application.hitobito.api.token.file with an existing file!");
         }
         var hitobitoToken = Files.readString(Path.of(hitobitoTokenFile)).trim();
-        return new HitobitoApi(hitobitoInstance, hitobitoGroupId, hitobitoToken, hitobitoStartDate);
+        return new HitobitoApi(hitobitoInstance, hitobitoGroupId, hitobitoToken);
     }
 
     @Bean

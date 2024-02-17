@@ -6,6 +6,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -16,20 +17,19 @@ class HitobitoApi implements HitobitoApiProvider {
     private final String firstEventPageUrl;
     private final String firstCoursePageUrl;
 
-    public HitobitoApi(String hitobitoInstance, int hitobitoGroupId, String hitobitoToken, String hitobitoStartDate) {
+    public HitobitoApi(String hitobitoInstance, int hitobitoGroupId, String hitobitoToken) {
         Objects.requireNonNull(hitobitoInstance);
         Objects.requireNonNull(hitobitoToken);
-        Objects.requireNonNull(hitobitoStartDate);
 
-        this.firstEventPageUrl =  "https://" + hitobitoInstance + "/groups/" + hitobitoGroupId + "/events.json?token=" + hitobitoToken + "&start_date=" + hitobitoStartDate;
-        this.firstCoursePageUrl = "https://" + hitobitoInstance + "/groups/" + hitobitoGroupId + "/events/course.json?token=" + hitobitoToken + "&start_date=" + hitobitoStartDate;
+        this.firstEventPageUrl =  "https://" + hitobitoInstance + "/groups/" + hitobitoGroupId + "/events.json?token=" + hitobitoToken;
+        this.firstCoursePageUrl = "https://" + hitobitoInstance + "/groups/" + hitobitoGroupId + "/events/course.json?token=" + hitobitoToken;
     }
 
     @Override
     public List<HitobitoEventPage> getEventPages() {
         List<HitobitoEventPage> pages = new LinkedList<>();
-        pages.addAll(discoverEventPages(firstEventPageUrl));
-        pages.addAll(discoverEventPages(firstCoursePageUrl));
+        pages.addAll(discoverEventPages(firstEventPageUrl + "&start_date=" + LocalDate.now()));
+        pages.addAll(discoverEventPages(firstCoursePageUrl + "&start_date=" + LocalDate.now()));
         return pages;
     }
 
@@ -39,7 +39,7 @@ class HitobitoApi implements HitobitoApiProvider {
         var converter = new MappingJackson2HttpMessageConverter();
         converter.setDefaultCharset(StandardCharsets.UTF_8);
         var restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(0, converter);
+        restTemplate.getMessageConverters().addFirst(converter);
 
         String nextPageUrl = startUrl;
         while (nextPageUrl != null) {

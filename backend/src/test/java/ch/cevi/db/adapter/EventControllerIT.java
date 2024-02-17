@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,6 +38,7 @@ class EventControllerIT {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
         assertThat(events).hasSizeGreaterThan(20);
+        assertThat(events).anyMatch(e -> e.startsAt().isAfter(LocalDateTime.now()));
         assertThat(events.stream().filter(e -> e.id().equals("3821")).findFirst().orElseThrow().name()).isEqualTo("YMCA Europe / General Assembly");
         assertThat(events.stream().filter(e -> e.id().equals("3860")).findFirst().orElseThrow().name()).isEqualTo("Gruppenleiterkurs GLK 2024");
     }
