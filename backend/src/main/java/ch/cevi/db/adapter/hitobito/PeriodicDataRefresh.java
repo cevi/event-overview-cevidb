@@ -12,7 +12,7 @@ public class PeriodicDataRefresh {
     }
 
     @Scheduled(cron = "0 1 * * * *")
-    public void periodicDataRefresn() {
+    public void periodicDataRefresh() {
         provider.refreshData();
     }
 }
