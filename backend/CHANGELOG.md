@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.0.4, 17.03.2024
+
+* bugfix: [#30](https://github.com/cevi/event-overview-cevidb/issues/30) run update at one in the morning
+* chore: bump npm dependencies
+* dev: add a profile for the integration environment
+
 ## Version 1.0.3, 03.03.2024
 
 * bugfix: [#30](https://github.com/cevi/event-overview-cevidb/issues/30) need to enable scheduling for nightly update

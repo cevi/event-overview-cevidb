@@ -11,7 +11,7 @@ public class PeriodicDataRefresh {
         this.provider = provider;
     }
 
-    @Scheduled(cron = "0 1 * * * *")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void periodicDataRefresh() {
         provider.refreshData();
     }
