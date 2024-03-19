@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.0.5, 19.03.2024
+
+* output statistics and build information when visiting the api
+
 ## Version 1.0.4, 17.03.2024
 
 * bugfix: [#30](https://github.com/cevi/event-overview-cevidb/issues/30) run update at one in the morning

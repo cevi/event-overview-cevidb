@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ch.cevi.db</groupId>
 	<artifactId>adapter</artifactId>
-	<version>1.0.4</version>
+	<version>1.0.5</version>
 	<name>adapter</name>
 	<description>Adapter to cevi.db</description>
 	<properties>
@@ -40,6 +40,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

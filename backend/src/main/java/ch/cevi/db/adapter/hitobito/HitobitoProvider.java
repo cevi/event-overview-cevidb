@@ -6,6 +6,7 @@ import ch.cevi.db.adapter.domain.Kursart;
 import ch.cevi.db.adapter.domain.Organisation;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,5 +19,8 @@ public interface HitobitoProvider {
                               Optional<String> kursartFilter);
     List<Organisation> getOrganisations();
     List<Kursart> getKursarten();
+    long getAnzahlAnlaesse();
+    long getAnzahlKurse();
+    LocalDateTime getLastRefreshDate();
     void refreshData();
 }

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.function.Function;
@@ -22,6 +23,8 @@ class HitobitoProviderImpl implements HitobitoProvider {
     private List<CeviEvent> ceviEvents;
     private final List<String> eventGroups;
     private final List<String> courseGroups;
+
+    private LocalDateTime lastRefreshAt;
 
     public HitobitoProviderImpl(HitobitoApiProvider provider, String[] eventGroups, String[] courseGroups) {
         Objects.requireNonNull(eventGroups);
@@ -48,6 +51,7 @@ class HitobitoProviderImpl implements HitobitoProvider {
                 .filter(e -> e.eventType() != CeviEventType.EVENT || eventGroups.contains(e.group()))
                 .filter(e -> e.eventType() != CeviEventType.COURSE || courseGroups.contains(e.group()))
                 .toList();
+        this.lastRefreshAt = LocalDateTime.now();
     }
 
     @Override
@@ -75,6 +79,21 @@ class HitobitoProviderImpl implements HitobitoProvider {
     @Override
     public List<Kursart> getKursarten() {
         return this.ceviEvents.stream().filter(e -> e.kind() != null).map(e -> new Kursart(e.kind())).distinct().toList();
+    }
+
+    @Override
+    public long getAnzahlAnlaesse() {
+        return this.ceviEvents.stream().filter(e -> e.eventType().equals(CeviEventType.EVENT)).count();
+    }
+
+    @Override
+    public long getAnzahlKurse() {
+        return this.ceviEvents.stream().filter(e -> e.eventType().equals(CeviEventType.COURSE)).count();
+    }
+
+    @Override
+    public LocalDateTime getLastRefreshDate() {
+        return this.lastRefreshAt;
     }
 
     private static Stream<CeviEvent> toCeviEvents(HitobitoEventPage page) {
