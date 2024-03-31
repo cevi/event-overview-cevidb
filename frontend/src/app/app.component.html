@@ -1,5 +1,5 @@
-<app-header></app-header>
+<app-header *ngIf="!iframe"></app-header>
 <div class="content">
   <router-outlet></router-outlet>
 </div>
-<app-footer></app-footer>
+<app-footer *ngIf="!iframe"></app-footer>

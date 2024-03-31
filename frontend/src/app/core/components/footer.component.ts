@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import packageJson from '../../../../package.json';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-footer',
@@ -7,5 +9,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  public version: string = '0.0.1';
+  version: string = packageJson.version;
+  backendUrl = environment.apiUri;
 }

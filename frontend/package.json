@@ -1,6 +1,6 @@
 {
   "name": "eventoverview",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {
     "start": "ng serve",
     "start:int": "ng serve --configuration int",

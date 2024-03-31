@@ -1,6 +1,6 @@
 # Event Overview
 
-Visit https://events.cevi.tools/
+Visit https://events.cevi.tools/. Can be integrated as iframe as follows: https://events.cevi.tools?iframe=true (this hides the header and footer)
 
 Allows the user to search and filter events and courses from the cevi.db. The data is loaded at startup and refreshed once per day.
 
