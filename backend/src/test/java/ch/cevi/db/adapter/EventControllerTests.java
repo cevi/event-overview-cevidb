@@ -87,6 +87,9 @@ class EventControllerTests {
         assertThat(ga.location()).isEqualTo("Antwerpen (Belgien)");
         assertThat(ga.kind()).isEqualTo("N/A");
         assertThat(ga.eventType()).isEqualTo(CeviEventType.EVENT);
+        assertThat(ga.participantsCount()).isEqualTo(3);
+        assertThat(ga.hasLimitedCapacity()).isEqualTo(false);
+        assertThat(ga.maximumParticipants()).isNull();
 
         // an event with multiple occurences
         var versaende = events.stream().filter(e -> e.id().equals("3457")).toList();
@@ -106,6 +109,9 @@ class EventControllerTests {
         assertThat(firstGlk.location()).isEqualTo("Windisch");
         assertThat(firstGlk.kind()).isEqualTo("J+S-Leiter*innenkurs LS/T Jugendliche");
         assertThat(firstGlk.eventType()).isEqualTo(CeviEventType.COURSE);
+        assertThat(firstGlk.participantsCount()).isEqualTo(36);
+        assertThat(firstGlk.hasLimitedCapacity()).isEqualTo(true);
+        assertThat(firstGlk.maximumParticipants()).isEqualTo(29);
     }
 
     @Test

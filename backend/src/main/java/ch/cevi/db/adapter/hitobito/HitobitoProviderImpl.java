@@ -117,7 +117,9 @@ class HitobitoProviderImpl implements HitobitoProvider {
                 groupLookup.get(event.links().groups()[0]),
                 dateLoockup.get(d) != null ? dateLoockup.get(d).location() : "",
                 (event.links().kind() != null && kindLookup.get(event.links().kind()) != null) ? kindLookup.get(event.links().kind()) : "N/A",
-                event.links().kind() != null ? CeviEventType.COURSE : CeviEventType.EVENT
+                event.links().kind() != null ? CeviEventType.COURSE : CeviEventType.EVENT,
+                event.participant_count(),
+                event.maximum_participants()
         )).toList();
     }
 }

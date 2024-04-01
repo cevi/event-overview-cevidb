@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.6, 01.04.2024
+
+* feature: return the number of participants and the maximum participants with the event information
+* chore: bump spring boot to 3.2.4
+
 ## Version 1.0.5, 19.03.2024
 
 * dev: output statistics and build information when visiting the api
