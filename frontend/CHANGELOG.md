@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.6, 01.04.2024
+
+ * chore: bump Angular to 17.3.2
+ * feature: indicate if there are still seats available for an event
+
 ## Version 1.0.5, 31.03.2024
 
 * feature: hide header and footer if the query parameter iframe is specified with value true

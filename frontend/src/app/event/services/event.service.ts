@@ -10,6 +10,8 @@ export interface CeviEvent {
   group: string;
   applicationLink: string;
   eventType: string;
+  participantsCount: number;
+  maximumParticipants: number | null;
 }
 
 @Injectable({

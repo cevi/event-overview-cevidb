@@ -39,7 +39,7 @@ export class EventListComponent {
   eventType = 'all';
   kursart = 'all';
 
-  displayedColumns: string[] = ['group', 'name', 'startsAt', 'finishAt', 'link'];
+  displayedColumns: string[] = ['group', 'name', 'startsAt', 'finishAt', 'freeSeats', 'link'];
   public nameFilter!: FormControl;
 
   private sort!: MatSort;

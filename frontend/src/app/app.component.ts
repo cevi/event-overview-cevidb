@@ -2,12 +2,12 @@ import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './core/components/footer.component';
 import { HeaderComponent } from './core/components/header.component';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FooterComponent, HeaderComponent, CommonModule],
+  imports: [RouterOutlet, FooterComponent, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
