@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 export interface CeviEvent {
   id: string;
@@ -20,7 +21,7 @@ export interface CeviEvent {
 export class EventService {
   constructor(private http: HttpClient) { }
 
-  getEventsWithFilter(filterOrganisation: string, filterEventType: string, nameFilter: string, kursartFilter: string) {
+  getEventsWithFilter(filterOrganisation: string, filterEventType: string, nameFilter: string, kursartFilter: string): Observable<CeviEvent[]> {
     let params = new HttpParams();
 
     if (filterOrganisation !== 'all') {

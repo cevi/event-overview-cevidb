@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 export interface Masterdata {
   organisations: Organisation[];
@@ -22,7 +23,7 @@ export interface Kursart {
 export class MasterdataService {
   constructor(private http: HttpClient) { }
 
-  getMasterdata() {
+  getMasterdata() : Observable<Masterdata> {
     return this.http.get<Masterdata>(environment.apiUri + '/masterdata');
   }
 }
