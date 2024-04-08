@@ -1,4 +1,8 @@
-import { ApplicationConfig, LOCALE_ID, importProvidersFrom } from '@angular/core';
+import {
+  ApplicationConfig,
+  LOCALE_ID,
+  importProvidersFrom,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -9,7 +13,7 @@ import { registerLocaleData } from '@angular/common';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatPaginatorIntlDeu } from './core/internationalization/MatPaginatorIntlDeu';
 
-registerLocaleData(localeDECH)
+registerLocaleData(localeDECH);
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +21,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     provideAnimations(),
     { provide: LOCALE_ID, useValue: 'de-CH' },
-    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlDeu}
-]
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlDeu },
+  ],
 };

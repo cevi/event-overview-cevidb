@@ -18,12 +18,12 @@ export interface Kursart {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MasterdataService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getMasterdata() : Observable<Masterdata> {
+  getMasterdata(): Observable<Masterdata> {
     return this.http.get<Masterdata>(environment.apiUri + '/masterdata');
   }
 }

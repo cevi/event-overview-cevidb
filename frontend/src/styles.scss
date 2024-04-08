@@ -1,8 +1,9 @@
-@import "app/core/fonts/Montserrat";
-$main-font: "Montserrat Light";
+@import 'app/core/fonts/Montserrat';
+$main-font: 'Montserrat Light';
 $text-size-normal: 14px;
 
-html, body {
+html,
+body {
   font-family: $main-font;
   font-size: $text-size-normal;
   margin: 0;
@@ -19,15 +20,22 @@ body {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Montserrat Bold",sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat Bold', sans-serif;
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 1px;
 }
 
-p, span, label {
-  font-family: "Montserrat Regular",sans-serif;
+p,
+span,
+label {
+  font-family: 'Montserrat Regular', sans-serif;
   font-weight: 400;
 }
 

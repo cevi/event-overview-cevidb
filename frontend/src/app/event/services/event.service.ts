@@ -16,12 +16,17 @@ export interface CeviEvent {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getEventsWithFilter(filterOrganisation: string, filterEventType: string, nameFilter: string, kursartFilter: string): Observable<CeviEvent[]> {
+  getEventsWithFilter(
+    filterOrganisation: string,
+    filterEventType: string,
+    nameFilter: string,
+    kursartFilter: string
+  ): Observable<CeviEvent[]> {
     let params = new HttpParams();
 
     if (filterOrganisation !== 'all') {
@@ -37,6 +42,8 @@ export class EventService {
       params = params.set('kursartFilter', kursartFilter);
     }
 
-    return this.http.get<CeviEvent[]>(environment.apiUri + '/events?' + params.toString());
+    return this.http.get<CeviEvent[]>(
+      environment.apiUri + '/events?' + params.toString()
+    );
   }
 }
