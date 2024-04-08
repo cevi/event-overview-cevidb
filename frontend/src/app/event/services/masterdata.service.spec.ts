@@ -2,12 +2,17 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { CeviEvent, EventService } from './event.service';
 import { Masterdata, MasterdataService } from './masterdata.service';
 
 describe('MasterdataService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
+  let sut: MasterdataService;
+
+  const masterdata = {  organisations: [{ name: 'Cevi Alpin'}],
+  eventTypes: ['EVENT'],
+  kursarten: [{ name: 'Cevi Alpin: Skihochtour'}]
+} as Masterdata;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,16 +21,10 @@ describe('MasterdataService', () => {
 
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
+    sut = TestBed.inject(MasterdataService);
   });
   it('getMasterdata', (done: DoneFn) => {
-    const service = TestBed.inject(MasterdataService);
-
-    const masterdata = {  organisations: [{ name: 'Cevi Alpin'}],
-      eventTypes: ['EVENT'],
-      kursarten: [{ name: 'Cevi Alpin: Skihochtour'}]
-    } as Masterdata;
-
-    service.getMasterdata().subscribe((value) => {
+    sut.getMasterdata().subscribe((value) => {
       expect(value).toEqual(masterdata);
       done();
     });

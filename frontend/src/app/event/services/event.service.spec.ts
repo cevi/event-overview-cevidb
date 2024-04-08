@@ -7,6 +7,17 @@ import { CeviEvent, EventService } from './event.service';
 describe('EventService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
+  let sut: EventService;
+
+  const events = [{  id: '5',
+  name: 'GLK',
+  startsAt: new Date(),
+  finishAt: new Date(),
+  group: 'Cevi Region Zürich',
+  applicationLink: 'http://localhost/apply',
+  eventType: 'COURSE',
+  participantsCount: 10,
+  maximumParticipants: 20}] as CeviEvent[];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -15,21 +26,10 @@ describe('EventService', () => {
 
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
+    sut = TestBed.inject(EventService);
   });
   it('getEventsWithFilter', (done: DoneFn) => {
-    const service = TestBed.inject(EventService);
-
-    const events = [{  id: '5',
-      name: 'GLK',
-      startsAt: new Date(),
-      finishAt: new Date(),
-      group: 'Cevi Region Zürich',
-      applicationLink: 'http://localhost/apply',
-      eventType: 'COURSE',
-      participantsCount: 10,
-      maximumParticipants: 20}] as CeviEvent[];
-
-    service.getEventsWithFilter('Cevi Region Zürich', 'COURSE', 'GLK', 'J+S-Leiter*innenkurs LS/T Jugendliche').subscribe((value) => {
+    sut.getEventsWithFilter('Cevi Region Zürich', 'COURSE', 'GLK', 'J+S-Leiter*innenkurs LS/T Jugendliche').subscribe((value) => {
       expect(value).toEqual(events);
       done();
     });

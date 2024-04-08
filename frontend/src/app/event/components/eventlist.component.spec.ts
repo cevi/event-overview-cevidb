@@ -11,6 +11,21 @@ describe('EventlistComponent', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
+  const events = [{  id: '5',
+  name: 'GLK',
+  startsAt: new Date(),
+  finishAt: new Date(),
+  group: 'Cevi Region Zürich',
+  applicationLink: 'http://localhost/apply',
+  eventType: 'COURSE',
+  participantsCount: 10,
+  maximumParticipants: 20}] as CeviEvent[];
+
+  const masterdata = {  organisations: [{ name: 'Cevi Alpin'}],
+  eventTypes: ['EVENT'],
+  kursarten: [{ name: 'Cevi Alpin: Skihochtour'}]
+} as Masterdata;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ]
@@ -28,21 +43,6 @@ describe('EventlistComponent', () => {
     result = component.translateEventTypes('EVENT');
     expect(result).toEqual('Anlass');
 
-    const events = [{  id: '5',
-    name: 'GLK',
-    startsAt: new Date(),
-    finishAt: new Date(),
-    group: 'Cevi Region Zürich',
-    applicationLink: 'http://localhost/apply',
-    eventType: 'COURSE',
-    participantsCount: 10,
-    maximumParticipants: 20}] as CeviEvent[];
-
-    const masterdata = {  organisations: [{ name: 'Cevi Alpin'}],
-      eventTypes: ['EVENT'],
-      kursarten: [{ name: 'Cevi Alpin: Skihochtour'}]
-    } as Masterdata;
-
     const initialEventReq = httpTestingController.match('http://localhost:8080/events?');
     expect(initialEventReq.length).toEqual(1);
 
@@ -55,21 +55,6 @@ describe('EventlistComponent', () => {
   });
   it('filterByOrganisation', () => {
     const component = new EventListComponent(TestBed.inject(EventService), TestBed.inject(MasterdataService));
-
-    const events = [{  id: '5',
-    name: 'GLK',
-    startsAt: new Date(),
-    finishAt: new Date(),
-    group: 'Cevi Region Zürich',
-    applicationLink: 'http://localhost/apply',
-    eventType: 'COURSE',
-    participantsCount: 10,
-    maximumParticipants: 20}] as CeviEvent[];
-
-    const masterdata = {  organisations: [{ name: 'Cevi Alpin'}],
-      eventTypes: ['EVENT'],
-      kursarten: [{ name: 'Cevi Alpin: Skihochtour'}]
-    } as Masterdata;
 
     const initialEventReq = httpTestingController.match('http://localhost:8080/events?');
     expect(initialEventReq.length).toEqual(1);
