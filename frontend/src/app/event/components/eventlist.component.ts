@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { CeviEvent, EventService } from '../services/event.service';
@@ -35,7 +35,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './eventlist.component.html',
   styleUrls: ['./eventlist.component.scss'],
 })
-export class EventListComponent {
+export class EventListComponent implements OnInit {
   title = 'eventoverview';
   events = new MatTableDataSource([] as CeviEvent[]);
   organisations = [] as string[];
@@ -82,10 +82,12 @@ export class EventListComponent {
       .subscribe(() => {
         this.loadEventsWithFilter();
       });
+  }
 
+  ngOnInit(): void {
     this.loadEventsWithFilter();
 
-    masterdataService.getMasterdata().subscribe({
+    this.masterdataService.getMasterdata().subscribe({
       next: (data: Masterdata) => {
         this.organisations = data.organisations.map(o => o.name);
         this.types = data.eventTypes;

@@ -1,18 +1,17 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
-
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventListComponent } from './eventlist.component';
 import { CeviEvent, EventService } from '../services/event.service';
 import { Masterdata, MasterdataService } from '../services/masterdata.service';
 import { MatSelectChange } from '@angular/material/select';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('EventlistComponent', () => {
-  let httpTestingController: HttpTestingController;
+  let fixture: ComponentFixture<EventListComponent>;
+  let sut: EventListComponent;
+  let eventService: EventService;
 
-  const events = [
+  const events: CeviEvent[] = [
     {
       id: '5',
       name: 'GLK',
@@ -24,73 +23,70 @@ describe('EventlistComponent', () => {
       participantsCount: 10,
       maximumParticipants: 20,
     },
-  ] as CeviEvent[];
+  ];
 
-  const masterdata = {
+  const masterdata: Masterdata = {
     organisations: [{ name: 'Cevi Alpin' }],
     eventTypes: ['EVENT'],
     kursarten: [{ name: 'Cevi Alpin: Skihochtour' }],
-  } as Masterdata;
+  };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-    });
+      imports: [HttpClientTestingModule, EventListComponent],
+      providers: [
+        {
+          provide: EventService,
+          useValue: {
+            getEventsWithFilter: () => of(events),
+          },
+        },
+        {
+          provide: MasterdataService,
+          useValue: { getMasterdata: () => of(masterdata) },
+        },
+      ],
+    }).compileComponents();
 
-    httpTestingController = TestBed.inject(HttpTestingController);
+    eventService = TestBed.inject(EventService);
+    fixture = TestBed.createComponent(EventListComponent);
+    sut = fixture.componentInstance;
+  });
+  it('loaded masterdata and events', () => {
+    sut.ngOnInit();
+    expect(sut.kursarten.length).toEqual(1);
+    expect(sut.organisations.length).toEqual(1);
+    expect(sut.types.length).toEqual(1);
+    expect(sut.isLoading).toEqual(false);
+    expect(sut.isLoadingMasterdata).toEqual(false);
+    expect(sut.events.data.length).toEqual(1);
   });
   it('translateEventTypes', () => {
-    const component = new EventListComponent(
-      TestBed.inject(EventService),
-      TestBed.inject(MasterdataService)
-    );
-
-    let result = component.translateEventTypes('COURSE');
+    let result = sut.translateEventTypes('COURSE');
     expect(result).toEqual('Kurs');
 
-    result = component.translateEventTypes('EVENT');
+    result = sut.translateEventTypes('EVENT');
     expect(result).toEqual('Anlass');
-
-    const initialEventReq = httpTestingController.match(
-      'http://localhost:8080/events?'
-    );
-    expect(initialEventReq.length).toEqual(1);
-
-    const masterdataReq = httpTestingController.match(
-      'http://localhost:8080/masterdata'
-    );
-    expect(masterdataReq.length).toEqual(1);
-
-    initialEventReq[0].flush(events);
-    masterdataReq[0].flush(masterdata);
   });
   it('filterByOrganisation', () => {
-    const component = new EventListComponent(
-      TestBed.inject(EventService),
-      TestBed.inject(MasterdataService)
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+      of(events)
     );
-
-    const initialEventReq = httpTestingController.match(
-      'http://localhost:8080/events?'
-    );
-    expect(initialEventReq.length).toEqual(1);
-    initialEventReq[0].flush(events);
-
-    const masterdataReq = httpTestingController.match(
-      'http://localhost:8080/masterdata'
-    );
-    expect(masterdataReq.length).toEqual(1);
-    masterdataReq[0].flush(masterdata);
-
-    component.filterByOrganisation({ value: 'Cevi Alpin' } as MatSelectChange);
-
-    const eventReq = httpTestingController.match(
-      'http://localhost:8080/events?groupFilter=Cevi%20Alpin'
-    );
-    expect(eventReq.length).toEqual(1);
-    eventReq[0].flush(events);
+    sut.filterByOrganisation({ value: 'Cevi Alpin' } as MatSelectChange);
+    expect(fnc).toHaveBeenCalledWith('Cevi Alpin', 'all', '', 'all');
   });
-  afterEach(() => {
-    httpTestingController.verify();
+  it('filterByEventType', () => {
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+      of(events)
+    );
+    sut.filterByEventType({ value: 'COURSE' } as MatSelectChange);
+    expect(fnc).toHaveBeenCalledWith('all', 'COURSE', '', 'all');
+  });
+  it('filterByKursart', () => {
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+      of(events)
+    );
+    sut.filterByKursart({ value: 'J+S' } as MatSelectChange);
+    expect(fnc).toHaveBeenCalledWith('all', 'all', '', 'J+S');
   });
 });

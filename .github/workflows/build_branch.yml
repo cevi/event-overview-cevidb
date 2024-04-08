@@ -33,5 +33,6 @@ jobs:
       - name: Build frontend
         run: |
           npm ci
+          npm run test:ci
           npm run build:prod
         working-directory: ./frontend
