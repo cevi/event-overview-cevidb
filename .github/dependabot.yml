@@ -8,6 +8,14 @@ updates:
     open-pull-requests-limit: 10
     reviewers:
       - "patrickuhlmann"
+    groups:
+      angular:
+        applies-to: version-updates
+        patterns:
+        - "@angular*"
+        update-types:
+        - "minor"
+        - "patch"
   - package-ecosystem: maven
     directory: "/backend"
     schedule:
