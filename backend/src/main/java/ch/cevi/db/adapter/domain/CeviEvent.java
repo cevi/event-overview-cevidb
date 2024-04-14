@@ -22,6 +22,10 @@ public record CeviEvent(String id, String name, String description, String appli
         }
     }
 
+    public CeviEvent withMaximumParticipants(int maximumParticipants) {
+        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants);
+    }
+
     public boolean hasLimitedCapacity() {
         return maximumParticipants != null;
     }

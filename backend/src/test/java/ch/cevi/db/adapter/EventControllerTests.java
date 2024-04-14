@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -45,7 +45,8 @@ class EventControllerTests {
     @Test
     void should_retrieve_events() throws Exception {
         String content = mockMvc.perform(
-                get("/events")
+                post("/events")
+                        .content(objectMapper.writeValueAsString(EventFilter.emptyFilter()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -117,8 +118,8 @@ class EventControllerTests {
     @Test
     void should_filter_group_for_events() throws Exception {
         String content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("groupFilter", "Fachgruppen")
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroup("Fachgruppen")))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -134,8 +135,8 @@ class EventControllerTests {
     @Test
     void should_filter_group_for_courses() throws Exception {
         String content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("groupFilter", "Cevi Regionalverband AG-SO-LU-ZG")
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroup("Cevi Regionalverband AG-SO-LU-ZG")))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -155,8 +156,8 @@ class EventControllerTests {
     @Test
     void should_filter_earliest_start_at() throws Exception {
         String content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("earliestStartAt", LocalDate.of(2030, Month.JULY, 5).toString())
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withEarliestStartAt(LocalDate.of(2030, Month.JULY, 5))))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -168,8 +169,8 @@ class EventControllerTests {
     @Test
     void should_filter_latest_start_at() throws Exception {
         String content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("latestStartAt", LocalDate.of(2030, Month.JULY, 5).toString())
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withLatestStartAt(LocalDate.of(2030, Month.JULY, 5))))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -182,9 +183,10 @@ class EventControllerTests {
     @Test
     void should_filter_earliest_and_latest_start_at() throws Exception {
         String content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("latestStartAt", LocalDate.of(2030, Month.JULY, 5).toString())
-                                .queryParam("earliestStartAt", LocalDate.of(2030, Month.MARCH, 5).toString())
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter()
+                                        .withLatestStartAt(LocalDate.of(2030, Month.JULY, 5))
+                                        .withEarliestStartAt(LocalDate.of(2030, Month.MARCH, 5))))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -196,8 +198,9 @@ class EventControllerTests {
     @Test
     void should_filter_by_name() throws Exception {
         String content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("nameContains", "Gruppenleiterkurs")
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter()
+                                        .withNameContains("Gruppenleiterkurs")))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -208,8 +211,9 @@ class EventControllerTests {
 
         // with wrong casing
         content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("nameContains", "gruppenleiterkurs")
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter()
+                                        .withNameContains("gruppenleiterkurs")))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -222,8 +226,8 @@ class EventControllerTests {
     @Test
     void should_filter_by_type() throws Exception {
         String content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("eventType", "EVENT")
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withEventType(CeviEventType.EVENT)))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -234,8 +238,8 @@ class EventControllerTests {
         assertThat(events).allMatch(e -> e.eventType().equals(CeviEventType.EVENT));
 
         content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("eventType", "COURSE")
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withEventType(CeviEventType.COURSE)))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -248,8 +252,8 @@ class EventControllerTests {
     @Test
     void should_filter_by_kursart() throws Exception {
         String content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("kursartFilter", "J+S-Leiter*innenkurs LS/T Jugendliche")
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withKursart("J+S-Leiter*innenkurs LS/T Jugendliche")))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -260,8 +264,8 @@ class EventControllerTests {
 
         // with wrong casing
         content = mockMvc.perform(
-                        get("/events")
-                                .queryParam("kursartFilter", "j+s-leiter*innenkurs ls/T Jugendliche")
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withKursart("j+s-leiter*innenkurs ls/T Jugendliche")))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);

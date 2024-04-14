@@ -1,5 +1,6 @@
 package ch.cevi.db.adapter.hitobito;
 
+import ch.cevi.db.adapter.EventFilter;
 import ch.cevi.db.adapter.domain.CeviEvent;
 import ch.cevi.db.adapter.domain.CeviEventType;
 import ch.cevi.db.adapter.domain.Kursart;
@@ -55,20 +56,8 @@ class HitobitoProviderImpl implements HitobitoProvider {
     }
 
     @Override
-    public List<CeviEvent> getEvents(Optional<String> groupFilter,
-                                     Optional<LocalDate> earliestStartAt,
-                                     Optional<LocalDate> latestStartAt,
-                                     Optional<String> nameContains,
-                                     Optional<CeviEventType> eventType,
-                                     Optional<String> kursartFilter) {
-        return this.ceviEvents.stream().filter(e -> groupFilter.map(f -> e.group().equals(f)).orElse(true))
-                .filter(e -> earliestStartAt.map(d -> e.startsAt().toLocalDate().isEqual(d) || e.startsAt().toLocalDate().isAfter(d)).orElse(true))
-                .filter(e -> latestStartAt.map(d -> e.startsAt().toLocalDate().isEqual(d) || e.startsAt().toLocalDate().isBefore(d)).orElse(true))
-                .filter(e -> nameContains.map(d -> e.name().toLowerCase(Locale.ROOT).contains(d.toLowerCase(Locale.ROOT))).orElse(true))
-                .filter(e -> eventType.map(d -> e.eventType().equals(d)).orElse(true))
-                .filter(e -> kursartFilter.map(d -> e.kind().toLowerCase(Locale.ROOT).equals(d.toLowerCase(Locale.ROOT))).orElse(true))
-                .toList();
-
+    public List<CeviEvent> getEvents(EventFilter filter) {
+        return this.ceviEvents.stream().filter(filter::match).toList();
     }
 
     @Override

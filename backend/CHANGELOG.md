@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.7, 14.04.2024
+
+* feature: use a post request for event filtering
+* feature: allow filtering for events that have available places
+
 ## Version 1.0.6, 01.04.2024
 
 * feature: return the number of participants and the maximum participants with the event information
