@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 1.0.7, 14.04.2024
+## Version 1.0.7, 15.04.2024
 
 * feature: use a post request for event filtering
 * feature: allow filtering for events that have available places

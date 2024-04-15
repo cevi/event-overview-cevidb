@@ -23,4 +23,22 @@ public class EventFilterTest {
         // no match as there are already too many participants
         assertThat(sut.match(eventOverbooked)).isFalse();
     }
+
+    @Test
+    void should_filter_no_available_seats() {
+        var ceviEvent = CeviEventFixture.ceviEvent();
+        var sut = EventFilter.emptyFilter().withHasAvailablePlaces(false);
+
+        // don't match as the event has no max participants
+        assertThat(ceviEvent.maximumParticipants()).isNull();
+        assertThat(sut.match(ceviEvent)).isFalse();
+
+        var eventFull = ceviEvent.withMaximumParticipants(ceviEvent.participantsCount());
+        // match as the max participants has been reached
+        assertThat(sut.match(eventFull)).isTrue();
+
+        var eventOverbooked = ceviEvent.withMaximumParticipants(ceviEvent.participantsCount());
+        // match as there are already too many participants
+        assertThat(sut.match(eventOverbooked)).isTrue();
+    }
 }

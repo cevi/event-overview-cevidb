@@ -63,6 +63,9 @@ public record EventFilter(String group,
                 (nameContains() == null || event.name().toLowerCase(Locale.ROOT).contains(nameContains().toLowerCase(Locale.ROOT))) &&
                 (eventType() == null || event.eventType().equals(eventType())) &&
                 (kursart() == null || event.kind().toLowerCase(Locale.ROOT).equals(kursart().toLowerCase(Locale.ROOT))) &&
-                (hasAvailablePlaces() == null || event.maximumParticipants() == null || event.maximumParticipants() < event.participantsCount());
+                (hasAvailablePlaces() == null ||
+                        (hasAvailablePlaces() && (event.maximumParticipants() == null || event.maximumParticipants() < event.participantsCount())) ||
+                        (!hasAvailablePlaces() && (event.maximumParticipants() != null && event.maximumParticipants() >= event.participantsCount()))
+                );
     }
 }
