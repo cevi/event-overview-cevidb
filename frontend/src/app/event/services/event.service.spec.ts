@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { TestBed } from '@angular/core/testing';
-import { CeviEvent, EventService } from './event.service';
+import { CeviEvent, CeviEventFilter, EventService } from './event.service';
 
 describe('EventService', () => {
   let httpTestingController: HttpTestingController;
@@ -33,22 +33,23 @@ describe('EventService', () => {
     sut = TestBed.inject(EventService);
   });
   it('getEventsWithFilter', (done: DoneFn) => {
-    sut
-      .getEventsWithFilter(
-        'Cevi Region Zürich',
-        'COURSE',
-        'GLK',
-        'J+S-Leiter*innenkurs LS/T Jugendliche'
-      )
-      .subscribe(value => {
-        expect(value).toEqual(events);
-        done();
-      });
+    const filter = {
+      group: 'Cevi Region Zürich',
+      eventType: 'COURSE',
+      nameContains: 'GLK',
+      kursart: 'J+S-Leiter*innenkurs LS/T Jugendliche',
+    } as CeviEventFilter;
+
+    sut.getEventsWithFilter(filter).subscribe(value => {
+      expect(value).toEqual(events);
+      done();
+    });
 
     const req = httpTestingController.expectOne({
-      method: 'GET',
-      url: 'http://localhost:8080/events?groupFilter=Cevi%20Region%20Z%C3%BCrich&eventType=COURSE&nameContains=GLK&kursartFilter=J%2BS-Leiter*innenkurs%20LS/T%20Jugendliche',
+      method: 'POST',
+      url: 'http://localhost:8080/events',
     });
+    expect(req.request.body).toEqual(filter);
     req.flush(events);
   });
   afterEach(() => {

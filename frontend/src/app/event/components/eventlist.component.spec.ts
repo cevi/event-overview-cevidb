@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventListComponent } from './eventlist.component';
-import { CeviEvent, EventService } from '../services/event.service';
+import {
+  CeviEvent,
+  CeviEventFilter,
+  EventService,
+} from '../services/event.service';
 import { Masterdata, MasterdataService } from '../services/masterdata.service';
 import { MatSelectChange } from '@angular/material/select';
 import { of } from 'rxjs';
@@ -73,20 +77,33 @@ describe('EventlistComponent', () => {
       of(events)
     );
     sut.filterByOrganisation({ value: 'Cevi Alpin' } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith('Cevi Alpin', 'all', '', 'all');
+    expect(fnc).toHaveBeenCalledWith({
+      group: 'Cevi Alpin',
+    } as CeviEventFilter);
   });
   it('filterByEventType', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
       of(events)
     );
     sut.filterByEventType({ value: 'COURSE' } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith('all', 'COURSE', '', 'all');
+    expect(fnc).toHaveBeenCalledWith({
+      eventType: 'COURSE',
+    } as CeviEventFilter);
   });
   it('filterByKursart', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
       of(events)
     );
     sut.filterByKursart({ value: 'J+S' } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith('all', 'all', '', 'J+S');
+    expect(fnc).toHaveBeenCalledWith({ kursart: 'J+S' } as CeviEventFilter);
+  });
+  it('filterByAvailablePlaces', () => {
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+      of(events)
+    );
+    sut.filterByAvailablePlaces({ value: true } as MatSelectChange);
+    expect(fnc).toHaveBeenCalledWith({
+      hasAvailablePlaces: true,
+    } as CeviEventFilter);
   });
 });

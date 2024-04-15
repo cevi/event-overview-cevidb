@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { CeviEvent, EventService } from '../services/event.service';
+import {
+  CeviEvent,
+  CeviEventFilter,
+  EventService,
+} from '../services/event.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Masterdata, MasterdataService } from '../services/masterdata.service';
@@ -45,9 +49,7 @@ export class EventListComponent implements OnInit {
   isError = false;
   isLoadingMasterdata = true;
   isErrorMasterdata = false;
-  organisation = 'all';
-  eventType = 'all';
-  kursart = 'all';
+  filter = {} as CeviEventFilter;
 
   displayedColumns: string[] = [
     'group',
@@ -79,7 +81,8 @@ export class EventListComponent implements OnInit {
     this.nameFilter = new FormControl('');
     this.nameFilter.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe(() => {
+      .subscribe(value => {
+        this.filter.nameContains = value;
         this.loadEventsWithFilter();
       });
   }
@@ -112,37 +115,36 @@ export class EventListComponent implements OnInit {
   }
 
   filterByOrganisation($event: MatSelectChange) {
-    this.organisation = $event.value;
+    this.filter.group = $event.value;
     this.loadEventsWithFilter();
   }
 
   filterByEventType($event: MatSelectChange) {
-    this.eventType = $event.value;
+    this.filter.eventType = $event.value;
     this.loadEventsWithFilter();
   }
 
   filterByKursart($event: MatSelectChange) {
-    this.kursart = $event.value;
+    this.filter.kursart = $event.value;
+    this.loadEventsWithFilter();
+  }
+
+  filterByAvailablePlaces($event: MatSelectChange) {
+    this.filter.hasAvailablePlaces = $event.value;
     this.loadEventsWithFilter();
   }
 
   loadEventsWithFilter() {
-    this.service
-      .getEventsWithFilter(
-        this.organisation,
-        this.eventType,
-        this.nameFilter.value,
-        this.kursart
-      )
-      .subscribe({
-        next: (data: CeviEvent[]) => {
-          this.events.data = data;
-          this.isLoading = false;
-        },
-        error: () => {
-          this.isLoading = false;
-          this.isError = true;
-        },
-      });
+    console.log(this.filter);
+    this.service.getEventsWithFilter(this.filter).subscribe({
+      next: (data: CeviEvent[]) => {
+        this.events.data = data;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+        this.isError = true;
+      },
+    });
   }
 }

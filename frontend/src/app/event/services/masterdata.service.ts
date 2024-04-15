@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
+export type CeviEventType = 'COURSE' | 'EVENT';
+
 export interface Masterdata {
   organisations: Organisation[];
-  eventTypes: string[];
+  eventTypes: CeviEventType[];
   kursarten: Kursart[];
 }
 

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { CeviEventType } from './masterdata.service';
 
 export interface CeviEvent {
   id: string;
@@ -15,35 +16,23 @@ export interface CeviEvent {
   maximumParticipants: number | null;
 }
 
+export interface CeviEventFilter {
+  group: string | null;
+  earliestStartAt: Date | null;
+  latestStartAt: Date | null;
+  nameContains: string | null;
+  eventType: CeviEventType | null;
+  kursart: string | null;
+  hasAvailablePlaces: boolean | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
   constructor(private http: HttpClient) {}
 
-  getEventsWithFilter(
-    filterOrganisation: string,
-    filterEventType: string,
-    nameFilter: string,
-    kursartFilter: string
-  ): Observable<CeviEvent[]> {
-    let params = new HttpParams();
-
-    if (filterOrganisation !== 'all') {
-      params = params.set('groupFilter', filterOrganisation);
-    }
-    if (filterEventType !== 'all') {
-      params = params.set('eventType', filterEventType);
-    }
-    if (nameFilter !== '') {
-      params = params.set('nameContains', nameFilter);
-    }
-    if (kursartFilter !== 'all') {
-      params = params.set('kursartFilter', kursartFilter);
-    }
-
-    return this.http.get<CeviEvent[]>(
-      environment.apiUri + '/events?' + params.toString()
-    );
+  getEventsWithFilter(filter: CeviEventFilter): Observable<CeviEvent[]> {
+    return this.http.post<CeviEvent[]>(environment.apiUri + '/events', filter);
   }
 }

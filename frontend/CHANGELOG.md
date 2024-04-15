@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.0.7, 15.04.2024
+
+- feature: allow filtering events and courses by available places
+- chore: use new filtering api from backend
+- chore: setup eslint and prettier
+
 ## Version 1.0.6, 01.04.2024
 
 - chore: bump Angular to 17.3.2
