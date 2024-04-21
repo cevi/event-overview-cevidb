@@ -19,6 +19,8 @@ public class CeviEventFixture {
                 "",
                 CeviEventType.EVENT,
                 3,
+                null,
+                null,
                 null);
     }
 }

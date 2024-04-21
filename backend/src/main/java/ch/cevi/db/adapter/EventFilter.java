@@ -23,37 +23,42 @@ public record EventFilter(String group,
                           String nameContains,
                           CeviEventType eventType,
                           String kursart,
-                          Boolean hasAvailablePlaces) {
+                          Boolean hasAvailablePlaces,
+                          Boolean isApplicationOpen) {
     public static EventFilter emptyFilter() {
-        return new EventFilter(null, null, null, null, null, null, null);
+        return new EventFilter(null, null, null, null, null, null, null, null);
     }
 
     public EventFilter withGroup(String group) {
-        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces);
+        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withEarliestStartAt(LocalDate earliestStartAt) {
-        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces);
+        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withLatestStartAt(LocalDate latestStartAt) {
-        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces);
+        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withNameContains(String nameContains) {
-        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces);
+        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withEventType(CeviEventType eventType) {
-        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces);
+        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withKursart(String kursart) {
-        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces);
+        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withHasAvailablePlaces(boolean hasAvailablePlaces) {
-        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces);
+        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+    }
+
+    public EventFilter withIsApplicationOpen(boolean isApplicationOpen) {
+        return new EventFilter(group, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
     }
 
     public boolean match(CeviEvent event) {
@@ -66,6 +71,9 @@ public record EventFilter(String group,
                 (hasAvailablePlaces() == null ||
                         (hasAvailablePlaces() && event.hasAvailablePlaces()) ||
                         (!hasAvailablePlaces() && !event.hasAvailablePlaces())
-                );
+                ) &&
+                (isApplicationOpen() == null ||
+                        (isApplicationOpen() && event.isApplicationOpen()) ||
+                        (!isApplicationOpen() && !event.isApplicationOpen()));
     }
 }

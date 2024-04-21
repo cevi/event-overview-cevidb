@@ -3,6 +3,7 @@
 ## Version 1.0.8, 21.04.2024
 
 - bugfix: free places were not indicated correctly
+- feature: filter if registration is open or not
 
 ## Version 1.0.7, 15.04.2024
 

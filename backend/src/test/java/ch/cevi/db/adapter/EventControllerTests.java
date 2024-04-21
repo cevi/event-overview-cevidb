@@ -116,7 +116,7 @@ class EventControllerTests {
     }
 
     @Test
-    void should_filter_group_for_events() throws Exception {
+    void should_filter_group() throws Exception {
         String content = mockMvc.perform(
                         post("/events")
                                 .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroup("Fachgruppen")))
@@ -130,17 +130,14 @@ class EventControllerTests {
         var ga = events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow();
         assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2030");
         assertThat(ga.eventType()).isEqualTo(CeviEventType.EVENT);
-    }
 
-    @Test
-    void should_filter_group_for_courses() throws Exception {
-        String content = mockMvc.perform(
+        content = mockMvc.perform(
                         post("/events")
                                 .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroup("Cevi Regionalverband AG-SO-LU-ZG")))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-        List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
+        events = objectMapper.readValue(content, new TypeReference<>() {});
         assertThat(events).hasSize(2);
 
 
@@ -273,5 +270,39 @@ class EventControllerTests {
         });
         assertThat(events).hasSize(2);
         assertThat(events).allMatch(e -> e.kind().equals("J+S-Leiter*innenkurs LS/T Jugendliche"));
+    }
+
+    @Test
+    void should_filter_available_places() throws Exception {
+        String content = mockMvc.perform(
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withHasAvailablePlaces(true)))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
+        assertThat(events).hasSize(12);
+
+        // an event from FGI
+        var ga = events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow();
+        assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2030");
+        assertThat(ga.eventType()).isEqualTo(CeviEventType.EVENT);
+    }
+
+    @Test
+    void should_filter_is_application_open() throws Exception {
+        String content = mockMvc.perform(
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withIsApplicationOpen(true)))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
+        assertThat(events).hasSize(12);
+
+        // an event from FGI
+        var ga = events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow();
+        assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2030");
+        assertThat(ga.eventType()).isEqualTo(CeviEventType.EVENT);
     }
 }
