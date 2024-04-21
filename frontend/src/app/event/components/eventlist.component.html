@@ -83,7 +83,7 @@
       <td mat-cell *matCellDef="let element">
         {{
           element.maximumParticipants === null ||
-          element.maximumParticipants < element.participantsCount
+          element.maximumParticipants > element.participantsCount
             ? 'Ja'
             : 'Nein'
         }}

@@ -29,4 +29,8 @@ public record CeviEvent(String id, String name, String description, String appli
     public boolean hasLimitedCapacity() {
         return maximumParticipants != null;
     }
+
+    public boolean hasAvailablePlaces() {
+        return this.maximumParticipants() == null || this.maximumParticipants() > this.participantsCount();
+    }
 }

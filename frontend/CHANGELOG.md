@@ -1,5 +1,9 @@
 # Changelog
 
+## Verson 1.0.8, 21.04.2024
+
+- fix: free places was not indicated correctly
+
 ## Version 1.0.7, 15.04.2024
 
 - feature: allow filtering events and courses by available places

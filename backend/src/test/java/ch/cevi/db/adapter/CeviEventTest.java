@@ -16,4 +16,25 @@ public class CeviEventTest {
                 15, 10);
         assertThat(event).isNotNull();
     }
+
+    @Test
+    void should_have_available_places() {
+        var event = new CeviEvent("1", "name", "desription", "link",
+                LocalDateTime.now(), LocalDateTime.now(), "group", "location", "kind", CeviEventType.COURSE,
+                45, 50);
+        assertThat(event.hasAvailablePlaces()).isTrue();
+
+        var eventWithUnlimitedCapacity = new CeviEvent("1", "name", "desription", "link",
+                LocalDateTime.now(), LocalDateTime.now(), "group", "location", "kind", CeviEventType.COURSE,
+                45, null);
+        assertThat(eventWithUnlimitedCapacity.hasAvailablePlaces()).isTrue();
+    }
+
+    @Test
+    void should_not_have_available_places() {
+        var event = new CeviEvent("1", "name", "desription", "link",
+                LocalDateTime.now(), LocalDateTime.now(), "group", "location", "kind", CeviEventType.COURSE,
+                55, 50);
+        assertThat(event.hasAvailablePlaces()).isFalse();
+    }
 }
