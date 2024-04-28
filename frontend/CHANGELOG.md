@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.0.9, 28.04.2024
+
+- feature: allow filtering if an event is open for application or not.
+
 ## Verson 1.0.8, 21.04.2024
 
 - fix: free places was not indicated correctly

@@ -26,6 +26,8 @@ describe('EventlistComponent', () => {
       eventType: 'COURSE',
       participantsCount: 10,
       maximumParticipants: 20,
+      applicationClosingAt: null,
+      applicationOpeningAt: null,
     },
   ];
 
@@ -105,5 +107,11 @@ describe('EventlistComponent', () => {
     expect(fnc).toHaveBeenCalledWith({
       hasAvailablePlaces: true,
     } as CeviEventFilter);
+  });
+  it('hasFreeSeats', () => {
+    expect(sut.hasFreeSeats(events[0])).toBeTrue();
+  });
+  it('isApplicationOpen', () => {
+    expect(sut.isApplicationOpen(events[0])).toBeTrue();
   });
 });

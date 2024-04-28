@@ -14,6 +14,8 @@ export interface CeviEvent {
   eventType: string;
   participantsCount: number;
   maximumParticipants: number | null;
+  applicationOpeningAt: string | null;
+  applicationClosingAt: string | null;
 }
 
 export interface CeviEventFilter {
@@ -24,6 +26,7 @@ export interface CeviEventFilter {
   eventType: CeviEventType | null;
   kursart: string | null;
   hasAvailablePlaces: boolean | null;
+  isApplicationOpen: boolean | null;
 }
 
 @Injectable({

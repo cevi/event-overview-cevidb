@@ -20,6 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { parseIsoDate } from '../../util/date.util';
 
 @Component({
   selector: 'app-event-list',
@@ -57,6 +58,7 @@ export class EventListComponent implements OnInit {
     'startsAt',
     'finishAt',
     'freeSeats',
+    'applicationOpen',
     'link',
   ];
   public nameFilter!: FormControl;
@@ -134,6 +136,11 @@ export class EventListComponent implements OnInit {
     this.loadEventsWithFilter();
   }
 
+  filterByIsApplicationOpen($event: MatSelectChange) {
+    this.filter.isApplicationOpen = $event.value;
+    this.loadEventsWithFilter();
+  }
+
   loadEventsWithFilter() {
     console.log(this.filter);
     this.service.getEventsWithFilter(this.filter).subscribe({
@@ -146,5 +153,23 @@ export class EventListComponent implements OnInit {
         this.isError = true;
       },
     });
+  }
+
+  hasFreeSeats(element: CeviEvent) {
+    return element.maximumParticipants === null ||
+      element.maximumParticipants > element.participantsCount
+      ? 'Ja'
+      : 'Nein';
+  }
+
+  isApplicationOpen(element: CeviEvent) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return (element.applicationClosingAt === null ||
+      parseIsoDate(element.applicationClosingAt) >= today) &&
+      (element.applicationOpeningAt === null ||
+        parseIsoDate(element.applicationOpeningAt) <= today)
+      ? 'Ja'
+      : 'Nein';
   }
 }

@@ -46,6 +46,14 @@
       <mat-option [value]="false">Nein</mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Offen zur Anmeldung</mat-label>
+    <mat-select (selectionChange)="filterByIsApplicationOpen($event)">
+      <mat-option [value]="null">Alle</mat-option>
+      <mat-option [value]="true">Ja</mat-option>
+      <mat-option [value]="false">Nein</mat-option>
+    </mat-select>
+  </mat-form-field>
 }
 
 @if (this.isLoadingMasterdata || this.isLoading) {
@@ -78,21 +86,25 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="freeSeats">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Freie Plätze</th>
-      <td mat-cell *matCellDef="let element">
-        {{
-          element.maximumParticipants === null ||
-          element.maximumParticipants > element.participantsCount
-            ? 'Ja'
-            : 'Nein'
-        }}
-      </td>
-    </ng-container>
-
     <ng-container matColumnDef="group">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Organisation</th>
       <td mat-cell *matCellDef="let element">{{ element.group }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="freeSeats">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Freie Plätze</th>
+      <td mat-cell *matCellDef="let element">
+        {{ this.hasFreeSeats(element) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="applicationOpen">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Offen zur Anmeldung
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ this.isApplicationOpen(element) }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="link">
