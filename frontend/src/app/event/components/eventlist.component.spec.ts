@@ -8,7 +8,8 @@ import {
 import { Masterdata, MasterdataService } from '../services/masterdata.service';
 import { MatSelectChange } from '@angular/material/select';
 import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('EventlistComponent', () => {
   let fixture: ComponentFixture<EventListComponent>;
@@ -39,20 +40,22 @@ describe('EventlistComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, EventListComponent],
-      providers: [
+    imports: [EventListComponent],
+    providers: [
         {
-          provide: EventService,
-          useValue: {
-            getEventsWithFilter: () => of(events),
-          },
+            provide: EventService,
+            useValue: {
+                getEventsWithFilter: () => of(events),
+            },
         },
         {
-          provide: MasterdataService,
-          useValue: { getMasterdata: () => of(masterdata) },
+            provide: MasterdataService,
+            useValue: { getMasterdata: () => of(masterdata) },
         },
-      ],
-    }).compileComponents();
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+}).compileComponents();
 
     eventService = TestBed.inject(EventService);
     fixture = TestBed.createComponent(EventListComponent);
@@ -109,9 +112,9 @@ describe('EventlistComponent', () => {
     } as CeviEventFilter);
   });
   it('hasFreeSeats', () => {
-    expect(sut.hasFreeSeats(events[0])).toBeTrue();
+    expect(sut.hasFreeSeats(events[0])).toBe('Ja');
   });
   it('isApplicationOpen', () => {
-    expect(sut.isApplicationOpen(events[0])).toBeTrue();
+    expect(sut.isApplicationOpen(events[0])).toBe('Ja');
   });
 });

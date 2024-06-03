@@ -1,5 +1,4 @@
-import {
-} from '@angular/common/http/testing';
+import {} from '@angular/common/http/testing';
 
 import { parseIsoDate } from './date.util';
 

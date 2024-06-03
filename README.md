@@ -34,5 +34,5 @@ The backend is accessible under port 8080. e. g. http://localhost:8080/events. Y
 ```
 cd frontend
 npm ci
-ng serve
+npm run start:int # using the int backend
 ```
