@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.0.10, 03.06.2024
+
+- chore: bump to Angular 18
+
 ## Version 1.0.9, 28.04.2024
 
 - feature: allow filtering if an event is open for application or not.
