@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.0.9, 09.06.2024
+
+- chore: bump spring boot to 3.3.0
+
 ## Version 1.0.8, 21.04.2024
 
 - bugfix: free places were not indicated correctly
