@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.11, 09.06.2024
+
+- feature: allow passing filter criterias via url
+- chore: bump zone.js to 0.14.6
+
 ## Version 1.0.10, 03.06.2024
 
 - chore: bump to Angular 18

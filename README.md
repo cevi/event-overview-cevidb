@@ -1,12 +1,26 @@
 # Event Overview
 
-Visit https://events.cevi.tools/. Can be integrated as iframe as follows: https://events.cevi.tools?iframe=true (this hides the header and footer)
+Visit https://events.cevi.tools/.
 
 Allows the user to search and filter events and courses from the cevi.db. The data is loaded at startup and refreshed once per day.
 
 ![Systemcontext](docs/systemcontext.png)
 
 See [Changelog Backend](backend/CHANGELOG.md) and [Changelog Frontend](frontend/CHANGELOG.md)
+
+## External Integration
+
+Supports external integration as an iframe. To hide the header and footer the parameter iframe can be set to true, e. g. https://events.cevi.tools?iframe=true
+
+Furthermore filter criterias can be set by uri. The parameters are as follows:
+* organisation, e. g. organisation=Cevi Alpin
+* type, possible values: COURSE/EVENT. e. g. type=COURSE
+* text, e. g. text=GLK
+* kursart, e. g. kursart=Gruppenleiter/-innen-Kurs 1
+* hasAvailablePlaces: possible values: true/false. e. g. hasAvailablePlaces=true
+* applicationOpen: possible values: true/false. e. g. applicationOpen=false
+
+Example: https://events.cevi.tools?iframe=true&organisation=Cevi Schweiz&ype=EVENT&hasAvailablePlaces=true&applicationOpen=true
 
 ## Prepare
 

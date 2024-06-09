@@ -1,6 +1,6 @@
 {
   "name": "eventoverview",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "scripts": {
     "start": "ng serve",
     "start:int": "ng serve --configuration int",
@@ -28,7 +28,7 @@
     "@angular/router": "^18.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.4"
+    "zone.js": "~0.14.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.0.2",

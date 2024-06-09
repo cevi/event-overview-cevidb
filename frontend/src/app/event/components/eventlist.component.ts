@@ -8,7 +8,11 @@ import {
 } from '../services/event.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { Masterdata, MasterdataService } from '../services/masterdata.service';
+import {
+  CeviEventType,
+  Masterdata,
+  MasterdataService,
+} from '../services/masterdata.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
@@ -21,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { parseIsoDate } from '../../util/date.util';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-event-list',
@@ -78,6 +83,7 @@ export class EventListComponent implements OnInit {
 
   constructor(
     private service: EventService,
+    private route: ActivatedRoute,
     private masterdataService: MasterdataService
   ) {
     this.nameFilter = new FormControl('');
@@ -90,6 +96,23 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe(params => {
+      if (params.has('organisation')) {
+        this.filter.group = params.get('organisation');
+      } else if (params.has('type')) {
+        this.filter.eventType = params.get('type') as CeviEventType;
+      } else if (params.has('text')) {
+        this.nameFilter.setValue(params.get('text'));
+      } else if (params.has('kursart')) {
+        this.filter.kursart = params.get('kursart');
+      } else if (params.has('freeSeats')) {
+        this.filter.hasAvailablePlaces = params.get('freeSeats') === 'true';
+      } else if (params.has('applicationOpen')) {
+        this.filter.isApplicationOpen =
+          params.get('applicationOpen') === 'true';
+      }
+    });
+
     this.loadEventsWithFilter();
 
     this.masterdataService.getMasterdata().subscribe({
@@ -142,7 +165,6 @@ export class EventListComponent implements OnInit {
   }
 
   loadEventsWithFilter() {
-    console.log(this.filter);
     this.service.getEventsWithFilter(this.filter).subscribe({
       next: (data: CeviEvent[]) => {
         this.events.data = data;
