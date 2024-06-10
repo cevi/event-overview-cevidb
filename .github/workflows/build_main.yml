@@ -41,8 +41,8 @@ jobs:
       - name: 🔐 Test Frontend
         working-directory: ./frontend
         run: |
-        npm ci
-        npm run test:ci
+          npm ci
+          npm run test:ci
 
       - name: 🏗️ Build backend dockerimage
         run: ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=registry.cevi.tools/cevi/event-overview-backend:latest
