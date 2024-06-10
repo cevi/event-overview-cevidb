@@ -10,6 +10,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { of } from 'rxjs';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 describe('EventlistComponent', () => {
   let fixture: ComponentFixture<EventListComponent>;
@@ -54,6 +55,7 @@ describe('EventlistComponent', () => {
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
+        provideRouter([{path: '**', component: EventListComponent}])
     ]
 }).compileComponents();
 

@@ -34,10 +34,18 @@ jobs:
         env:
           HITOBITO_PROD_TOKEN: ${{secrets.HITOBITO_PROD_TOKEN}}
           
-      - name: 🏗️ Build backend dockerimage
+      - name: 🔐 Test Backend
+        run: APPLICATION_HITOBITO_API_TOKEN_FILE=hitobito_token ./mvnw verify
+        working-directory: ./backend
+        
+      - name: 🔐 Test Frontend
+        working-directory: ./frontend
         run: |
-          APPLICATION_HITOBITO_API_TOKEN_FILE=hitobito_token ./mvnw verify
-          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=registry.cevi.tools/cevi/event-overview-backend:latest
+        npm ci
+        npm run test:ci
+
+      - name: 🏗️ Build backend dockerimage
+        run: ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=registry.cevi.tools/cevi/event-overview-backend:latest
         working-directory: ./backend
        
       - name: 🏗️ Build frontend prod dockerimage
