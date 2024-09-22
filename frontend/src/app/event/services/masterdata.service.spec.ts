@@ -1,8 +1,14 @@
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 
 import { TestBed } from '@angular/core/testing';
 import { Masterdata, MasterdataService } from './masterdata.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 describe('MasterdataService', () => {
   let httpTestingController: HttpTestingController;
@@ -16,9 +22,12 @@ describe('MasterdataService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
+      imports: [],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
 
     httpTestingController = TestBed.inject(HttpTestingController);
     sut = TestBed.inject(MasterdataService);

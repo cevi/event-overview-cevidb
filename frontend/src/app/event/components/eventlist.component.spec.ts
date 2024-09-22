@@ -9,7 +9,10 @@ import { Masterdata, MasterdataService } from '../services/masterdata.service';
 import { MatSelectChange } from '@angular/material/select';
 import { of } from 'rxjs';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
 describe('EventlistComponent', () => {
@@ -41,23 +44,23 @@ describe('EventlistComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-    imports: [EventListComponent],
-    providers: [
+      imports: [EventListComponent],
+      providers: [
         {
-            provide: EventService,
-            useValue: {
-                getEventsWithFilter: () => of(events),
-            },
+          provide: EventService,
+          useValue: {
+            getEventsWithFilter: () => of(events),
+          },
         },
         {
-            provide: MasterdataService,
-            useValue: { getMasterdata: () => of(masterdata) },
+          provide: MasterdataService,
+          useValue: { getMasterdata: () => of(masterdata) },
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-        provideRouter([{path: '**', component: EventListComponent}])
-    ]
-}).compileComponents();
+        provideRouter([{ path: '**', component: EventListComponent }]),
+      ],
+    }).compileComponents();
 
     eventService = TestBed.inject(EventService);
     fixture = TestBed.createComponent(EventListComponent);
