@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 1.0.12, 23.09.2024
+
+- chore: bump angular to 18.2.4
+- chore: bump prettier to 3.3.3
+- chore: bump @typescrip-eslint to 8.6.0
+- chore: bump tslib to 2.7.0
+- chore: bump jasmine-core to 5.3.0
+- chore: bump typescript to 5.5.4
+- chore: bump zone.js to 0.14.10
+- chore: bump eslint-plugin-prettier to 5.2.1
+- chore: bump karma to 6.4.4
+
 ## Version 1.0.11, 09.06.2024
 
 - feature: allow passing filter criterias via url
