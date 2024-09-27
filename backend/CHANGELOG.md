@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.10, 27.09.2024
+
+- chore: bump spring boot to 3.3.4
+- chore: bump springdoc to 2.6
+
 ## Version 1.0.9, 09.06.2024
 
 - chore: bump spring boot to 3.3.0

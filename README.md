@@ -1,6 +1,6 @@
 # Event Overview
 
-Visit https://events.cevi.tools/.
+Visit [Frontend](https://events.cevi.tools/) or [Backend](https://events-api.cevi.tools/).
 
 Allows the user to search and filter events and courses from the cevi.db. The data is loaded at startup and refreshed once per day.
 
@@ -12,7 +12,7 @@ See [Changelog Backend](backend/CHANGELOG.md) and [Changelog Frontend](frontend/
 
 Supports external integration as an iframe. To hide the header and footer the parameter iframe can be set to true, e. g. https://events.cevi.tools?iframe=true
 
-Furthermore filter criterias can be set by uri. The parameters are as follows:
+Furthermore, filter criterias can be set by uri. The parameters are as follows:
 * organisation, e. g. organisation=Cevi Alpin
 * type, possible values: COURSE/EVENT. e. g. type=COURSE
 * text, e. g. text=GLK
@@ -26,7 +26,7 @@ Example: https://events.cevi.tools?iframe=true&organisation=Cevi Schweiz&ype=EVE
 
 Prerequisites
   * JDK 21
-  * Node 20+
+  * Angular 18.2 see [Version compatibility](https://angular.dev/reference/versions) for the required Node.js version
   * Cevi.DB API Token with Scope `Anlässe dieser Ebene`.
 
 Put the token in a file and configure the file path in the environment variable APPLICATION_HITOBITO_API_TOKEN_FILE
