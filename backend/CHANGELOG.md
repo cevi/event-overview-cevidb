@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.11, 24.11.2024
+
+- feature: multi select for organisations
+- chore: bump spring boot to 3.3.5
+
 ## Version 1.0.10, 27.09.2024
 
 - chore: bump spring boot to 3.3.4

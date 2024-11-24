@@ -73,7 +73,7 @@ describe('EventlistComponent', () => {
     expect(sut.types.length).toEqual(1);
     expect(sut.isLoading).toEqual(false);
     expect(sut.isLoadingMasterdata).toEqual(false);
-    expect(sut.events.data.length).toEqual(1);
+    expect(sut.data.data.length).toEqual(1);
   });
   it('translateEventTypes', () => {
     let result = sut.translateEventTypes('COURSE');
@@ -88,7 +88,7 @@ describe('EventlistComponent', () => {
     );
     sut.filterByOrganisation({ value: 'Cevi Alpin' } as MatSelectChange);
     expect(fnc).toHaveBeenCalledWith({
-      group: 'Cevi Alpin',
+      groups: ['Cevi Alpin'],
     } as CeviEventFilter);
   });
   it('filterByEventType', () => {

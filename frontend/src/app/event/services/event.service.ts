@@ -19,7 +19,7 @@ export interface CeviEvent {
 }
 
 export interface CeviEventFilter {
-  group: string | null;
+  groups: string[] | null;
   earliestStartAt: Date | null;
   latestStartAt: Date | null;
   nameContains: string | null;

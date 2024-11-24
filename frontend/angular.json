@@ -57,6 +57,7 @@
               "sourceMap": true
             },
             "int": {
+              "optimization": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

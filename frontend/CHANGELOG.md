@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 1.0.13, 24.11.2024
+
+- feature: multi select for organisations
+- chore: bump @angular-eslint/eslint-plugin to 18.3.1
+- chore: bump typescript-eslint to 8.6.0
+- chore: bump @typescript/eslint-plugin to 8.14.0
+- chore: bump @typescript-eslint/parser to 8.14.0
+- chore: npm update
+- chore: bump Angular to 18.2.12
+- chore: bump Angular Material to 18.2.13
+- chore: bump eslint to 9.15.0
+- chore: bump jasmine-core to 5.4.0
+- chore: bump tslib to 2.8.1
+
 ## Version 1.0.12, 23.09.2024
 
 - chore: bump angular to 18.2.4

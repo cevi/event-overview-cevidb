@@ -42,7 +42,7 @@ describe('EventService', () => {
   });
   it('getEventsWithFilter', (done: DoneFn) => {
     const filter = {
-      group: 'Cevi Region Zürich',
+      groups: ['Cevi Region Zürich'],
       eventType: 'COURSE',
       nameContains: 'GLK',
       kursart: 'J+S-Leiter*innenkurs LS/T Jugendliche',

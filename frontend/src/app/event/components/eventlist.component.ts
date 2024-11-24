@@ -26,12 +26,14 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { parseIsoDate } from '../../util/date.util';
 import { ActivatedRoute } from '@angular/router';
+import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
 
 @Component({
   selector: 'app-event-list',
   standalone: true,
   imports: [
     CommonModule,
+    SelectCheckAllComponent,
     MatProgressSpinnerModule,
     MatTableModule,
     MatSortModule,
@@ -46,8 +48,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./eventlist.component.scss'],
 })
 export class EventListComponent implements OnInit {
-  title = 'eventoverview';
-  events = new MatTableDataSource([] as CeviEvent[]);
+  data = new MatTableDataSource([] as CeviEvent[]);
   organisations = [] as string[];
   kursarten = [] as string[];
   types = [] as string[];
@@ -67,18 +68,19 @@ export class EventListComponent implements OnInit {
     'link',
   ];
   public nameFilter!: FormControl;
+  public organisationFilter!: FormControl;
 
   private sort!: MatSort;
   private paginator!: MatPaginator;
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
-    this.events.sort = this.sort;
+    this.data.sort = this.sort;
   }
 
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
-    this.events.paginator = this.paginator;
+    this.data.paginator = this.paginator;
   }
 
   constructor(
@@ -87,6 +89,12 @@ export class EventListComponent implements OnInit {
     private masterdataService: MasterdataService
   ) {
     this.nameFilter = new FormControl('');
+    this.organisationFilter = new FormControl(this.organisations);
+    this.organisationFilter.valueChanges.subscribe(value => {
+      this.filter.groups = value;
+      this.loadEventsWithFilter();
+    });
+
     this.nameFilter.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe(value => {
@@ -98,7 +106,7 @@ export class EventListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
       if (params.has('organisation')) {
-        this.filter.group = params.get('organisation');
+        this.filter.groups = params.getAll('organisation');
       } else if (params.has('type')) {
         this.filter.eventType = params.get('type') as CeviEventType;
       } else if (params.has('text')) {
@@ -139,8 +147,13 @@ export class EventListComponent implements OnInit {
     }
   }
 
+  filterByOrganisationForm() {
+    this.filter.groups = this.organisationFilter.value;
+    this.loadEventsWithFilter();
+  }
+
   filterByOrganisation($event: MatSelectChange) {
-    this.filter.group = $event.value;
+    this.filter.groups = $event.value;
     this.loadEventsWithFilter();
   }
 
@@ -167,7 +180,7 @@ export class EventListComponent implements OnInit {
   loadEventsWithFilter() {
     this.service.getEventsWithFilter(this.filter).subscribe({
       next: (data: CeviEvent[]) => {
-        this.events.data = data;
+        this.data.data = data;
         this.isLoading = false;
       },
       error: () => {

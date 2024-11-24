@@ -42,3 +42,10 @@ label {
 span {
   font-weight: 200;
 }
+
+// this is required to make the select all option selectable over the whole width
+.app-select-check-all,
+.app-select-check-all .mdc-form-field,
+.app-select-check-all label {
+  width: 100% !important;
+}

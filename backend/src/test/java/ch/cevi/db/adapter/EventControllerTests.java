@@ -119,7 +119,7 @@ class EventControllerTests {
     void should_filter_group() throws Exception {
         String content = mockMvc.perform(
                         post("/events")
-                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroup("Fachgruppen")))
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroups(List.of("Fachgruppen"))))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -133,13 +133,38 @@ class EventControllerTests {
 
         content = mockMvc.perform(
                         post("/events")
-                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroup("Cevi Regionalverband AG-SO-LU-ZG")))
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroups(List.of("Cevi Regionalverband AG-SO-LU-ZG"))))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         events = objectMapper.readValue(content, new TypeReference<>() {});
         assertThat(events).hasSize(2);
 
+
+        // a course with multiple occurrences
+        var glk = events.stream().filter(e -> e.id().equals("3208")).toList();
+        assertThat(glk).hasSize(2);
+        var firstGlk = glk.getFirst();
+        assertThat(firstGlk.id()).isEqualTo("3208");
+        assertThat(firstGlk.name()).isEqualTo("Gruppenleiterkurs GLK 2030");
+        assertThat(firstGlk.eventType()).isEqualTo(CeviEventType.COURSE);
+    }
+
+    @Test
+    void should_filter_groups() throws Exception {
+        String content = mockMvc.perform(
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withGroups(List.of("Fachgruppen", "Cevi Regionalverband AG-SO-LU-ZG"))))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
+        assertThat(events).hasSize(3);
+
+        // an event from FGI
+        var ga = events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow();
+        assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2030");
+        assertThat(ga.eventType()).isEqualTo(CeviEventType.EVENT);
 
         // a course with multiple occurrences
         var glk = events.stream().filter(e -> e.id().equals("3208")).toList();
