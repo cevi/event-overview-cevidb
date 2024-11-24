@@ -86,7 +86,7 @@ describe('EventlistComponent', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
       of(events)
     );
-    sut.filterByOrganisation({ value: 'Cevi Alpin' } as MatSelectChange);
+    sut.filterByOrganisation({ value: ['Cevi Alpin'] } as MatSelectChange);
     expect(fnc).toHaveBeenCalledWith({
       groups: ['Cevi Alpin'],
     } as CeviEventFilter);
