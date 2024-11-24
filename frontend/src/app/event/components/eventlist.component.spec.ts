@@ -13,7 +13,11 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import {
+  ActivatedRoute,
+  convertToParamMap,
+  provideRouter,
+} from '@angular/router';
 
 describe('EventlistComponent', () => {
   let fixture: ComponentFixture<EventListComponent>;
@@ -59,6 +63,21 @@ describe('EventlistComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
         provideRouter([{ path: '**', component: EventListComponent }]),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParamMap: of(
+              convertToParamMap({
+                organisation: 'Cevi',
+                type: 'EVENT',
+                text: 'abc',
+                kursart: 'def',
+                freeSeats: 'true',
+                applicationOpen: 'true',
+              })
+            ),
+          },
+        },
       ],
     }).compileComponents();
 
@@ -75,21 +94,21 @@ describe('EventlistComponent', () => {
     expect(sut.isLoadingMasterdata).toEqual(false);
     expect(sut.data.data.length).toEqual(1);
   });
+  it('initial filter from query parameters', () => {
+    sut.ngOnInit();
+    expect(sut.filter.groups).toEqual(['Cevi']);
+    expect(sut.filter.eventType).toEqual('EVENT');
+    expect(sut.nameFilter.getRawValue()).toEqual('abc');
+    expect(sut.filter.kursart).toEqual('def');
+    expect(sut.filter.hasAvailablePlaces).toBeTrue();
+    expect(sut.filter.isApplicationOpen).toBeTrue();
+  });
   it('translateEventTypes', () => {
     let result = sut.translateEventTypes('COURSE');
     expect(result).toEqual('Kurs');
 
     result = sut.translateEventTypes('EVENT');
     expect(result).toEqual('Anlass');
-  });
-  it('filterByOrganisation', () => {
-    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
-      of(events)
-    );
-    sut.filterByOrganisation({ value: ['Cevi Alpin'] } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({
-      groups: ['Cevi Alpin'],
-    } as CeviEventFilter);
   });
   it('filterByEventType', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
@@ -114,6 +133,15 @@ describe('EventlistComponent', () => {
     sut.filterByAvailablePlaces({ value: true } as MatSelectChange);
     expect(fnc).toHaveBeenCalledWith({
       hasAvailablePlaces: true,
+    } as CeviEventFilter);
+  });
+  it('filterByIsApplicationOpen', () => {
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+      of(events)
+    );
+    sut.filterByIsApplicationOpen({ value: true } as MatSelectChange);
+    expect(fnc).toHaveBeenCalledWith({
+      isApplicationOpen: true,
     } as CeviEventFilter);
   });
   it('hasFreeSeats', () => {

@@ -7,10 +7,7 @@
   Filter:
   <mat-form-field>
     <mat-label>Organisation</mat-label>
-    <mat-select
-      multiple
-      [formControl]="this.organisationFilter"
-      [value]="this.filter.groups">
+    <mat-select multiple [formControl]="this.organisationFilter">
       <app-select-check-all
         [model]="this.organisationFilter"
         [values]="this.organisations"></app-select-check-all>

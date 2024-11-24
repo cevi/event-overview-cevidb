@@ -3,6 +3,7 @@
 ## Version 1.0.13, 24.11.2024
 
 - feature: multi select for organisations
+- bugfix: allow multiple query parameters to be set
 - chore: bump @angular-eslint/eslint-plugin to 18.3.1
 - chore: bump typescript-eslint to 8.6.0
 - chore: bump @typescript/eslint-plugin to 8.14.0

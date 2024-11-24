@@ -106,16 +106,21 @@ export class EventListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
       if (params.has('organisation')) {
-        this.filter.groups = params.getAll('organisation');
-      } else if (params.has('type')) {
+        this.organisationFilter.setValue(params.getAll('organisation'));
+      }
+      if (params.has('type')) {
         this.filter.eventType = params.get('type') as CeviEventType;
-      } else if (params.has('text')) {
+      }
+      if (params.has('text')) {
         this.nameFilter.setValue(params.get('text'));
-      } else if (params.has('kursart')) {
+      }
+      if (params.has('kursart')) {
         this.filter.kursart = params.get('kursart');
-      } else if (params.has('freeSeats')) {
+      }
+      if (params.has('freeSeats')) {
         this.filter.hasAvailablePlaces = params.get('freeSeats') === 'true';
-      } else if (params.has('applicationOpen')) {
+      }
+      if (params.has('applicationOpen')) {
         this.filter.isApplicationOpen =
           params.get('applicationOpen') === 'true';
       }
@@ -145,16 +150,6 @@ export class EventListComponent implements OnInit {
     } else {
       return eventType;
     }
-  }
-
-  filterByOrganisationForm() {
-    this.filter.groups = this.organisationFilter.value;
-    this.loadEventsWithFilter();
-  }
-
-  filterByOrganisation($event: MatSelectChange) {
-    this.filter.groups = $event.value;
-    this.loadEventsWithFilter();
   }
 
   filterByEventType($event: MatSelectChange) {
