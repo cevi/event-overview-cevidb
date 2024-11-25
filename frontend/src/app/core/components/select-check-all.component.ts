@@ -30,19 +30,19 @@ export class SelectCheckAllComponent {
   @Output() changeEvent = new EventEmitter<boolean>();
 
   isChecked(): boolean {
-    return (
+    return Boolean(
       this.model.value &&
-      this.values.length &&
-      this.model.value.length === this.values.length
+        this.values.length &&
+        this.model.value.length === this.values.length
     );
   }
 
   isIndeterminate(): boolean {
-    return (
+    return Boolean(
       this.model.value &&
-      this.values.length &&
-      this.model.value.length &&
-      this.model.value.length < this.values.length
+        this.values.length &&
+        this.model.value.length &&
+        this.model.value.length < this.values.length
     );
   }
 
