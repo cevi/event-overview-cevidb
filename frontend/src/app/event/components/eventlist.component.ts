@@ -29,23 +29,22 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
 
 @Component({
-  selector: 'app-event-list',
-  standalone: true,
-  imports: [
-    CommonModule,
-    SelectCheckAllComponent,
-    MatProgressSpinnerModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './eventlist.component.html',
-  styleUrls: ['./eventlist.component.scss'],
+    selector: 'app-event-list',
+    imports: [
+        CommonModule,
+        SelectCheckAllComponent,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './eventlist.component.html',
+    styleUrls: ['./eventlist.component.scss']
 })
 export class EventListComponent implements OnInit {
   data = new MatTableDataSource([] as CeviEvent[]);

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
   MatCheckboxChange,
@@ -8,10 +8,9 @@ import {
 // adapted from https://onthecode.co.uk/blog/select-all-option-mat-select
 // needs a style in the global stylesheet. search for .app-select-check-all
 @Component({
-  selector: 'app-select-check-all',
-  standalone: true,
-  imports: [MatCheckboxModule],
-  template: `
+    selector: 'app-select-check-all',
+    imports: [MatCheckboxModule],
+    template: `
     <mat-checkbox
       class="app-select-check-all"
       [indeterminate]="isIndeterminate()"
@@ -20,14 +19,14 @@ import {
       (change)="toggleSelection($event)">
       {{ text }}
     </mat-checkbox>
-  `,
+  `
 })
 export class SelectCheckAllComponent {
   @Input()
   model!: FormControl;
   @Input() values: string[] = [];
   @Input() text = 'Alle';
-  @Output() changeEvent = new EventEmitter<boolean>();
+  readonly changeEvent = output<boolean>();
 
   isChecked(): boolean {
     return Boolean(

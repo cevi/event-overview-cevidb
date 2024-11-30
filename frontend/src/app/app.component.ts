@@ -5,11 +5,10 @@ import { HeaderComponent } from './core/components/header.component';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, FooterComponent, HeaderComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+    selector: 'app-root',
+    imports: [RouterOutlet, FooterComponent, HeaderComponent],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   iframe = false;

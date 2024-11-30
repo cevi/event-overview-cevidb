@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.0.14, 01.12.2024
+
+- chore: bump to Angular 19
+- chore: bump @typescript/eslint-plugin to 8.15.0
+- chore: bump @typescript/eslint-parser to 8.15.0
+
 ## Version 1.0.13, 24.11.2024
 
 - feature: multi select for organisations
