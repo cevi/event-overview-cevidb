@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 1.0.15, 07.12.2024
+
+- feature: add expansion panel to show the description for each event/course
+- increase bundle size budget
+- migrate scss style (adress warning)
+- chore: bump @angular-eslint to 19.0.0
+- chore: bump prettier to 3.4.1
+- chore: bump eslint to 9.16.0
+- chore: bump @typescript/eslint to 8.16.0
+
 ## Version 1.0.14, 01.12.2024
 
 - chore: bump to Angular 19

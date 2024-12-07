@@ -27,6 +27,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { parseIsoDate } from '../../util/date.util';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
     selector: 'app-event-list',
@@ -41,6 +42,7 @@ import { SelectCheckAllComponent } from '../../core/components/select-check-all.
         MatSelectModule,
         MatInputModule,
         FormsModule,
+        MatExpansionModule,
         ReactiveFormsModule,
     ],
     templateUrl: './eventlist.component.html',
