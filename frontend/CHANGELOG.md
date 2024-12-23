@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.0.16, 23.12.2024
+
+- chore: bump angular to 19.0.5
+- chore: bump @types/jasmine to 5.1.5
+- chore: @typescript/eslint to 8.18.1
+- chore: prettier to 3.4.2
+- chore: bump jasmine-core to 5.5.0
+- chore: bump eslint to 9.17.0
+
 ## Version 1.0.15, 07.12.2024
 
 - feature: add expansion panel to show the description for each event/course

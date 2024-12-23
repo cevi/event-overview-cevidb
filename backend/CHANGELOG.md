@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.12, 23.12.2024
+
+- bump springboot 3.4.1
+- bugfix: allow a maximum participants count of 0
+
 ## Version 1.0.11, 24.11.2024
 
 - feature: multi select for organisations

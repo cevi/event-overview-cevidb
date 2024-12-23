@@ -18,8 +18,8 @@ public record CeviEvent(String id, String name, String description, String appli
         if (participantsCount < 0) {
             throw new IllegalArgumentException("The participantCount must be at least 0");
         }
-        if (maximumParticipants != null && maximumParticipants < 1) {
-            throw new IllegalArgumentException("The maximum participants must be at least 1 if set");
+        if (maximumParticipants != null && maximumParticipants < 0) {
+            throw new IllegalArgumentException("The maximum participants must be at least 0 if set");
         }
     }
 
