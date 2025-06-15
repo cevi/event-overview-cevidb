@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2, DOCUMENT } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './core/components/footer.component';
 import { HeaderComponent } from './core/components/header.component';
-import { DOCUMENT } from '@angular/common';
+
 
 @Component({
     selector: 'app-root',
