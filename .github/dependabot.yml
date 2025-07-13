@@ -6,8 +6,6 @@ updates:
       interval: weekly
       time: "04:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "patrickuhlmann"
     groups:
       angular:
         applies-to: version-updates
@@ -22,21 +20,15 @@ updates:
       interval: weekly
       time: "04:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "patrickuhlmann"
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
       time: "04:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "patrickuhlmann"
   - package-ecosystem: docker
     directory: "/"
     schedule:
       interval: weekly
       time: "04:00"
     open-pull-requests-limit: 10
-    reviewers:
-      - "patrickuhlmann"
