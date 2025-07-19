@@ -28,23 +28,25 @@ import { parseIsoDate } from '../../util/date.util';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { EventDateTimeFormatterPipe } from "../pipes/event-date-time-formatter.pipe";
 
 @Component({
     selector: 'app-event-list',
     imports: [
-        CommonModule,
-        SelectCheckAllComponent,
-        MatProgressSpinnerModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        FormsModule,
-        MatExpansionModule,
-        ReactiveFormsModule,
-    ],
+      CommonModule,
+      SelectCheckAllComponent,
+      MatProgressSpinnerModule,
+      MatTableModule,
+      MatSortModule,
+      MatPaginatorModule,
+      MatFormFieldModule,
+      MatSelectModule,
+      MatInputModule,
+      FormsModule,
+      MatExpansionModule,
+      ReactiveFormsModule,
+      EventDateTimeFormatterPipe
+],
     templateUrl: './eventlist.component.html',
     styleUrls: ['./eventlist.component.scss']
 })
