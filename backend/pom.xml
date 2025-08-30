@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ch.cevi.db</groupId>
 	<artifactId>adapter</artifactId>
-	<version>1.0.11</version>
+	<version>1.0.13</version>
 	<name>adapter</name>
 	<description>Adapter to cevi.db</description>
 	<properties>

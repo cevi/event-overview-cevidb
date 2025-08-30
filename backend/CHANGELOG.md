@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.0.13, 30.08.2025
+
+- bugfix: name of Region AG-SO-LU-ZG and WS has changed. Thus, their courses were not visible anymore
+- chore: added Region Ostschweiz
+- chore: bump springdoc-openapi-starter-webmvc-ui to 2.8.11
+- chore: bump spring-boot-starter-parent to 3.5.5
+
 ## Version 1.0.12, 23.12.2024
 
 - bump springboot 3.4.1
