@@ -14,6 +14,13 @@ updates:
         update-types:
         - "minor"
         - "patch"
+      typescript-eslint:
+        applies-to: version-updates
+        patterns:
+        - "@typescript-eslint*"
+        update-types:
+        - "minor"
+        - "patch"
   - package-ecosystem: maven
     directory: "/backend"
     schedule:
