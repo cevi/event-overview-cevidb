@@ -10,8 +10,13 @@ updates:
       angular:
         applies-to: version-updates
         patterns:
-        - "@angular*"
+          - "@angular/*"
+          - "@angular-devkit/*"
+          - "zone.js"
+          - "rxjs"
+          - "tslib"
         update-types:
+        - "major"
         - "minor"
         - "patch"
       typescript-eslint:
@@ -19,6 +24,7 @@ updates:
         patterns:
         - "@typescript-eslint*"
         update-types:
+        - "major"
         - "minor"
         - "patch"
   - package-ecosystem: maven
