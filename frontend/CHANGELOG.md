@@ -1,5 +1,40 @@
 # Changelog
 
+## Version 1.0.18, 24.11.2025
+
+- chore: bump Angular to 21.0.0
+- chore: bump @angular/cli to 21.0.0
+- chore: bump @angular/build to 21.0.0
+- chore: bump @angular/compiler-cli to 21.0.0
+- chore: bump @angular-eslint packages to 20.6.0
+- chore: bump typescript to 5.9.3
+- chore: bump @typescript-eslint to 8.47.0
+- chore: bump eslint to 9.39.1
+- chore: bump eslint-config-prettier to 10.1.8
+- chore: bump eslint-plugin-prettier to 5.5.4
+- chore: bump jasmine-core to 5.12.1
+- chore: bump @types/jasmine to 5.1.12
+
+## Version 1.0.17, 19.07.2025
+
+- feature: properly format date
+- chore: bump Angular to 21.0.0
+- chore: bump @angular/material to 20.2.12
+- chore: bump @angular/cdk to 20.2.12
+- chore: bump Angular ESLint packages to 20.6.0
+- chore: bump TypeScript to 5.9.3
+- chore: bump @typescript-eslint to 8.47.0
+- chore: bump eslint to 9.39.1
+- chore: bump eslint-config-prettier to 10.1.8
+- chore: bump eslint-plugin-prettier to 5.5.4
+- chore: bump jasmine-core to 5.12.1
+- chore: bump @types/jasmine to 5.1.12
+- chore: bump rxjs to 7.8.2
+- chore: bump zone.js to 0.15.1
+- chore: bump tslib to 2.8.1
+- chore: bump prettier to 3.6.2
+- chore: bump prettier-eslint to 16.4.2
+
 ## Version 1.0.16, 23.12.2024
 
 - chore: bump angular to 19.0.5
