@@ -9,7 +9,7 @@ describe('EventDateTimeFormatterPipe', () => {
     TestBed.configureTestingModule({
       providers: [
         EventDateTimeFormatterPipe,
-        { provide: LOCALE_ID, useValue: 'de-DE' }
+        { provide: LOCALE_ID, useValue: 'de-DE' },
       ],
     });
 
