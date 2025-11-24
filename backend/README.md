@@ -12,6 +12,8 @@ Note: if an error about "missing bean BuildProperties" appears, you need to exec
 ```
 once
 
+Visit the application under http://localhost:8080 and the swagger ui under http://localhost:8080/swagger-ui.html
+
 ## Spring Profiles
 
 * default: configured for production
