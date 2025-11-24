@@ -52,6 +52,7 @@ class HitobitoProviderImpl implements HitobitoProvider {
                 .filter(e -> e.eventType() != CeviEventType.EVENT || eventGroups.contains(e.group()))
                 .filter(e -> e.eventType() != CeviEventType.COURSE || courseGroups.contains(e.group()))
                 .toList();
+        logger.atInfo().log("Retrieved {} events and courses", ceviEvents.size());
         this.lastRefreshAt = LocalDateTime.now();
     }
 
