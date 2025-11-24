@@ -1,11 +1,19 @@
+import { LOCALE_ID } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { EventDateTimeFormatterPipe } from './event-date-time-formatter.pipe';
 
 describe('EventDateTimeFormatterPipe', () => {
-
   let pipe: EventDateTimeFormatterPipe;
 
   beforeEach(() => {
-    pipe = new EventDateTimeFormatterPipe('de-CH');
+    TestBed.configureTestingModule({
+      providers: [
+        EventDateTimeFormatterPipe,
+        { provide: LOCALE_ID, useValue: 'de-DE' }
+      ],
+    });
+
+    pipe = TestBed.inject(EventDateTimeFormatterPipe);
   });
 
   it('should format a date with time correctly', () => {

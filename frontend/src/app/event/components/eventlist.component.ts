@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import {
@@ -15,7 +15,7 @@ import {
 } from '../services/masterdata.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
-import { CommonModule } from '@angular/common';
+
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -28,29 +28,32 @@ import { parseIsoDate } from '../../util/date.util';
 import { ActivatedRoute } from '@angular/router';
 import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { EventDateTimeFormatterPipe } from "../pipes/event-date-time-formatter.pipe";
+import { EventDateTimeFormatterPipe } from '../pipes/event-date-time-formatter.pipe';
 
 @Component({
-    selector: 'app-event-list',
-    imports: [
-      CommonModule,
-      SelectCheckAllComponent,
-      MatProgressSpinnerModule,
-      MatTableModule,
-      MatSortModule,
-      MatPaginatorModule,
-      MatFormFieldModule,
-      MatSelectModule,
-      MatInputModule,
-      FormsModule,
-      MatExpansionModule,
-      ReactiveFormsModule,
-      EventDateTimeFormatterPipe
-],
-    templateUrl: './eventlist.component.html',
-    styleUrls: ['./eventlist.component.scss']
+  selector: 'app-event-list',
+  imports: [
+    SelectCheckAllComponent,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
+    MatExpansionModule,
+    ReactiveFormsModule,
+    EventDateTimeFormatterPipe,
+  ],
+  templateUrl: './eventlist.component.html',
+  styleUrls: ['./eventlist.component.scss'],
 })
 export class EventListComponent implements OnInit {
+  private service = inject(EventService);
+  private route = inject(ActivatedRoute);
+  private masterdataService = inject(MasterdataService);
+
   data = new MatTableDataSource([] as CeviEvent[]);
   organisations = [] as string[];
   kursarten = [] as string[];
@@ -86,11 +89,7 @@ export class EventListComponent implements OnInit {
     this.data.paginator = this.paginator;
   }
 
-  constructor(
-    private service: EventService,
-    private route: ActivatedRoute,
-    private masterdataService: MasterdataService
-  ) {
+  constructor() {
     this.nameFilter = new FormControl('');
     this.organisationFilter = new FormControl(this.organisations);
     this.organisationFilter.valueChanges.subscribe(value => {

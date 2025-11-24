@@ -1,12 +1,12 @@
-import { Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
+import { LOCALE_ID, Pipe, PipeTransform, inject } from '@angular/core';
 
 @Pipe({
-  name: 'eventDateTimeFormatter'
+  name: 'eventDateTimeFormatter',
 })
 export class EventDateTimeFormatterPipe implements PipeTransform {
-  constructor(@Inject(LOCALE_ID) private locale: string) {}
+  private locale = inject(LOCALE_ID);
 
-  transform(value: any): string {
+  transform(value: string | number | Date | null | undefined): string {
     if (!value) return '';
 
     const date = new Date(value);

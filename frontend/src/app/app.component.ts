@@ -1,23 +1,20 @@
-import { Component, Inject, OnInit, Renderer2, DOCUMENT } from '@angular/core';
+import { Component, OnInit, Renderer2, DOCUMENT, inject } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './core/components/footer.component';
 import { HeaderComponent } from './core/components/header.component';
 
-
 @Component({
-    selector: 'app-root',
-    imports: [RouterOutlet, FooterComponent, HeaderComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+  selector: 'app-root',
+  imports: [RouterOutlet, FooterComponent, HeaderComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  iframe = false;
+  private route = inject(ActivatedRoute);
+  private document = inject<Document>(DOCUMENT);
+  private renderer = inject(Renderer2);
 
-  constructor(
-    private route: ActivatedRoute,
-    @Inject(DOCUMENT) private document: Document,
-    private renderer: Renderer2
-  ) {}
+  iframe = false;
 
   ngOnInit() {
     this.prepareForIFrameIfRequested();

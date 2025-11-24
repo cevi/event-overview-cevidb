@@ -8,9 +8,9 @@ import {
 // adapted from https://onthecode.co.uk/blog/select-all-option-mat-select
 // needs a style in the global stylesheet. search for .app-select-check-all
 @Component({
-    selector: 'app-select-check-all',
-    imports: [MatCheckboxModule],
-    template: `
+  selector: 'app-select-check-all',
+  imports: [MatCheckboxModule],
+  template: `
     <mat-checkbox
       class="app-select-check-all"
       [indeterminate]="isIndeterminate()"
@@ -19,7 +19,7 @@ import {
       (change)="toggleSelection($event)">
       {{ text }}
     </mat-checkbox>
-  `
+  `,
 })
 export class SelectCheckAllComponent {
   @Input()
