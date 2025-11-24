@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.0.14, 24.11.2025
+
+- chore: bump spring boot to v4
+- chore: bump springdoc-openapi-starter-webmvc-ui to 2.8.14
+
 ## Version 1.0.13, 30.08.2025
 
 - bugfix: name of Region AG-SO-LU-ZG and WS has changed. Thus, their courses were not visible anymore
