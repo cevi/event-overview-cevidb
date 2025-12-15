@@ -31,17 +31,17 @@ export class SelectCheckAllComponent {
   isChecked(): boolean {
     return Boolean(
       this.model.value &&
-        this.values.length &&
-        this.model.value.length === this.values.length
+      this.values.length &&
+      this.model.value.length === this.values.length
     );
   }
 
   isIndeterminate(): boolean {
     return Boolean(
       this.model.value &&
-        this.values.length &&
-        this.model.value.length &&
-        this.model.value.length < this.values.length
+      this.values.length &&
+      this.model.value.length &&
+      this.model.value.length < this.values.length
     );
   }
 
