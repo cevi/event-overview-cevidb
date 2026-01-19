@@ -25,8 +25,8 @@ Example: https://events.cevi.tools?iframe=true&organisation=Cevi Schweiz&ype=EVE
 ## Prepare
 
 Prerequisites
-  * JDK 21
-  * Angular 20 see [Version compatibility](https://angular.dev/reference/versions) for the required Node.js version
+  * JDK 25
+  * Angular 21 see [Version compatibility](https://angular.dev/reference/versions) for the required Node.js version
   * Cevi.DB API Token with Scope `Anlässe dieser Ebene`.
 
 Put the token in a file and configure the file path in the environment variable APPLICATION_HITOBITO_API_TOKEN_FILE
