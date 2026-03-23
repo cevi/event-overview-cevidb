@@ -45,6 +45,8 @@
 						<env>
 							<!-- Disable NMT to prevent JVM memory stats from interleaving with application logs on shutdown -->
 							<BPE_DEFAULT_BPL_JVM_NMT_ENABLED>false</BPE_DEFAULT_BPL_JVM_NMT_ENABLED>
+							<!-- Reduce thread count for memory calculation (actual usage ~12 threads) -->
+							<BPE_DEFAULT_BPL_JVM_THREAD_COUNT>25</BPE_DEFAULT_BPL_JVM_THREAD_COUNT>
 						</env>
 					</image>
 				</configuration>
