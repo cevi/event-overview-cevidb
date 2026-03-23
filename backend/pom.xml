@@ -40,6 +40,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<env>
+							<!-- Disable NMT to prevent JVM memory stats from interleaving with application logs on shutdown -->
+							<BPE_DEFAULT_BPL_JVM_NMT_ENABLED>false</BPE_DEFAULT_BPL_JVM_NMT_ENABLED>
+						</env>
+					</image>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
