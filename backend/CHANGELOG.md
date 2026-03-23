@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.0.15, 23.03.2026
+
+- bugfix: fix startup failure when Hitobito API returns a page with no `linked` object
+- chore: disable JVM Native Memory Tracking to prevent memory stats from interleaving with application logs
+- chore: reduce Tomcat max threads to 20 and JVM thread count to 25 (actual usage ~12 threads), increasing available heap from ~121 MB to ~400 MB
+- chore: bump spring-boot-starter-parent from 4.0.3 to 4.0.4
+
 ## Version 1.0.14, 24.11.2025
 
 - chore: bump spring boot to v4

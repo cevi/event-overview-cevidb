@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 1.0.19, 24.03.2026
+
+- chore: migrate to ESLint 10 with flat config
+- chore: bump Angular to 21.2.5
+- chore: bump @angular/material and @angular/cdk to 21.2.3
+- chore: bump @angular/cli and @angular/build to 21.2.3
+- chore: bump angular-eslint to 21.3.1
+- chore: bump typescript-eslint to 8.57.1
+- chore: bump eslint to 10.1.0
+- chore: bump jasmine-core to 6.1.0
+
 ## Version 1.0.18, 24.11.2025
 
 - chore: bump Angular to 21.0.0
