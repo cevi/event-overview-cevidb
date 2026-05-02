@@ -1,0 +1,31 @@
+services:
+  backend:
+    image: eclipse-temurin:25-jdk
+    user: "${CURRENT_UID}:${CURRENT_GID}"
+    working_dir: /app
+    volumes:
+      - ../backend:/app
+      - ${HOME}/.m2:/tmp/.m2
+      - /home/patrick/Data/Settings/Secrets/event-overview-hitobito-token-prod:/run/secrets/token:ro
+    ports:
+      - "8080:8080"
+    environment:
+      HOME: /tmp
+      MAVEN_OPTS: "-Dmaven.repo.local=/tmp/.m2/repository"
+      APPLICATION_HITOBITO_API_TOKEN_FILE: /run/secrets/token
+    command: ./mvnw spring-boot:run
+
+  frontend:
+    image: node:24-alpine
+    user: "${CURRENT_UID}:${CURRENT_GID}"
+    working_dir: /app
+    volumes:
+      - ../frontend:/app
+    ports:
+      - "4200:4200"
+    environment:
+      HOME: /tmp
+    # --host 0.0.0.0 makes ng serve reachable from outside the container
+    command: sh -c "npm install && npm run start -- --host 0.0.0.0"
+    depends_on:
+      - backend

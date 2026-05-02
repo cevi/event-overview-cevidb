@@ -1,0 +1,1 @@
+* No need to be backwards-compatible, there is only one installation that always reflects the current main branch
