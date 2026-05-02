@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -41,6 +41,7 @@ import { ALL_NAMED_PRESET_KURSARTEN, KursartPreset, KURSART_PRESETS } from '../m
 export class EventListComponent implements OnInit {
   private readonly service = inject(EventService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly masterdataService = inject(MasterdataService);
 
   readonly KURSART_PRESETS = KURSART_PRESETS;
@@ -87,6 +88,7 @@ export class EventListComponent implements OnInit {
     this.organisationFilter.valueChanges.subscribe(value => {
       this.filter.groups = value;
       this.loadEventsWithFilter();
+      this.updateUrlParams();
     });
 
     this.nameFilter.valueChanges
@@ -94,6 +96,7 @@ export class EventListComponent implements OnInit {
       .subscribe(value => {
         this.filter.nameContains = value;
         this.loadEventsWithFilter();
+        this.updateUrlParams();
       });
   }
 
@@ -109,7 +112,7 @@ export class EventListComponent implements OnInit {
         this.nameFilter.setValue(params.get('text'));
       }
       if (params.has('kursart')) {
-        this.filter.kursarten = [params.get('kursart')!];
+        this.filter.kursarten = params.getAll('kursart');
       }
       if (params.has('freeSeats')) {
         this.filter.hasAvailablePlaces = params.get('freeSeats') === 'true';
@@ -149,6 +152,7 @@ export class EventListComponent implements OnInit {
   filterByEventType($event: MatSelectChange) {
     this.filter.eventType = $event.value;
     this.loadEventsWithFilter();
+    this.updateUrlParams();
   }
 
   applyPreset(preset: KursartPreset | 'weitere') {
@@ -157,22 +161,41 @@ export class EventListComponent implements OnInit {
       ? this.kursarten.filter(k => !ALL_NAMED_PRESET_KURSARTEN.includes(k))
       : preset.kursarten;
     this.loadEventsWithFilter();
+    this.updateUrlParams();
   }
 
   filterByKursart($event: MatSelectChange) {
     this.activePreset = null;
     this.filter.kursarten = $event.value?.length ? $event.value : null;
     this.loadEventsWithFilter();
+    this.updateUrlParams();
   }
 
   filterByAvailablePlaces($event: MatSelectChange) {
     this.filter.hasAvailablePlaces = $event.value;
     this.loadEventsWithFilter();
+    this.updateUrlParams();
   }
 
   filterByIsApplicationOpen($event: MatSelectChange) {
     this.filter.isApplicationOpen = $event.value;
     this.loadEventsWithFilter();
+    this.updateUrlParams();
+  }
+
+  private updateUrlParams(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        organisation: this.filter.groups?.length ? this.filter.groups : null,
+        type: this.filter.eventType ?? null,
+        text: this.filter.nameContains?.trim().length ? this.filter.nameContains : null,
+        kursart: this.filter.kursarten?.length ? this.filter.kursarten : null,
+        freeSeats: this.filter.hasAvailablePlaces != null ? String(this.filter.hasAvailablePlaces) : null,
+        applicationOpen: this.filter.isApplicationOpen != null ? String(this.filter.isApplicationOpen) : null,
+      },
+      replaceUrl: true,
+    });
   }
 
   loadEventsWithFilter() {

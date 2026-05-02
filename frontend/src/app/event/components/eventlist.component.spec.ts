@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { EventListComponent } from './eventlist.component';
 import {
   CeviEvent,
@@ -17,6 +17,7 @@ import {
   ActivatedRoute,
   convertToParamMap,
   provideRouter,
+  Router,
 } from '@angular/router';
 import { KURSART_PRESETS } from '../models/kursart-preset';
 
@@ -24,6 +25,7 @@ describe('EventlistComponent', () => {
   let fixture: ComponentFixture<EventListComponent>;
   let sut: EventListComponent;
   let eventService: EventService;
+  let router: Router;
 
   const events: CeviEvent[] = [
     {
@@ -83,6 +85,8 @@ describe('EventlistComponent', () => {
     }).compileComponents();
 
     eventService = TestBed.inject(EventService);
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     fixture = TestBed.createComponent(EventListComponent);
     sut = fixture.componentInstance;
   });
@@ -190,5 +194,116 @@ describe('EventlistComponent', () => {
   });
   it('isApplicationOpen', () => {
     expect(sut.isApplicationOpen(events[0])).toBe('Ja');
+  });
+
+  describe('URL parameter synchronization', () => {
+    const expectNavigate = (queryParams: Record<string, unknown>) =>
+      expect(router.navigate).toHaveBeenCalledWith([], jasmine.objectContaining({
+        queryParams: jasmine.objectContaining(queryParams),
+        replaceUrl: true,
+      }));
+
+    it('filterByEventType updates url', () => {
+      sut.filterByEventType({ value: 'COURSE' } as MatSelectChange);
+      expectNavigate({ type: 'COURSE' });
+    });
+    it('filterByEventType clears url param when null', () => {
+      sut.filterByEventType({ value: null } as MatSelectChange);
+      expectNavigate({ type: null });
+    });
+    it('filterByKursart updates url', () => {
+      sut.filterByKursart({ value: ['GLK', 'J+S'] } as MatSelectChange);
+      expectNavigate({ kursart: ['GLK', 'J+S'] });
+    });
+    it('filterByKursart clears url param on empty selection', () => {
+      sut.filterByKursart({ value: [] } as MatSelectChange);
+      expectNavigate({ kursart: null });
+    });
+    it('filterByAvailablePlaces updates url with true', () => {
+      sut.filterByAvailablePlaces({ value: true } as MatSelectChange);
+      expectNavigate({ freeSeats: 'true' });
+    });
+    it('filterByAvailablePlaces updates url with false', () => {
+      sut.filterByAvailablePlaces({ value: false } as MatSelectChange);
+      expectNavigate({ freeSeats: 'false' });
+    });
+    it('filterByAvailablePlaces clears url param when null', () => {
+      sut.filterByAvailablePlaces({ value: null } as MatSelectChange);
+      expectNavigate({ freeSeats: null });
+    });
+    it('filterByIsApplicationOpen updates url with false', () => {
+      sut.filterByIsApplicationOpen({ value: false } as MatSelectChange);
+      expectNavigate({ applicationOpen: 'false' });
+    });
+    it('filterByIsApplicationOpen clears url param when null', () => {
+      sut.filterByIsApplicationOpen({ value: null } as MatSelectChange);
+      expectNavigate({ applicationOpen: null });
+    });
+    it('applyPreset updates url', () => {
+      const preset = KURSART_PRESETS[0];
+      sut.applyPreset(preset);
+      expectNavigate({ kursart: preset.kursarten });
+    });
+    it('organisationFilter change updates url', () => {
+      sut.organisationFilter.setValue(['Cevi Alpin']);
+      expectNavigate({ organisation: ['Cevi Alpin'] });
+    });
+    it('organisationFilter empty selection clears url param', () => {
+      sut.organisationFilter.setValue([]);
+      expectNavigate({ organisation: null });
+    });
+    it('nameFilter change updates url', fakeAsync(() => {
+      sut.nameFilter.setValue('GLK');
+      tick(400);
+      expectNavigate({ text: 'GLK' });
+    }));
+    it('nameFilter empty string clears url param', fakeAsync(() => {
+      sut.nameFilter.setValue('');
+      tick(400);
+      expectNavigate({ text: null });
+    }));
+  });
+});
+
+describe('EventlistComponent – multiple kursart query parameters', () => {
+  const masterdata: Masterdata = {
+    organisations: [],
+    eventTypes: [],
+    kursarten: [],
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [EventListComponent],
+      providers: [
+        {
+          provide: EventService,
+          useValue: { getEventsWithFilter: () => of([]) },
+        },
+        {
+          provide: MasterdataService,
+          useValue: { getMasterdata: () => of(masterdata) },
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        provideRouter([{ path: '**', component: EventListComponent }]),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParamMap: of(convertToParamMap({ kursart: ['GLK', 'J+S'] })),
+          },
+        },
+      ],
+    }).compileComponents();
+
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+  });
+
+  it('reads multiple kursart values from URL', () => {
+    const fixture = TestBed.createComponent(EventListComponent);
+    const sut = fixture.componentInstance;
+    sut.ngOnInit();
+    expect(sut.filter.kursarten).toEqual(['GLK', 'J+S']);
   });
 });

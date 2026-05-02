@@ -3,6 +3,7 @@
 ## Unreleased
 
 - feature: add quick filters for course categories
+- feature: reflect the chosen filters in the uri
 
 ## Version 1.0.19, 24.03.2026
 
