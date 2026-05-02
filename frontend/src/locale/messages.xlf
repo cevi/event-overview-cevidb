@@ -121,6 +121,13 @@
           <context context-type="linenumber">24,26</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="filter.reset" datatype="html">
+        <source>Filter zurücksetzen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">26,30</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="filter.organisation" datatype="html">
         <source>Organisation</source>
         <context-group purpose="location">

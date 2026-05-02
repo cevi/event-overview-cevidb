@@ -204,6 +204,68 @@ describe('EventlistComponent', () => {
       isApplicationOpen: true,
     } as CeviEventFilter);
   });
+  it('hasActiveFilter returns false when no filter is set', () => {
+    sut.filter = {} as CeviEventFilter;
+    expect(sut.hasActiveFilter).toBeFalse();
+  });
+  it('hasActiveFilter returns true when eventType is set', () => {
+    sut.filter = { eventType: 'COURSE' } as CeviEventFilter;
+    expect(sut.hasActiveFilter).toBeTrue();
+  });
+  it('hasActiveFilter returns true when groups are set', () => {
+    sut.filter = { groups: ['Cevi Alpin'] } as CeviEventFilter;
+    expect(sut.hasActiveFilter).toBeTrue();
+  });
+  it('hasActiveFilter returns true when nameContains is set', () => {
+    sut.filter = { nameContains: 'GLK' } as CeviEventFilter;
+    expect(sut.hasActiveFilter).toBeTrue();
+  });
+  it('hasActiveFilter returns true when kursarten are set', () => {
+    sut.filter = { kursarten: ['J+S'] } as CeviEventFilter;
+    expect(sut.hasActiveFilter).toBeTrue();
+  });
+  it('hasActiveFilter returns true when hasAvailablePlaces is set', () => {
+    sut.filter = { hasAvailablePlaces: true } as CeviEventFilter;
+    expect(sut.hasActiveFilter).toBeTrue();
+  });
+  it('hasActiveFilter returns true when isApplicationOpen is set', () => {
+    sut.filter = { isApplicationOpen: false } as CeviEventFilter;
+    expect(sut.hasActiveFilter).toBeTrue();
+  });
+  it('resetFilter clears all filters', () => {
+    spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+    sut.ngOnInit();
+    sut.activePreset = KURSART_PRESETS[0];
+    sut.resetFilter();
+    expect(sut.filter).toEqual({} as CeviEventFilter);
+    expect(sut.nameFilter.getRawValue()).toEqual('');
+    expect(sut.organisationFilter.getRawValue()).toEqual([]);
+    expect(sut.activePreset).toBeNull();
+  });
+  it('resetFilter reloads events', () => {
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+      of(events)
+    );
+    sut.resetFilter();
+    expect(fnc).toHaveBeenCalledWith({} as CeviEventFilter);
+  });
+  it('resetFilter clears all url params', () => {
+    sut.resetFilter();
+    expect(router.navigate).toHaveBeenCalledWith(
+      [],
+      jasmine.objectContaining({
+        queryParams: jasmine.objectContaining({
+          organisation: null,
+          type: null,
+          text: null,
+          kursart: null,
+          freeSeats: null,
+          applicationOpen: null,
+        }),
+        replaceUrl: true,
+      })
+    );
+  });
   it('hasFreeSeats', () => {
     expect(sut.hasFreeSeats(events[0])).toBe('Ja');
   });

@@ -70,6 +70,10 @@
         <source>Filter:</source>
         <target>Filtres :</target>
       </trans-unit>
+      <trans-unit id="filter.reset" datatype="html">
+        <source>Filter zurücksetzen</source>
+        <target>Réinitialiser les filtres</target>
+      </trans-unit>
       <trans-unit id="filter.organisation" datatype="html">
         <source>Organisation</source>
         <target>Organisation</target>
