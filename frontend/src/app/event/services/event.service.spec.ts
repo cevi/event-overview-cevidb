@@ -45,7 +45,7 @@ describe('EventService', () => {
       groups: ['Cevi Region Zürich'],
       eventType: 'COURSE',
       nameContains: 'GLK',
-      kursart: 'J+S-Leiter*innenkurs LS/T Jugendliche',
+      kursarten: ['J+S-Leiter*innenkurs LS/T Jugendliche'],
     } as CeviEventFilter;
 
     sut.getEventsWithFilter(filter).subscribe(value => {

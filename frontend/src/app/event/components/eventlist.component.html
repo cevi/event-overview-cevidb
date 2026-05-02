@@ -4,6 +4,19 @@
     nochmal.
   </p>
 } @else if (!this.isLoadingMasterdata) {
+  <div class="filter-presets">
+    <span class="filter-presets__label">Beliebte Filter:</span>
+    <mat-chip-listbox>
+      @for (preset of KURSART_PRESETS; track preset.label) {
+        <mat-chip-option [selected]="activePreset === preset" (click)="applyPreset(preset)">
+          {{ preset.label }}
+        </mat-chip-option>
+      }
+      <mat-chip-option [selected]="activePreset === 'weitere'" (click)="applyPreset('weitere')">
+        weitere Angebote
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
   Filter:
   <mat-form-field>
     <mat-label>Organisation</mat-label>
@@ -37,7 +50,7 @@
     <mat-label>Kursart</mat-label>
     <mat-select
       (selectionChange)="filterByKursart($event)"
-      [value]="this.filter.kursart">
+      [value]="activePreset ? null : (filter.kursarten?.[0] ?? null)">
       <mat-option [value]="null">Alle</mat-option>
       @for (kursart of kursarten; track kursart) {
         <mat-option [value]="kursart">{{ kursart }}</mat-option>
