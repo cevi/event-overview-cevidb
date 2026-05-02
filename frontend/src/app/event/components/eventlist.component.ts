@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -34,6 +36,8 @@ import {
   selector: 'app-event-list',
   imports: [
     SelectCheckAllComponent,
+    MatButtonModule,
+    MatIconModule,
     MatChipsModule,
     MatProgressSpinnerModule,
     MatTableModule,
@@ -192,6 +196,26 @@ export class EventListComponent implements OnInit {
 
   filterByIsApplicationOpen($event: MatSelectChange) {
     this.filter.isApplicationOpen = $event.value;
+    this.loadEventsWithFilter();
+    this.updateUrlParams();
+  }
+
+  get hasActiveFilter(): boolean {
+    return !!(
+      this.filter.groups?.length ||
+      this.filter.eventType ||
+      this.filter.nameContains?.trim().length ||
+      this.filter.kursarten?.length ||
+      this.filter.hasAvailablePlaces != null ||
+      this.filter.isApplicationOpen != null
+    );
+  }
+
+  resetFilter() {
+    this.filter = {} as CeviEventFilter;
+    this.nameFilter.setValue('', { emitEvent: false });
+    this.organisationFilter.setValue([], { emitEvent: false });
+    this.activePreset = null;
     this.loadEventsWithFilter();
     this.updateUrlParams();
   }

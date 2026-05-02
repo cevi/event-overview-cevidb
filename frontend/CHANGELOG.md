@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- feature: add reset button to clear all filters at once
 - feature: use Hitobito course state to determine if application is open for courses
 - feature: add quick filters for course categories
 - feature: reflect the chosen filters in the uri

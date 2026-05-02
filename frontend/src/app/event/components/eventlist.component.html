@@ -21,66 +21,77 @@
       }
     </mat-chip-set>
   </div>
-  <span i18n="@@filter.label">Filter:</span>
-  <mat-form-field>
-    <mat-label i18n="@@filter.organisation">Organisation</mat-label>
-    <mat-select multiple [formControl]="this.organisationFilter">
-      <app-select-check-all
-        [model]="this.organisationFilter"
-        [values]="this.organisations"></app-select-check-all>
-      @for (organisation of organisations; track organisation) {
-        <mat-option [value]="organisation">{{ organisation }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label i18n="@@filter.type">Typ</mat-label>
-    <mat-select
-      (selectionChange)="filterByEventType($event)"
-      [value]="this.filter.eventType">
-      <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
-      @for (type of types; track type) {
-        <mat-option [value]="type">{{
-          this.translateEventTypes(type)
-        }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label i18n="@@filter.nameSearch">Text im Name</mat-label>
-    <input type="text" [formControl]="this.nameFilter" matInput />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label i18n="@@filter.kursart">Kursart</mat-label>
-    <mat-select
-      multiple
-      (selectionChange)="filterByKursart($event)"
-      [value]="filter.kursarten ?? []">
-      @for (kursart of kursarten; track kursart) {
-        <mat-option [value]="kursart">{{ kursart }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label i18n="@@filter.freeSeats">Freie Plätze</mat-label>
-    <mat-select
-      (selectionChange)="filterByAvailablePlaces($event)"
-      [value]="this.filter.hasAvailablePlaces">
-      <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
-      <mat-option [value]="true" i18n="@@common.yes">Ja</mat-option>
-      <mat-option [value]="false" i18n="@@common.no">Nein</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label i18n="@@filter.applicationOpen">Offen zur Anmeldung</mat-label>
-    <mat-select
-      (selectionChange)="filterByIsApplicationOpen($event)"
-      [value]="this.filter.isApplicationOpen">
-      <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
-      <mat-option [value]="true" i18n="@@common.yes">Ja</mat-option>
-      <mat-option [value]="false" i18n="@@common.no">Nein</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="filter-bar">
+    <span i18n="@@filter.label">Filter:</span>
+    <mat-form-field>
+      <mat-label i18n="@@filter.organisation">Organisation</mat-label>
+      <mat-select multiple [formControl]="this.organisationFilter">
+        <app-select-check-all
+          [model]="this.organisationFilter"
+          [values]="this.organisations"></app-select-check-all>
+        @for (organisation of organisations; track organisation) {
+          <mat-option [value]="organisation">{{ organisation }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@filter.type">Typ</mat-label>
+      <mat-select
+        (selectionChange)="filterByEventType($event)"
+        [value]="this.filter.eventType">
+        <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
+        @for (type of types; track type) {
+          <mat-option [value]="type">{{
+            this.translateEventTypes(type)
+          }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@filter.nameSearch">Text im Name</mat-label>
+      <input type="text" [formControl]="this.nameFilter" matInput />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@filter.kursart">Kursart</mat-label>
+      <mat-select
+        multiple
+        (selectionChange)="filterByKursart($event)"
+        [value]="filter.kursarten ?? []">
+        @for (kursart of kursarten; track kursart) {
+          <mat-option [value]="kursart">{{ kursart }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@filter.freeSeats">Freie Plätze</mat-label>
+      <mat-select
+        (selectionChange)="filterByAvailablePlaces($event)"
+        [value]="this.filter.hasAvailablePlaces">
+        <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
+        <mat-option [value]="true" i18n="@@common.yes">Ja</mat-option>
+        <mat-option [value]="false" i18n="@@common.no">Nein</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n="@@filter.applicationOpen">Offen zur Anmeldung</mat-label>
+      <mat-select
+        (selectionChange)="filterByIsApplicationOpen($event)"
+        [value]="this.filter.isApplicationOpen">
+        <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
+        <mat-option [value]="true" i18n="@@common.yes">Ja</mat-option>
+        <mat-option [value]="false" i18n="@@common.no">Nein</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      mat-stroked-button
+      class="filter-bar__reset"
+      [disabled]="!hasActiveFilter"
+      (click)="resetFilter()"
+      i18n="@@filter.reset">
+      <mat-icon>filter_alt_off</mat-icon>
+      Filter zurücksetzen
+    </button>
+  </div>
 }
 
 @if (this.isLoadingMasterdata || this.isLoading) {

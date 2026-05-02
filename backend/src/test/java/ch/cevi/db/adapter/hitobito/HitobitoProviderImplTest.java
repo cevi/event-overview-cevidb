@@ -22,7 +22,7 @@ class HitobitoProviderImplTest {
         var dateIds = java.util.Arrays.stream(dates).map(HitobitoEventDate::id).toArray(String[]::new);
         var event = new HitobitoEvent(eventId, "Kurs", null, "https://db.cevi.ch/public_events/" + eventId,
                 new HitobitoLinks(dateIds, new String[]{GROUP_ID}, "k1"),
-                0, null, null, null);
+                0, null, null, null, null);
         var linked = new HitobitoLinked(dates, new HitobitoGroup[]{new HitobitoGroup(GROUP_ID, GROUP_NAME)},
                 new HitobitoEventKind[]{new HitobitoEventKind("k1", "Ski- und Snowboardtour")});
         return new HitobitoEventPage(1, 1, null, new HitobitoEvent[]{event}, linked);
