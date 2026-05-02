@@ -124,12 +124,12 @@ describe('EventlistComponent', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
       of(events)
     );
-    sut.filterByKursart({ value: 'J+S' } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({ kursarten: ['J+S'] } as CeviEventFilter);
+    sut.filterByKursart({ value: ['J+S', 'GLK'] } as MatSelectChange);
+    expect(fnc).toHaveBeenCalledWith({ kursarten: ['J+S', 'GLK'] } as CeviEventFilter);
   });
-  it('filterByKursart with null sets kursarten to null', () => {
+  it('filterByKursart with empty selection sets kursarten to null', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
-    sut.filterByKursart({ value: null } as MatSelectChange);
+    sut.filterByKursart({ value: [] } as MatSelectChange);
     expect(fnc).toHaveBeenCalledWith({ kursarten: null } as CeviEventFilter);
   });
   it('filterByKursart clears activePreset', () => {
@@ -147,13 +147,11 @@ describe('EventlistComponent', () => {
     expect(sut.activePreset).toBe(preset);
     expect(fnc).toHaveBeenCalledWith({ kursarten: preset.kursarten } as CeviEventFilter);
   });
-  it('applyPreset toggles off when clicking active preset', () => {
+  it('applyPreset hides only the clicked chip', () => {
     spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
-    const preset = KURSART_PRESETS[0];
-    sut.applyPreset(preset);
-    sut.applyPreset(preset);
-    expect(sut.activePreset).toBeNull();
-    expect(sut.filter.kursarten).toBeNull();
+    sut.applyPreset(KURSART_PRESETS[0]);
+    expect(sut.activePreset).toBe(KURSART_PRESETS[0]);
+    expect(sut.activePreset).not.toBe(KURSART_PRESETS[1]);
   });
   it('applyPreset switches to a different preset', () => {
     spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));

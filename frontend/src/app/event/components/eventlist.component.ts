@@ -152,21 +152,16 @@ export class EventListComponent implements OnInit {
   }
 
   applyPreset(preset: KursartPreset | 'weitere') {
-    if (this.activePreset === preset) {
-      this.activePreset = null;
-      this.filter.kursarten = null;
-    } else {
-      this.activePreset = preset;
-      this.filter.kursarten = preset === 'weitere'
-        ? this.kursarten.filter(k => !ALL_NAMED_PRESET_KURSARTEN.includes(k))
-        : preset.kursarten;
-    }
+    this.activePreset = preset;
+    this.filter.kursarten = preset === 'weitere'
+      ? this.kursarten.filter(k => !ALL_NAMED_PRESET_KURSARTEN.includes(k))
+      : preset.kursarten;
     this.loadEventsWithFilter();
   }
 
   filterByKursart($event: MatSelectChange) {
     this.activePreset = null;
-    this.filter.kursarten = $event.value ? [$event.value] : null;
+    this.filter.kursarten = $event.value?.length ? $event.value : null;
     this.loadEventsWithFilter();
   }
 
