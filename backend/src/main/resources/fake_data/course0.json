@@ -17,7 +17,7 @@
       "application_opening_at": "2030-11-22",
       "application_closing_at": "2031-01-15",
       "application_conditions": "Bla",
-      "state": "closed",
+      "state": "application_open",
       "teamer_count": 16,
       "external_application_link": "https://db.cevi.ch/groups/2569/public_events/3208",
       "links": {

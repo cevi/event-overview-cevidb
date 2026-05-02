@@ -45,6 +45,7 @@ describe('EventlistComponent', () => {
       maximumParticipants: 20,
       applicationClosingAt: null,
       applicationOpeningAt: null,
+      state: 'application_open',
     },
   ];
 
@@ -206,8 +207,22 @@ describe('EventlistComponent', () => {
   it('hasFreeSeats', () => {
     expect(sut.hasFreeSeats(events[0])).toBe('Ja');
   });
-  it('isApplicationOpen', () => {
+  it('isApplicationOpen for course with state application_open', () => {
     expect(sut.isApplicationOpen(events[0])).toBe('Ja');
+  });
+  it('isApplicationOpen for course with state application_closed', () => {
+    const closedCourse = { ...events[0], state: 'application_closed' };
+    expect(sut.isApplicationOpen(closedCourse)).toBe('Nein');
+  });
+  it('isApplicationOpen for event uses date logic', () => {
+    const openEvent: CeviEvent = {
+      ...events[0],
+      eventType: 'EVENT',
+      state: null,
+      applicationOpeningAt: null,
+      applicationClosingAt: null,
+    };
+    expect(sut.isApplicationOpen(openEvent)).toBe('Ja');
   });
 
   describe('URL parameter synchronization', () => {

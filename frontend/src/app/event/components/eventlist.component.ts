@@ -240,6 +240,11 @@ export class EventListComponent implements OnInit {
   }
 
   isApplicationOpen(element: CeviEvent) {
+    if (element.eventType === 'COURSE') {
+      return element.state === 'application_open'
+        ? $localize`:@@common.yes:Ja`
+        : $localize`:@@common.no:Nein`;
+    }
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return (element.applicationClosingAt === null ||

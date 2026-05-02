@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- feature: use Hitobito course state to determine if application is open for courses
 - feature: add quick filters for course categories
 - feature: merge two start-only dates into a single event entry (Cevi Alpin pattern)
 

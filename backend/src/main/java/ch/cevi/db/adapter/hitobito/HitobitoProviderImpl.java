@@ -136,7 +136,8 @@ class HitobitoProviderImpl implements HitobitoProvider {
                 event.participant_count(),
                 event.maximum_participants(),
                 event.application_opening_at(),
-                event.application_closing_at()
+                event.application_closing_at(),
+                event.state()
         )).toList();
     }
 
