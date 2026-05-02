@@ -2,11 +2,14 @@
   <span>Frontend Version {{ version }}</span> |
   <a [href]="backendUrl">Backend</a> |
   <span
-    >Hosted and developed by <a href="https://cevi.tools">Cevi.Tools</a></span
+    ><ng-container i18n="@@footer.hostedBy"
+      >Hosted and developed by</ng-container
+    >
+    <a href="https://cevi.tools">Cevi.Tools</a></span
   >
   |
   <span
-    >Source auf
+    ><ng-container i18n="@@footer.sourceOn">Source auf</ng-container>
     <a href="https://github.com/cevi/event-overview-cevidb">Github</a></span
   >
 </footer>

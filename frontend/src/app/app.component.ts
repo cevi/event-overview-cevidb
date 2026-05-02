@@ -1,4 +1,11 @@
-import { Component, OnInit, Renderer2, DOCUMENT, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  DOCUMENT,
+  LOCALE_ID,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './core/components/footer.component';
 import { HeaderComponent } from './core/components/header.component';
@@ -10,13 +17,15 @@ import { HeaderComponent } from './core/components/header.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private document = inject<Document>(DOCUMENT);
-  private renderer = inject(Renderer2);
+  private readonly route = inject(ActivatedRoute);
+  private readonly document = inject<Document>(DOCUMENT);
+  private readonly renderer = inject(Renderer2);
+  private readonly locale = inject(LOCALE_ID);
 
   iframe = false;
 
   ngOnInit() {
+    this.document.documentElement.lang = this.locale.split('-')[0];
     this.prepareForIFrameIfRequested();
   }
 

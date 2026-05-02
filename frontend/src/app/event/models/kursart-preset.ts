@@ -46,4 +46,6 @@ export const KURSART_PRESETS: KursartPreset[] = [
   },
 ];
 
-export const ALL_NAMED_PRESET_KURSARTEN: string[] = KURSART_PRESETS.flatMap(p => p.kursarten);
+export const ALL_NAMED_PRESET_KURSARTEN: string[] = KURSART_PRESETS.flatMap(
+  p => p.kursarten
+);

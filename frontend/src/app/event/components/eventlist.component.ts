@@ -14,9 +14,21 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
 import { parseIsoDate } from '../../util/date.util';
 import { EventDateTimeFormatterPipe } from '../pipes/event-date-time-formatter.pipe';
-import { CeviEvent, CeviEventFilter, EventService } from '../services/event.service';
-import { CeviEventType, Masterdata, MasterdataService } from '../services/masterdata.service';
-import { ALL_NAMED_PRESET_KURSARTEN, KursartPreset, KURSART_PRESETS } from '../models/kursart-preset';
+import {
+  CeviEvent,
+  CeviEventFilter,
+  EventService,
+} from '../services/event.service';
+import {
+  CeviEventType,
+  Masterdata,
+  MasterdataService,
+} from '../services/masterdata.service';
+import {
+  ALL_NAMED_PRESET_KURSARTEN,
+  KursartPreset,
+  KURSART_PRESETS,
+} from '../models/kursart-preset';
 
 @Component({
   selector: 'app-event-list',
@@ -141,9 +153,9 @@ export class EventListComponent implements OnInit {
 
   translateEventTypes(eventType: string): string {
     if (eventType === 'COURSE') {
-      return 'Kurs';
+      return $localize`:@@eventType.course:Kurs`;
     } else if (eventType === 'EVENT') {
-      return 'Anlass';
+      return $localize`:@@eventType.event:Anlass`;
     } else {
       return eventType;
     }
@@ -157,9 +169,10 @@ export class EventListComponent implements OnInit {
 
   applyPreset(preset: KursartPreset | 'weitere') {
     this.activePreset = preset;
-    this.filter.kursarten = preset === 'weitere'
-      ? this.kursarten.filter(k => !ALL_NAMED_PRESET_KURSARTEN.includes(k))
-      : preset.kursarten;
+    this.filter.kursarten =
+      preset === 'weitere'
+        ? this.kursarten.filter(k => !ALL_NAMED_PRESET_KURSARTEN.includes(k))
+        : preset.kursarten;
     this.loadEventsWithFilter();
     this.updateUrlParams();
   }
@@ -189,10 +202,18 @@ export class EventListComponent implements OnInit {
       queryParams: {
         organisation: this.filter.groups?.length ? this.filter.groups : null,
         type: this.filter.eventType ?? null,
-        text: this.filter.nameContains?.trim().length ? this.filter.nameContains : null,
+        text: this.filter.nameContains?.trim().length
+          ? this.filter.nameContains
+          : null,
         kursart: this.filter.kursarten?.length ? this.filter.kursarten : null,
-        freeSeats: this.filter.hasAvailablePlaces != null ? String(this.filter.hasAvailablePlaces) : null,
-        applicationOpen: this.filter.isApplicationOpen != null ? String(this.filter.isApplicationOpen) : null,
+        freeSeats:
+          this.filter.hasAvailablePlaces == null
+            ? null
+            : String(this.filter.hasAvailablePlaces),
+        applicationOpen:
+          this.filter.isApplicationOpen == null
+            ? null
+            : String(this.filter.isApplicationOpen),
       },
       replaceUrl: true,
     });
@@ -214,8 +235,8 @@ export class EventListComponent implements OnInit {
   hasFreeSeats(element: CeviEvent) {
     return element.maximumParticipants === null ||
       element.maximumParticipants > element.participantsCount
-      ? 'Ja'
-      : 'Nein';
+      ? $localize`:@@common.yes:Ja`
+      : $localize`:@@common.no:Nein`;
   }
 
   isApplicationOpen(element: CeviEvent) {
@@ -225,7 +246,7 @@ export class EventListComponent implements OnInit {
       parseIsoDate(element.applicationClosingAt) >= today) &&
       (element.applicationOpeningAt === null ||
         parseIsoDate(element.applicationOpeningAt) <= today)
-      ? 'Ja'
-      : 'Nein';
+      ? $localize`:@@common.yes:Ja`
+      : $localize`:@@common.no:Nein`;
   }
 }

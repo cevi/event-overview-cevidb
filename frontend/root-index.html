@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Cevi Anlass- und Kursübersicht</title>
+    <script>
+      var saved = localStorage.getItem('lang');
+      var browserLang = navigator.language.startsWith('fr') ? 'fr' : 'de';
+      var lang = saved || browserLang;
+      globalThis.location.replace('/' + lang + '/' + globalThis.location.search + globalThis.location.hash);
+    </script>
+  </head>
+  <body></body>
+</html>

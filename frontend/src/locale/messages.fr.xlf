@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de-CH" target-language="fr-CH" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="footer.hostedBy" datatype="html">
+        <source>Hosted and developed by</source>
+        <target>Hébergé et développé par</target>
+      </trans-unit>
+      <trans-unit id="footer.sourceOn" datatype="html">
+        <source>Source auf</source>
+        <target>Source sur</target>
+      </trans-unit>
+      <trans-unit id="header.title" datatype="html">
+        <source>Cevi Anlass- und Kursübersicht</source>
+        <target>Aperçu des événements et cours Cevi</target>
+      </trans-unit>
+      <trans-unit id="lang.switchTo.de" datatype="html">
+        <source>Auf Deutsch wechseln</source>
+        <target>Passer en allemand</target>
+      </trans-unit>
+      <trans-unit id="lang.switchTo.fr" datatype="html">
+        <source>Auf Französisch wechseln</source>
+        <target>Passer en français</target>
+      </trans-unit>
+      <trans-unit id="header.logoAlt" datatype="html">
+        <source>Cevi Schweiz</source>
+        <target>Cevi Suisse</target>
+      </trans-unit>
+      <trans-unit id="common.selectAll" datatype="html">
+        <source>Alle</source>
+        <target>Tous</target>
+      </trans-unit>
+      <trans-unit id="paginator.itemsPerPage" datatype="html">
+        <source>Einträge pro Seite</source>
+        <target>Éléments par page</target>
+      </trans-unit>
+      <trans-unit id="paginator.nextPage" datatype="html">
+        <source>Nächste Seite</source>
+        <target>Page suivante</target>
+      </trans-unit>
+      <trans-unit id="paginator.previousPage" datatype="html">
+        <source>Vorherige Seite</source>
+        <target>Page précédente</target>
+      </trans-unit>
+      <trans-unit id="paginator.firstPage" datatype="html">
+        <source>Erste Seite</source>
+        <target>Première page</target>
+      </trans-unit>
+      <trans-unit id="paginator.lastPage" datatype="html">
+        <source>Letzte Seite</source>
+        <target>Dernière page</target>
+      </trans-unit>
+      <trans-unit id="paginator.of" datatype="html">
+        <source>von</source>
+        <target>de</target>
+      </trans-unit>
+      <trans-unit id="error.filterLoad" datatype="html">
+        <source> Fehler beim Laden der Filterkriterien. Bitte versuchen sie es später nochmal. </source>
+        <target> Erreur lors du chargement des critères de filtre. Veuillez réessayer plus tard. </target>
+      </trans-unit>
+      <trans-unit id="filter.popularFilters" datatype="html">
+        <source>Beliebte Filter:</source>
+        <target>Filtres populaires :</target>
+      </trans-unit>
+      <trans-unit id="filter.moreOffers" datatype="html">
+        <source>weitere Angebote</source>
+        <target>autres offres</target>
+      </trans-unit>
+      <trans-unit id="filter.label" datatype="html">
+        <source>Filter:</source>
+        <target>Filtres :</target>
+      </trans-unit>
+      <trans-unit id="filter.organisation" datatype="html">
+        <source>Organisation</source>
+        <target>Organisation</target>
+      </trans-unit>
+      <trans-unit id="filter.type" datatype="html">
+        <source>Typ</source>
+        <target>Type</target>
+      </trans-unit>
+      <trans-unit id="common.all" datatype="html">
+        <source>Alle</source>
+        <target>Tous</target>
+      </trans-unit>
+      <trans-unit id="filter.nameSearch" datatype="html">
+        <source>Text im Name</source>
+        <target>Texte dans le nom</target>
+      </trans-unit>
+      <trans-unit id="filter.kursart" datatype="html">
+        <source>Kursart</source>
+        <target>Type de cours</target>
+      </trans-unit>
+      <trans-unit id="filter.freeSeats" datatype="html">
+        <source>Freie Plätze</source>
+        <target>Places libres</target>
+      </trans-unit>
+      <trans-unit id="common.yes" datatype="html">
+        <source>Ja</source>
+        <target>Oui</target>
+      </trans-unit>
+      <trans-unit id="common.no" datatype="html">
+        <source>Nein</source>
+        <target>Non</target>
+      </trans-unit>
+      <trans-unit id="filter.applicationOpen" datatype="html">
+        <source>Offen zur Anmeldung</source>
+        <target>Ouvert aux inscriptions</target>
+      </trans-unit>
+      <trans-unit id="error.eventLoad" datatype="html">
+        <source> Fehler beim Laden der Anlässe und/oder Kurse. Bitte versuchen sie es später nochmal. </source>
+        <target> Erreur lors du chargement des événements et/ou cours. Veuillez réessayer plus tard. </target>
+      </trans-unit>
+      <trans-unit id="table.name" datatype="html">
+        <source> Name </source>
+        <target> Nom </target>
+      </trans-unit>
+      <trans-unit id="table.startDate" datatype="html">
+        <source> Startdatum </source>
+        <target> Date de début </target>
+      </trans-unit>
+      <trans-unit id="table.endDate" datatype="html">
+        <source> Enddatum </source>
+        <target> Date de fin </target>
+      </trans-unit>
+      <trans-unit id="table.organisation" datatype="html">
+        <source> Organisation </source>
+        <target> Organisation </target>
+      </trans-unit>
+      <trans-unit id="table.freeSeats" datatype="html">
+        <source> Freie Plätze </source>
+        <target> Places libres </target>
+      </trans-unit>
+      <trans-unit id="table.applicationOpen" datatype="html">
+        <source> Offen zur Anmeldung </source>
+        <target> Ouvert aux inscriptions </target>
+      </trans-unit>
+      <trans-unit id="table.cevidb" datatype="html">
+        <source>Cevi.db</source>
+        <target>Cevi.db</target>
+      </trans-unit>
+      <trans-unit id="table.open" datatype="html">
+        <source>Öffnen</source>
+        <target>Ouvrir</target>
+      </trans-unit>
+      <trans-unit id="eventType.course" datatype="html">
+        <source>Kurs</source>
+        <target>Cours</target>
+      </trans-unit>
+      <trans-unit id="eventType.event" datatype="html">
+        <source>Anlass</source>
+        <target>Événement</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

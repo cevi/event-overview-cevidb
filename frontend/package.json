@@ -5,6 +5,7 @@
     "start": "ng serve",
     "start:int": "ng serve --configuration int",
     "start:prod": "ng serve --configuration prod",
+    "start:fr": "ng serve --configuration fr-prod",
     "build": "ng build",
     "build:int": "ng build --configuration int",
     "build:prod": "ng build --configuration prod",
@@ -12,11 +13,13 @@
     "test:ci": "ng test --no-watch --code-coverage",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "prettier": "npx prettier --write ."
+    "prettier": "npx prettier --write .",
+    "extract-i18n": "ng extract-i18n --output-path src/locale"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "21.2.10",
+    "@angular/localize": "21.2.10",
     "@angular/cdk": "21.2.8",
     "@angular/common": "21.2.10",
     "@angular/compiler": "21.2.10",

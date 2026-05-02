@@ -1,4 +1,9 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { EventListComponent } from './eventlist.component';
 import {
   CeviEvent,
@@ -129,10 +134,14 @@ describe('EventlistComponent', () => {
       of(events)
     );
     sut.filterByKursart({ value: ['J+S', 'GLK'] } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({ kursarten: ['J+S', 'GLK'] } as CeviEventFilter);
+    expect(fnc).toHaveBeenCalledWith({
+      kursarten: ['J+S', 'GLK'],
+    } as CeviEventFilter);
   });
   it('filterByKursart with empty selection sets kursarten to null', () => {
-    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+      of(events)
+    );
     sut.filterByKursart({ value: [] } as MatSelectChange);
     expect(fnc).toHaveBeenCalledWith({ kursarten: null } as CeviEventFilter);
   });
@@ -149,7 +158,9 @@ describe('EventlistComponent', () => {
     const preset = KURSART_PRESETS[0];
     sut.applyPreset(preset);
     expect(sut.activePreset).toBe(preset);
-    expect(fnc).toHaveBeenCalledWith({ kursarten: preset.kursarten } as CeviEventFilter);
+    expect(fnc).toHaveBeenCalledWith({
+      kursarten: preset.kursarten,
+    } as CeviEventFilter);
   });
   it('applyPreset hides only the clicked chip', () => {
     spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
@@ -166,7 +177,10 @@ describe('EventlistComponent', () => {
   });
   it('applyPreset "weitere" filters to kursarten not in named presets', () => {
     spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
-    sut.kursarten = ['Cevi Alpin: Skihochtour', 'J+S-Leiter*innenkurs LS/T Jugendliche'];
+    sut.kursarten = [
+      'Cevi Alpin: Skihochtour',
+      'J+S-Leiter*innenkurs LS/T Jugendliche',
+    ];
     sut.applyPreset('weitere');
     expect(sut.activePreset).toBe('weitere');
     expect(sut.filter.kursarten).toEqual(['Cevi Alpin: Skihochtour']);
@@ -198,10 +212,13 @@ describe('EventlistComponent', () => {
 
   describe('URL parameter synchronization', () => {
     const expectNavigate = (queryParams: Record<string, unknown>) =>
-      expect(router.navigate).toHaveBeenCalledWith([], jasmine.objectContaining({
-        queryParams: jasmine.objectContaining(queryParams),
-        replaceUrl: true,
-      }));
+      expect(router.navigate).toHaveBeenCalledWith(
+        [],
+        jasmine.objectContaining({
+          queryParams: jasmine.objectContaining(queryParams),
+          replaceUrl: true,
+        })
+      );
 
     it('filterByEventType updates url', () => {
       sut.filterByEventType({ value: 'COURSE' } as MatSelectChange);

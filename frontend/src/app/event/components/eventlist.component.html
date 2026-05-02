@@ -1,11 +1,13 @@
 @if (this.isError) {
-  <p>
+  <p i18n="@@error.filterLoad">
     Fehler beim Laden der Filterkriterien. Bitte versuchen sie es später
     nochmal.
   </p>
 } @else if (!this.isLoadingMasterdata) {
   <div class="filter-presets">
-    <span class="filter-presets__label">Beliebte Filter:</span>
+    <span class="filter-presets__label" i18n="@@filter.popularFilters"
+      >Beliebte Filter:</span
+    >
     <mat-chip-set>
       @for (preset of KURSART_PRESETS; track preset.label) {
         @if (activePreset !== preset) {
@@ -13,13 +15,15 @@
         }
       }
       @if (activePreset !== 'weitere') {
-        <mat-chip (click)="applyPreset('weitere')">weitere Angebote</mat-chip>
+        <mat-chip (click)="applyPreset('weitere')" i18n="@@filter.moreOffers"
+          >weitere Angebote</mat-chip
+        >
       }
     </mat-chip-set>
   </div>
-  Filter:
+  <span i18n="@@filter.label">Filter:</span>
   <mat-form-field>
-    <mat-label>Organisation</mat-label>
+    <mat-label i18n="@@filter.organisation">Organisation</mat-label>
     <mat-select multiple [formControl]="this.organisationFilter">
       <app-select-check-all
         [model]="this.organisationFilter"
@@ -30,11 +34,11 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Typ</mat-label>
+    <mat-label i18n="@@filter.type">Typ</mat-label>
     <mat-select
       (selectionChange)="filterByEventType($event)"
       [value]="this.filter.eventType">
-      <mat-option [value]="null">Alle</mat-option>
+      <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
       @for (type of types; track type) {
         <mat-option [value]="type">{{
           this.translateEventTypes(type)
@@ -43,11 +47,11 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Text im Name</mat-label>
+    <mat-label i18n="@@filter.nameSearch">Text im Name</mat-label>
     <input type="text" [formControl]="this.nameFilter" matInput />
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Kursart</mat-label>
+    <mat-label i18n="@@filter.kursart">Kursart</mat-label>
     <mat-select
       multiple
       (selectionChange)="filterByKursart($event)"
@@ -58,23 +62,23 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Freie Plätze</mat-label>
+    <mat-label i18n="@@filter.freeSeats">Freie Plätze</mat-label>
     <mat-select
       (selectionChange)="filterByAvailablePlaces($event)"
       [value]="this.filter.hasAvailablePlaces">
-      <mat-option [value]="null">Alle</mat-option>
-      <mat-option [value]="true">Ja</mat-option>
-      <mat-option [value]="false">Nein</mat-option>
+      <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
+      <mat-option [value]="true" i18n="@@common.yes">Ja</mat-option>
+      <mat-option [value]="false" i18n="@@common.no">Nein</mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Offen zur Anmeldung</mat-label>
+    <mat-label i18n="@@filter.applicationOpen">Offen zur Anmeldung</mat-label>
     <mat-select
       (selectionChange)="filterByIsApplicationOpen($event)"
       [value]="this.filter.isApplicationOpen">
-      <mat-option [value]="null">Alle</mat-option>
-      <mat-option [value]="true">Ja</mat-option>
-      <mat-option [value]="false">Nein</mat-option>
+      <mat-option [value]="null" i18n="@@common.all">Alle</mat-option>
+      <mat-option [value]="true" i18n="@@common.yes">Ja</mat-option>
+      <mat-option [value]="false" i18n="@@common.no">Nein</mat-option>
     </mat-select>
   </mat-form-field>
 }
@@ -84,14 +88,16 @@
 }
 
 @if (this.isError) {
-  <p>
+  <p i18n="@@error.eventLoad">
     Fehler beim Laden der Anlässe und/oder Kurse. Bitte versuchen sie es später
     nochmal.
   </p>
 } @else if (!this.isLoading) {
   <table mat-table [dataSource]="data" matSort class="mat-elevation-z8">
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header i18n="@@table.name">
+        Name
+      </th>
       <td mat-cell *matCellDef="let element">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -103,33 +109,61 @@
     </ng-container>
 
     <ng-container matColumnDef="startsAt">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Startdatum</th>
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        i18n="@@table.startDate">
+        Startdatum
+      </th>
       <td mat-cell *matCellDef="let element">
         {{ element.startsAt | eventDateTimeFormatter }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="finishAt">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Enddatum</th>
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        i18n="@@table.endDate">
+        Enddatum
+      </th>
       <td mat-cell *matCellDef="let element">
         {{ element.finishAt | eventDateTimeFormatter }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="group">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Organisation</th>
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        i18n="@@table.organisation">
+        Organisation
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.group }}</td>
     </ng-container>
 
     <ng-container matColumnDef="freeSeats">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Freie Plätze</th>
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        i18n="@@table.freeSeats">
+        Freie Plätze
+      </th>
       <td mat-cell *matCellDef="let element">
         {{ this.hasFreeSeats(element) }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="applicationOpen">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        i18n="@@table.applicationOpen">
         Offen zur Anmeldung
       </th>
       <td mat-cell *matCellDef="let element">
@@ -138,9 +172,11 @@
     </ng-container>
 
     <ng-container matColumnDef="link">
-      <th mat-header-cell *matHeaderCellDef>Cevi.db</th>
+      <th mat-header-cell *matHeaderCellDef i18n="@@table.cevidb">Cevi.db</th>
       <td mat-cell *matCellDef="let element">
-        <a [href]="element.applicationLink" target="_blank">Öffnen</a>
+        <a [href]="element.applicationLink" target="_blank" i18n="@@table.open"
+          >Öffnen</a
+        >
       </td>
     </ng-container>
 

@@ -1,10 +1,32 @@
 <header class="header-bar">
   <div class="textwrapper">
-    <h1>Cevi Anlass- und Kursübersicht</h1>
+    <h1 i18n="@@header.title">Cevi Anlass- und Kursübersicht</h1>
   </div>
   <div class="logowrapper">
     <a class="logo" href="https://events.cevi.tools/">
-      <img alt="Cevi Schweiz" class="image" src="assets/logo.svg" />
+      <img
+        i18n-alt="@@header.logoAlt"
+        alt="Cevi Schweiz"
+        class="image"
+        src="assets/logo.svg" />
     </a>
+    <div class="langwrapper">
+      <button
+        class="lang-btn"
+        [class.active]="currentLang === 'de'"
+        i18n-aria-label="@@lang.switchTo.de"
+        aria-label="Auf Deutsch wechseln"
+        (click)="switchLanguage('de')">
+        DE
+      </button>
+      <button
+        class="lang-btn"
+        [class.active]="currentLang === 'fr'"
+        i18n-aria-label="@@lang.switchTo.fr"
+        aria-label="Auf Französisch wechseln"
+        (click)="switchLanguage('fr')">
+        FR
+      </button>
+    </div>
   </div>
 </header>
