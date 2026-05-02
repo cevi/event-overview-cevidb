@@ -23,6 +23,10 @@ public record CeviEvent(String id, String name, String description, String appli
         }
     }
 
+    public CeviEvent withKind(String kind) {
+        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt);
+    }
+
     public CeviEvent withParticipantsCount(Integer participantsCount) {
         return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt);
     }

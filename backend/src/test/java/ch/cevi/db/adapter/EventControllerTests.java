@@ -67,14 +67,14 @@ class EventControllerTests {
                 .filter(e -> e.eventType() == CeviEventType.EVENT)
                 .map(CeviEvent::group).distinct().toList();
         var whitelistGroups = Arrays.stream(eventGroups).collect(Collectors.toSet());
-        assertThat(group).allMatch(whitelistGroups::contains);
+        assertThat(group).isNotEmpty().allMatch(whitelistGroups::contains);
 
         // courses are only from whitelisted groups
         var courseGroup = events.stream()
                 .filter(e -> e.eventType() == CeviEventType.COURSE)
                 .map(CeviEvent::group).distinct().toList();
         var whitelistCourseGroups = Arrays.stream(courseGroups).collect(Collectors.toSet());
-        assertThat(courseGroup).allMatch(whitelistCourseGroups::contains);
+        assertThat(courseGroup).isNotEmpty().allMatch(whitelistCourseGroups::contains);
 
         // an event from FGI
         var ga = events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow();
@@ -89,7 +89,7 @@ class EventControllerTests {
         assertThat(ga.kind()).isEqualTo("N/A");
         assertThat(ga.eventType()).isEqualTo(CeviEventType.EVENT);
         assertThat(ga.participantsCount()).isEqualTo(3);
-        assertThat(ga.hasLimitedCapacity()).isEqualTo(false);
+        assertThat(ga.hasLimitedCapacity()).isFalse();
         assertThat(ga.maximumParticipants()).isNull();
 
         // an event with multiple occurences
@@ -111,7 +111,7 @@ class EventControllerTests {
         assertThat(firstGlk.kind()).isEqualTo("J+S-Leiter*innenkurs LS/T Jugendliche");
         assertThat(firstGlk.eventType()).isEqualTo(CeviEventType.COURSE);
         assertThat(firstGlk.participantsCount()).isEqualTo(36);
-        assertThat(firstGlk.hasLimitedCapacity()).isEqualTo(true);
+        assertThat(firstGlk.hasLimitedCapacity()).isTrue();
         assertThat(firstGlk.maximumParticipants()).isEqualTo(29);
     }
 
@@ -184,8 +184,8 @@ class EventControllerTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
-        assertThat(events).hasSize(6);
-        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isAfter(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)));
+        assertThat(events).hasSize(6)
+                .allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isAfter(LocalDateTime.of(2023, Month.JULY, 5, 0, 0, 0)));
     }
 
     @Test
@@ -198,8 +198,8 @@ class EventControllerTests {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
         // note: one is filtered because it lies in the past
-        assertThat(events).hasSize(9);
-        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isBefore(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)));
+        assertThat(events).hasSize(9)
+                .allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isBefore(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)));
     }
 
     @Test
@@ -213,8 +213,8 @@ class EventControllerTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
-        assertThat(events).hasSize(6);
-        assertThat(events).allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isBefore(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)));
+        assertThat(events).hasSize(6)
+                .allMatch(e -> e.startsAt().isEqual(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)) || e.startsAt().isBefore(LocalDateTime.of(2030, Month.JULY, 5, 0, 0, 0)));
     }
 
     @Test
@@ -228,8 +228,8 @@ class EventControllerTests {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {
         });
-        assertThat(events).hasSize(2);
-        assertThat(events).allMatch(e -> e.name().contains("Gruppenleiterkurs"));
+        assertThat(events).hasSize(2)
+                .allMatch(e -> e.name().contains("Gruppenleiterkurs"));
 
         // with wrong casing
         content = mockMvc.perform(
@@ -241,8 +241,8 @@ class EventControllerTests {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         events = objectMapper.readValue(content, new TypeReference<>() {
         });
-        assertThat(events).hasSize(2);
-        assertThat(events).allMatch(e -> e.name().contains("Gruppenleiterkurs"));
+        assertThat(events).hasSize(2)
+                .allMatch(e -> e.name().contains("Gruppenleiterkurs"));
     }
 
     @Test
@@ -256,8 +256,8 @@ class EventControllerTests {
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {
         });
         // note: one is filltered because it is in the past
-        assertThat(events).hasSize(12);
-        assertThat(events).allMatch(e -> e.eventType().equals(CeviEventType.EVENT));
+        assertThat(events).hasSize(12)
+                .allMatch(e -> e.eventType().equals(CeviEventType.EVENT));
 
         content = mockMvc.perform(
                         post("/events")
@@ -267,34 +267,34 @@ class EventControllerTests {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         events = objectMapper.readValue(content, new TypeReference<>() {
         });
-        assertThat(events).hasSize(2);
-        assertThat(events).allMatch(e -> e.eventType().equals(CeviEventType.COURSE));
+        assertThat(events).hasSize(2)
+                .allMatch(e -> e.eventType().equals(CeviEventType.COURSE));
     }
 
     @Test
     void should_filter_by_kursart() throws Exception {
         String content = mockMvc.perform(
                         post("/events")
-                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withKursart("J+S-Leiter*innenkurs LS/T Jugendliche")))
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withKursarten(List.of("J+S-Leiter*innenkurs LS/T Jugendliche"))))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {
         });
-        assertThat(events).hasSize(2);
-        assertThat(events).allMatch(e -> e.kind().equals("J+S-Leiter*innenkurs LS/T Jugendliche"));
+        assertThat(events).hasSize(2)
+                .allMatch(e -> e.kind().equals("J+S-Leiter*innenkurs LS/T Jugendliche"));
 
         // with wrong casing
         content = mockMvc.perform(
                         post("/events")
-                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withKursart("j+s-leiter*innenkurs ls/T Jugendliche")))
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter().withKursarten(List.of("j+s-leiter*innenkurs ls/T Jugendliche"))))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         events = objectMapper.readValue(content, new TypeReference<>() {
         });
-        assertThat(events).hasSize(2);
-        assertThat(events).allMatch(e -> e.kind().equals("J+S-Leiter*innenkurs LS/T Jugendliche"));
+        assertThat(events).hasSize(2)
+                .allMatch(e -> e.kind().equals("J+S-Leiter*innenkurs LS/T Jugendliche"));
     }
 
     @Test

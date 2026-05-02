@@ -15,7 +15,7 @@ import java.util.Locale;
  * @param latestStartAt
  * @param nameContains
  * @param eventType
- * @param kursart
+ * @param kursarten
  * @param hasAvailablePlaces
  */
 public record EventFilter(List<String> groups,
@@ -23,7 +23,7 @@ public record EventFilter(List<String> groups,
                           LocalDate latestStartAt,
                           String nameContains,
                           CeviEventType eventType,
-                          String kursart,
+                          List<String> kursarten,
                           Boolean hasAvailablePlaces,
                           Boolean isApplicationOpen) {
     public static EventFilter emptyFilter() {
@@ -31,35 +31,35 @@ public record EventFilter(List<String> groups,
     }
 
     public EventFilter withGroups(List<String> groups) {
-        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursarten, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withEarliestStartAt(LocalDate earliestStartAt) {
-        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursarten, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withLatestStartAt(LocalDate latestStartAt) {
-        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursarten, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withNameContains(String nameContains) {
-        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursarten, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withEventType(CeviEventType eventType) {
-        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursarten, hasAvailablePlaces, isApplicationOpen);
     }
 
-    public EventFilter withKursart(String kursart) {
-        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+    public EventFilter withKursarten(List<String> kursarten) {
+        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursarten, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withHasAvailablePlaces(boolean hasAvailablePlaces) {
-        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursarten, hasAvailablePlaces, isApplicationOpen);
     }
 
     public EventFilter withIsApplicationOpen(boolean isApplicationOpen) {
-        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursart, hasAvailablePlaces, isApplicationOpen);
+        return new EventFilter(groups, earliestStartAt, latestStartAt, nameContains, eventType, kursarten, hasAvailablePlaces, isApplicationOpen);
     }
 
     public boolean match(CeviEvent event) {
@@ -68,7 +68,7 @@ public record EventFilter(List<String> groups,
                 (latestStartAt() == null || event.startsAt().toLocalDate().isEqual(latestStartAt()) || event.startsAt().toLocalDate().isBefore(latestStartAt())) &&
                 (nameContains() == null || event.name().toLowerCase(Locale.ROOT).contains(nameContains().toLowerCase(Locale.ROOT))) &&
                 (eventType() == null || event.eventType().equals(eventType())) &&
-                (kursart() == null || event.kind().toLowerCase(Locale.ROOT).equals(kursart().toLowerCase(Locale.ROOT))) &&
+                (kursarten() == null || kursarten().isEmpty() || kursarten().stream().anyMatch(k -> k.equalsIgnoreCase(event.kind()))) &&
                 (hasAvailablePlaces() == null ||
                         (hasAvailablePlaces() && event.hasAvailablePlaces()) ||
                         (!hasAvailablePlaces() && !event.hasAvailablePlaces())
