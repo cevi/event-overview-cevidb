@@ -12,15 +12,7 @@ See [Changelog Backend](backend/CHANGELOG.md) and [Changelog Frontend](frontend/
 
 Supports external integration as an iframe. To hide the header and footer the parameter iframe can be set to true, e. g. https://events.cevi.tools?iframe=true
 
-Furthermore, filter criterias can be set by uri. The parameters are as follows:
-* organisation, e. g. organisation=Cevi Alpin
-* type, possible values: COURSE/EVENT. e. g. type=COURSE
-* text, e. g. text=GLK
-* kursart, e. g. kursart=Gruppenleiter/-innen-Kurs 1
-* hasAvailablePlaces: possible values: true/false. e. g. hasAvailablePlaces=true
-* applicationOpen: possible values: true/false. e. g. applicationOpen=false
-
-Example: https://events.cevi.tools?iframe=true&organisation=Cevi Schweiz&ype=EVENT&hasAvailablePlaces=true&applicationOpen=true
+The active filters are reflected in the URL automatically, so filtered views can be shared as links.
 
 ## Prepare
 
