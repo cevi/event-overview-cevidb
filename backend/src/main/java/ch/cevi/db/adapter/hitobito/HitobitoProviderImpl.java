@@ -11,13 +11,14 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class HitobitoProviderImpl implements HitobitoProvider {
-    Logger logger = LoggerFactory.getLogger(HitobitoApi.class);
+    Logger logger = LoggerFactory.getLogger(HitobitoProviderImpl.class);
 
     private final HitobitoApiProvider provider;
 
@@ -97,6 +98,30 @@ class HitobitoProviderImpl implements HitobitoProvider {
 
     private static List<CeviEvent> toCeviEvents(HitobitoEvent event, Map<String, HitobitoEventDate> dateLoockup, Map<String, String> groupLookup,
                                                 Map<String, String> kindLookup) {
+        var dates = Arrays.stream(event.links().dates()).map(dateLoockup::get).toList();
+
+        if (shouldMergeDates(dates)) {
+            var start = dates.get(0);
+            var end = dates.get(1);
+            String location = !start.location().isBlank() ? start.location() : end.location();
+            return List.of(new CeviEvent(
+                    event.id(),
+                    event.name(),
+                    event.description() != null ? event.description() : "",
+                    event.external_application_link(),
+                    OffsetDateTime.parse(start.start_at()).toLocalDateTime(),
+                    OffsetDateTime.parse(end.start_at()).toLocalDateTime(),
+                    groupLookup.get(event.links().groups()[0]),
+                    location,
+                    (event.links().kind() != null && kindLookup.get(event.links().kind()) != null) ? kindLookup.get(event.links().kind()) : "N/A",
+                    event.links().kind() != null ? CeviEventType.COURSE : CeviEventType.EVENT,
+                    event.participant_count(),
+                    event.maximum_participants(),
+                    event.application_opening_at(),
+                    event.application_closing_at()
+            ));
+        }
+
         return Arrays.stream(event.links().dates()).map(d -> new CeviEvent(
                 event.id(),
                 event.name(),
@@ -113,5 +138,17 @@ class HitobitoProviderImpl implements HitobitoProvider {
                 event.application_opening_at(),
                 event.application_closing_at()
         )).toList();
+    }
+
+    private static boolean shouldMergeDates(List<HitobitoEventDate> dates) {
+        if (dates.size() != 2) return false;
+        var first = dates.get(0);
+        var second = dates.get(1);
+        if (first.finish_at() != null || second.finish_at() != null) return false;
+        long daysBetween = ChronoUnit.DAYS.between(
+                OffsetDateTime.parse(first.start_at()),
+                OffsetDateTime.parse(second.start_at())
+        );
+        return daysBetween >= 0 && daysBetween <= 14;
     }
 }

@@ -3,6 +3,7 @@
 ## Unreleased
 
 - feature: add quick filters for course categories
+- feature: merge two start-only dates into a single event entry (Cevi Alpin pattern)
 
 ## Version 1.0.15, 23.03.2026
 
