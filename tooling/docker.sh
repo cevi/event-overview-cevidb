@@ -35,6 +35,27 @@ case "$CMD" in
       node:24-alpine \
       sh -c "npm install && npm run start:prod"
     ;;
+  frontend:devFr)
+    docker run --rm -it \
+      "${NODE_USER_ARGS[@]}" \
+      --network host \
+      -v "${PROJECT_ROOT}/frontend:/app" \
+      -w /app \
+      node:24-alpine \
+      sh -c "npm install && npm run start:fr"
+    ;;
+  frontend:prod)
+    PROD_IMAGE="event-overview-frontend-prod"
+    echo "Building production image (de + fr)..."
+    docker build \
+      --build-arg build_configuration=prod \
+      -t "${PROD_IMAGE}" \
+      "${PROJECT_ROOT}/frontend"
+    echo "Serving on http://localhost:4200 (Ctrl-C to stop)"
+    docker run --rm -it \
+      -p 4200:80 \
+      "${PROD_IMAGE}"
+    ;;
   frontend:build)
     docker run --rm -i \
       "${NODE_USER_ARGS[@]}" \
@@ -128,6 +149,8 @@ case "$CMD" in
     echo "  Frontend only:"
     echo "    frontend:devInt    Angular dev server against int backend"
     echo "    frontend:devProd   Angular dev server against prod backend"
+    echo "    frontend:devFr     Angular dev server in French (port 4200, prod backend)"
+    echo "    frontend:prod      Build + serve prod image with all locales (port 4200, via nginx)"
     echo "    frontend:build     Build for production"
     echo "    frontend:lint      Run ESLint"
     echo "    frontend:test      Run unit tests headless (builds local image on first run)"

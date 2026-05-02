@@ -5,6 +5,18 @@
   "projects": {
     "eventoverview": {
       "projectType": "application",
+      "i18n": {
+        "sourceLocale": {
+          "code": "de-CH",
+          "baseHref": "/de/"
+        },
+        "locales": {
+          "fr-CH": {
+            "translation": "src/locale/messages.fr.xlf",
+            "baseHref": "/fr/"
+          }
+        }
+      },
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
@@ -20,7 +32,7 @@
             "outputPath": "dist/eventoverview",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
@@ -30,7 +42,14 @@
             "scripts": []
           },
           "configurations": {
+            "fr": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "localize": ["fr-CH"]
+            },
             "prod": {
+              "localize": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -79,6 +98,12 @@
             },
             "local": {
               "buildTarget": "eventoverview:build:local"
+            },
+            "fr": {
+              "buildTarget": "eventoverview:build:fr"
+            },
+            "fr-prod": {
+              "buildTarget": "eventoverview:build:prod,fr"
             }
           },
           "defaultConfiguration": "local"
@@ -86,13 +111,14 @@
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n",
           "options": {
-            "buildTarget": "eventoverview:build"
+            "buildTarget": "eventoverview:build",
+            "outputPath": "src/locale"
           }
         },
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": ["zone.js", "zone.js/testing", "@angular/localize/init"],
             "tsConfig": "tsconfig.spec.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [

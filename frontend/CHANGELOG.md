@@ -4,6 +4,7 @@
 
 - feature: add quick filters for course categories
 - feature: reflect the chosen filters in the uri
+- feature: add French translation with language toggle in header (native Angular i18n)
 
 ## Version 1.0.19, 24.03.2026
 

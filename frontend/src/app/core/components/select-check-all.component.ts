@@ -25,7 +25,7 @@ export class SelectCheckAllComponent {
   @Input()
   model!: FormControl;
   @Input() values: string[] = [];
-  @Input() text = 'Alle';
+  @Input() text = $localize`:@@common.selectAll:Alle`;
   readonly changeEvent = output<boolean>();
 
   isChecked(): boolean {

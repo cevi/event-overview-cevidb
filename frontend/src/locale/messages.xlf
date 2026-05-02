@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de-CH" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="footer.hostedBy" datatype="html">
+        <source>Hosted and developed by</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/footer.component.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="footer.sourceOn" datatype="html">
+        <source>Source auf</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/footer.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="header.title" datatype="html">
+        <source>Cevi Anlass- und Kursübersicht</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/header.component.html</context>
+          <context context-type="linenumber">3,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="lang.switchTo.de" datatype="html">
+        <source>Auf Deutsch wechseln</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/header.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="lang.switchTo.fr" datatype="html">
+        <source>Auf Französisch wechseln</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/header.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="header.logoAlt" datatype="html">
+        <source>Cevi Schweiz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/header.component.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.selectAll" datatype="html">
+        <source>Alle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/select-check-all.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="paginator.itemsPerPage" datatype="html">
+        <source>Einträge pro Seite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/internationalization/MatPaginatorIntlCevi.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="paginator.nextPage" datatype="html">
+        <source>Nächste Seite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/internationalization/MatPaginatorIntlCevi.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="paginator.previousPage" datatype="html">
+        <source>Vorherige Seite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/internationalization/MatPaginatorIntlCevi.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="paginator.firstPage" datatype="html">
+        <source>Erste Seite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/internationalization/MatPaginatorIntlCevi.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="paginator.lastPage" datatype="html">
+        <source>Letzte Seite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/internationalization/MatPaginatorIntlCevi.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="paginator.of" datatype="html">
+        <source>von</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/internationalization/MatPaginatorIntlCevi.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.filterLoad" datatype="html">
+        <source> Fehler beim Laden der Filterkriterien. Bitte versuchen sie es später nochmal. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">3,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.popularFilters" datatype="html">
+        <source>Beliebte Filter:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">9,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.moreOffers" datatype="html">
+        <source>weitere Angebote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">19,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.label" datatype="html">
+        <source>Filter:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.organisation" datatype="html">
+        <source>Organisation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.type" datatype="html">
+        <source>Typ</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.all" datatype="html">
+        <source>Alle</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">41,42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">69,70</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">79,80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.nameSearch" datatype="html">
+        <source>Text im Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">50,51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.kursart" datatype="html">
+        <source>Kursart</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">54,56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.freeSeats" datatype="html">
+        <source>Freie Plätze</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">65,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.yes" datatype="html">
+        <source>Ja</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">70,71</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">80,81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.ts</context>
+          <context context-type="linenumber">238</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.ts</context>
+          <context context-type="linenumber">249</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="common.no" datatype="html">
+        <source>Nein</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">71,72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">81,82</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.ts</context>
+          <context context-type="linenumber">239</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.ts</context>
+          <context context-type="linenumber">250</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.applicationOpen" datatype="html">
+        <source>Offen zur Anmeldung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">75,77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="error.eventLoad" datatype="html">
+        <source> Fehler beim Laden der Anlässe und/oder Kurse. Bitte versuchen sie es später nochmal. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">92,95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table.name" datatype="html">
+        <source> Name </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">99,101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table.startDate" datatype="html">
+        <source> Startdatum </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">117,119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table.endDate" datatype="html">
+        <source> Enddatum </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">130,132</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table.organisation" datatype="html">
+        <source> Organisation </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">143,145</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table.freeSeats" datatype="html">
+        <source> Freie Plätze </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">154,156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table.applicationOpen" datatype="html">
+        <source> Offen zur Anmeldung </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">167,169</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table.cevidb" datatype="html">
+        <source>Cevi.db</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">175,176</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table.open" datatype="html">
+        <source>Öffnen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">178,180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eventType.course" datatype="html">
+        <source>Kurs</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.ts</context>
+          <context context-type="linenumber">156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eventType.event" datatype="html">
+        <source>Anlass</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.ts</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
