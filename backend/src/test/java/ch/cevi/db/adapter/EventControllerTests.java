@@ -298,6 +298,32 @@ class EventControllerTests {
     }
 
     @Test
+    void should_filter_by_multiple_kursarten() throws Exception {
+        // one matching + one non-existing kursart → still returns the matching events
+        String content = mockMvc.perform(
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter()
+                                        .withKursarten(List.of("J+S-Leiter*innenkurs LS/T Jugendliche", "J+S-Coachkurs LS/T"))))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
+        assertThat(events).hasSize(2)
+                .allMatch(e -> e.kind().equals("J+S-Leiter*innenkurs LS/T Jugendliche"));
+
+        // only non-existing kursart → no results
+        content = mockMvc.perform(
+                        post("/events")
+                                .content(objectMapper.writeValueAsString(EventFilter.emptyFilter()
+                                        .withKursarten(List.of("J+S-Coachkurs LS/T"))))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+        events = objectMapper.readValue(content, new TypeReference<>() {});
+        assertThat(events).isEmpty();
+    }
+
+    @Test
     void should_filter_available_places() throws Exception {
         String content = mockMvc.perform(
                         post("/events")

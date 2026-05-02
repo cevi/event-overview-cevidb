@@ -24,7 +24,7 @@ export interface CeviEventFilter {
   latestStartAt: Date | null;
   nameContains: string | null;
   eventType: CeviEventType | null;
-  kursart: string | null;
+  kursarten: string[] | null;
   hasAvailablePlaces: boolean | null;
   isApplicationOpen: boolean | null;
 }
@@ -33,7 +33,7 @@ export interface CeviEventFilter {
   providedIn: 'root',
 })
 export class EventService {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   getEventsWithFilter(filter: CeviEventFilter): Observable<CeviEvent[]> {
     return this.http.post<CeviEvent[]>(environment.apiUri + '/events', filter);

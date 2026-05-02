@@ -1,39 +1,28 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import {
-  CeviEvent,
-  CeviEventFilter,
-  EventService,
-} from '../services/event.service';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import {
-  CeviEventType,
-  Masterdata,
-  MasterdataService,
-} from '../services/masterdata.service';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { MatSelectChange } from '@angular/material/select';
-
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { parseIsoDate } from '../../util/date.util';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
+import { parseIsoDate } from '../../util/date.util';
 import { EventDateTimeFormatterPipe } from '../pipes/event-date-time-formatter.pipe';
+import { CeviEvent, CeviEventFilter, EventService } from '../services/event.service';
+import { CeviEventType, Masterdata, MasterdataService } from '../services/masterdata.service';
+import { ALL_NAMED_PRESET_KURSARTEN, KursartPreset, KURSART_PRESETS } from '../models/kursart-preset';
 
 @Component({
   selector: 'app-event-list',
   imports: [
     SelectCheckAllComponent,
+    MatChipsModule,
     MatProgressSpinnerModule,
     MatTableModule,
     MatSortModule,
@@ -50,9 +39,11 @@ import { EventDateTimeFormatterPipe } from '../pipes/event-date-time-formatter.p
   styleUrls: ['./eventlist.component.scss'],
 })
 export class EventListComponent implements OnInit {
-  private service = inject(EventService);
-  private route = inject(ActivatedRoute);
-  private masterdataService = inject(MasterdataService);
+  private readonly service = inject(EventService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly masterdataService = inject(MasterdataService);
+
+  readonly KURSART_PRESETS = KURSART_PRESETS;
 
   data = new MatTableDataSource([] as CeviEvent[]);
   organisations = [] as string[];
@@ -63,6 +54,7 @@ export class EventListComponent implements OnInit {
   isLoadingMasterdata = true;
   isErrorMasterdata = false;
   filter = {} as CeviEventFilter;
+  activePreset: KursartPreset | 'weitere' | null = null;
 
   displayedColumns: string[] = [
     'group',
@@ -117,7 +109,7 @@ export class EventListComponent implements OnInit {
         this.nameFilter.setValue(params.get('text'));
       }
       if (params.has('kursart')) {
-        this.filter.kursart = params.get('kursart');
+        this.filter.kursarten = [params.get('kursart')!];
       }
       if (params.has('freeSeats')) {
         this.filter.hasAvailablePlaces = params.get('freeSeats') === 'true';
@@ -159,8 +151,22 @@ export class EventListComponent implements OnInit {
     this.loadEventsWithFilter();
   }
 
+  applyPreset(preset: KursartPreset | 'weitere') {
+    if (this.activePreset === preset) {
+      this.activePreset = null;
+      this.filter.kursarten = null;
+    } else {
+      this.activePreset = preset;
+      this.filter.kursarten = preset === 'weitere'
+        ? this.kursarten.filter(k => !ALL_NAMED_PRESET_KURSARTEN.includes(k))
+        : preset.kursarten;
+    }
+    this.loadEventsWithFilter();
+  }
+
   filterByKursart($event: MatSelectChange) {
-    this.filter.kursart = $event.value;
+    this.activePreset = null;
+    this.filter.kursarten = $event.value ? [$event.value] : null;
     this.loadEventsWithFilter();
   }
 

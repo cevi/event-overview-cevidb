@@ -18,6 +18,7 @@ import {
   convertToParamMap,
   provideRouter,
 } from '@angular/router';
+import { KURSART_PRESETS } from '../models/kursart-preset';
 
 describe('EventlistComponent', () => {
   let fixture: ComponentFixture<EventListComponent>;
@@ -99,7 +100,7 @@ describe('EventlistComponent', () => {
     expect(sut.filter.groups).toEqual(['Cevi']);
     expect(sut.filter.eventType).toEqual('EVENT');
     expect(sut.nameFilter.getRawValue()).toEqual('abc');
-    expect(sut.filter.kursart).toEqual('def');
+    expect(sut.filter.kursarten).toEqual(['def']);
     expect(sut.filter.hasAvailablePlaces).toBeTrue();
     expect(sut.filter.isApplicationOpen).toBeTrue();
   });
@@ -124,7 +125,49 @@ describe('EventlistComponent', () => {
       of(events)
     );
     sut.filterByKursart({ value: 'J+S' } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({ kursart: 'J+S' } as CeviEventFilter);
+    expect(fnc).toHaveBeenCalledWith({ kursarten: ['J+S'] } as CeviEventFilter);
+  });
+  it('filterByKursart with null sets kursarten to null', () => {
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+    sut.filterByKursart({ value: null } as MatSelectChange);
+    expect(fnc).toHaveBeenCalledWith({ kursarten: null } as CeviEventFilter);
+  });
+  it('filterByKursart clears activePreset', () => {
+    spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+    sut.activePreset = KURSART_PRESETS[0];
+    sut.filterByKursart({ value: 'J+S' } as MatSelectChange);
+    expect(sut.activePreset).toBeNull();
+  });
+  it('applyPreset sets kursarten and activePreset', () => {
+    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+      of(events)
+    );
+    const preset = KURSART_PRESETS[0];
+    sut.applyPreset(preset);
+    expect(sut.activePreset).toBe(preset);
+    expect(fnc).toHaveBeenCalledWith({ kursarten: preset.kursarten } as CeviEventFilter);
+  });
+  it('applyPreset toggles off when clicking active preset', () => {
+    spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+    const preset = KURSART_PRESETS[0];
+    sut.applyPreset(preset);
+    sut.applyPreset(preset);
+    expect(sut.activePreset).toBeNull();
+    expect(sut.filter.kursarten).toBeNull();
+  });
+  it('applyPreset switches to a different preset', () => {
+    spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+    sut.applyPreset(KURSART_PRESETS[0]);
+    sut.applyPreset(KURSART_PRESETS[1]);
+    expect(sut.activePreset).toBe(KURSART_PRESETS[1]);
+    expect(sut.filter.kursarten).toEqual(KURSART_PRESETS[1].kursarten);
+  });
+  it('applyPreset "weitere" filters to kursarten not in named presets', () => {
+    spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+    sut.kursarten = ['Cevi Alpin: Skihochtour', 'J+S-Leiter*innenkurs LS/T Jugendliche'];
+    sut.applyPreset('weitere');
+    expect(sut.activePreset).toBe('weitere');
+    expect(sut.filter.kursarten).toEqual(['Cevi Alpin: Skihochtour']);
   });
   it('filterByAvailablePlaces', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(

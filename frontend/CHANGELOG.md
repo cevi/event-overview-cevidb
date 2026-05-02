@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- feature: add quick filters for course categories
+
 ## Version 1.0.19, 24.03.2026
 
 - chore: migrate to ESLint 10 with flat config

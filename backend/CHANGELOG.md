@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- feature: add quick filters for course categories
+
 ## Version 1.0.15, 23.03.2026
 
 - bugfix: fix startup failure when Hitobito API returns a page with no `linked` object
