@@ -1,19 +1,15 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { SelectCheckAllComponent } from '../../core/components/select-check-all.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatDialog } from '@angular/material/dialog';
 import { parseIsoDate } from '../../util/date.util';
 import { EventDateTimeFormatterPipe } from '../pipes/event-date-time-formatter.pipe';
 import {
@@ -31,24 +27,20 @@ import {
   KursartPreset,
   KURSART_PRESETS,
 } from '../models/kursart-preset';
+import { FilterModalComponent } from './filter-modal.component';
 
 @Component({
   selector: 'app-event-list',
   imports: [
-    SelectCheckAllComponent,
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
+    MatBadgeModule,
     MatProgressSpinnerModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    FormsModule,
     MatExpansionModule,
-    ReactiveFormsModule,
     EventDateTimeFormatterPipe,
   ],
   templateUrl: './eventlist.component.html',
@@ -59,6 +51,7 @@ export class EventListComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly masterdataService = inject(MasterdataService);
+  private readonly dialog = inject(MatDialog);
 
   readonly KURSART_PRESETS = KURSART_PRESETS;
 
@@ -82,8 +75,6 @@ export class EventListComponent implements OnInit {
     'applicationOpen',
     'link',
   ];
-  public nameFilter!: FormControl;
-  public organisationFilter!: FormControl;
 
   private sort!: MatSort;
   private paginator!: MatPaginator;
@@ -98,34 +89,16 @@ export class EventListComponent implements OnInit {
     this.data.paginator = this.paginator;
   }
 
-  constructor() {
-    this.nameFilter = new FormControl('');
-    this.organisationFilter = new FormControl(this.organisations);
-    this.organisationFilter.valueChanges.subscribe(value => {
-      this.filter.groups = value;
-      this.loadEventsWithFilter();
-      this.updateUrlParams();
-    });
-
-    this.nameFilter.valueChanges
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe(value => {
-        this.filter.nameContains = value;
-        this.loadEventsWithFilter();
-        this.updateUrlParams();
-      });
-  }
-
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
       if (params.has('organisation')) {
-        this.organisationFilter.setValue(params.getAll('organisation'));
+        this.filter.groups = params.getAll('organisation');
       }
       if (params.has('type')) {
         this.filter.eventType = params.get('type') as CeviEventType;
       }
       if (params.has('text')) {
-        this.nameFilter.setValue(params.get('text'));
+        this.filter.nameContains = params.get('text');
       }
       if (params.has('kursart')) {
         this.filter.kursarten = params.getAll('kursart');
@@ -142,10 +115,10 @@ export class EventListComponent implements OnInit {
     this.loadEventsWithFilter();
 
     this.masterdataService.getMasterdata().subscribe({
-      next: (data: Masterdata) => {
-        this.organisations = data.organisations.map(o => o.name);
-        this.types = data.eventTypes;
-        this.kursarten = data.kursarten.map(k => k.name);
+      next: (masterdata: Masterdata) => {
+        this.organisations = masterdata.organisations.map(o => o.name);
+        this.types = masterdata.eventTypes;
+        this.kursarten = masterdata.kursarten.map(k => k.name);
         this.isLoadingMasterdata = false;
       },
       error: () => {
@@ -155,20 +128,24 @@ export class EventListComponent implements OnInit {
     });
   }
 
-  translateEventTypes(eventType: string): string {
-    if (eventType === 'COURSE') {
-      return $localize`:@@eventType.course:Kurs`;
-    } else if (eventType === 'EVENT') {
-      return $localize`:@@eventType.event:Anlass`;
-    } else {
-      return eventType;
-    }
-  }
-
-  filterByEventType($event: MatSelectChange) {
-    this.filter.eventType = $event.value;
-    this.loadEventsWithFilter();
-    this.updateUrlParams();
+  openFilterModal(): void {
+    this.dialog.open(FilterModalComponent, {
+      data: {
+        filter: { ...this.filter },
+        organisations: this.organisations,
+        kursarten: this.kursarten,
+        types: this.types,
+        onFilterChange: (updated: CeviEventFilter) => {
+          if (updated.kursarten !== this.filter.kursarten) {
+            this.activePreset = null;
+          }
+          this.filter = updated;
+          this.loadEventsWithFilter();
+          this.updateUrlParams();
+        },
+      },
+      width: '520px',
+    });
   }
 
   applyPreset(preset: KursartPreset | 'weitere') {
@@ -177,25 +154,6 @@ export class EventListComponent implements OnInit {
       preset === 'weitere'
         ? this.kursarten.filter(k => !ALL_NAMED_PRESET_KURSARTEN.includes(k))
         : preset.kursarten;
-    this.loadEventsWithFilter();
-    this.updateUrlParams();
-  }
-
-  filterByKursart($event: MatSelectChange) {
-    this.activePreset = null;
-    this.filter.kursarten = $event.value?.length ? $event.value : null;
-    this.loadEventsWithFilter();
-    this.updateUrlParams();
-  }
-
-  filterByAvailablePlaces($event: MatSelectChange) {
-    this.filter.hasAvailablePlaces = $event.value;
-    this.loadEventsWithFilter();
-    this.updateUrlParams();
-  }
-
-  filterByIsApplicationOpen($event: MatSelectChange) {
-    this.filter.isApplicationOpen = $event.value;
     this.loadEventsWithFilter();
     this.updateUrlParams();
   }
@@ -211,10 +169,19 @@ export class EventListComponent implements OnInit {
     );
   }
 
+  get activeModalFilterCount(): number {
+    let count = 0;
+    if (this.filter.groups?.length) count++;
+    if (this.filter.eventType) count++;
+    if (this.filter.nameContains?.trim().length) count++;
+    if (this.filter.kursarten?.length) count++;
+    if (this.filter.hasAvailablePlaces != null) count++;
+    if (this.filter.isApplicationOpen != null) count++;
+    return count;
+  }
+
   resetFilter() {
     this.filter = {} as CeviEventFilter;
-    this.nameFilter.setValue('', { emitEvent: false });
-    this.organisationFilter.setValue([], { emitEvent: false });
     this.activePreset = null;
     this.loadEventsWithFilter();
     this.updateUrlParams();

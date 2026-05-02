@@ -70,6 +70,18 @@
         <source>Filter:</source>
         <target>Filtres :</target>
       </trans-unit>
+      <trans-unit id="filter.moreFilters" datatype="html">
+        <source>Weitere Filter</source>
+        <target>Plus de filtres</target>
+      </trans-unit>
+      <trans-unit id="filter.modalTitle" datatype="html">
+        <source>Filter</source>
+        <target>Filtres</target>
+      </trans-unit>
+      <trans-unit id="filter.close" datatype="html">
+        <source>Schliessen</source>
+        <target>Fermer</target>
+      </trans-unit>
       <trans-unit id="filter.reset" datatype="html">
         <source>Filter zurücksetzen</source>
         <target>Réinitialiser les filtres</target>

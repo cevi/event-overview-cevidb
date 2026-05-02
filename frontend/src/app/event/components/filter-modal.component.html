@@ -1,0 +1,74 @@
+<h2 mat-dialog-title i18n="@@filter.modalTitle">Filter</h2>
+<mat-dialog-content>
+  <div class="filter-modal__row">
+    <span class="filter-modal__label" i18n="@@filter.organisation">Organisation</span>
+    <mat-form-field class="filter-modal__field">
+      <mat-select multiple [formControl]="organisationFilter">
+        <app-select-check-all
+          [model]="organisationFilter"
+          [values]="data.organisations">
+        </app-select-check-all>
+        @for (org of data.organisations; track org) {
+          <mat-option [value]="org">{{ org }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="filter-modal__row">
+    <span class="filter-modal__label" i18n="@@filter.type">Typ</span>
+    <mat-chip-listbox
+      [value]="localFilter.eventType"
+      (change)="setEventType($event)">
+      @for (type of data.types; track type) {
+        <mat-chip-option [value]="type">{{ translateEventType(type) }}</mat-chip-option>
+      }
+    </mat-chip-listbox>
+  </div>
+
+  <div class="filter-modal__row">
+    <span class="filter-modal__label" i18n="@@filter.nameSearch">Text im Name</span>
+    <mat-form-field class="filter-modal__field">
+      <input type="text" [formControl]="nameFilter" matInput />
+    </mat-form-field>
+  </div>
+
+  <div class="filter-modal__row">
+    <span class="filter-modal__label" i18n="@@filter.kursart">Kursart</span>
+    <mat-form-field class="filter-modal__field">
+      <mat-select
+        multiple
+        (selectionChange)="setKursarten($event)"
+        [value]="localFilter.kursarten ?? []">
+        @for (kursart of data.kursarten; track kursart) {
+          <mat-option [value]="kursart">{{ kursart }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="filter-modal__row">
+    <span class="filter-modal__label" i18n="@@filter.freeSeats">Freie Plätze</span>
+    <mat-chip-listbox
+      [value]="localFilter.hasAvailablePlaces"
+      (change)="setHasAvailablePlaces($event)">
+      <mat-chip-option [value]="true" i18n="@@common.yes">Ja</mat-chip-option>
+      <mat-chip-option [value]="false" i18n="@@common.no">Nein</mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+
+  <div class="filter-modal__row">
+    <span class="filter-modal__label" i18n="@@filter.applicationOpen"
+      >Offen zur Anmeldung</span
+    >
+    <mat-chip-listbox
+      [value]="localFilter.isApplicationOpen"
+      (change)="setIsApplicationOpen($event)">
+      <mat-chip-option [value]="true" i18n="@@common.yes">Ja</mat-chip-option>
+      <mat-chip-option [value]="false" i18n="@@common.no">Nein</mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close i18n="@@filter.close">Schliessen</button>
+</mat-dialog-actions>

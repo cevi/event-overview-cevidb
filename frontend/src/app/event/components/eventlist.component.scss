@@ -9,16 +9,11 @@
     font-weight: 500;
     white-space: nowrap;
   }
-}
 
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-
-  &__reset {
+  &__actions {
     margin-left: auto;
+    display: flex;
+    gap: 8px;
+    align-items: center;
   }
 }
