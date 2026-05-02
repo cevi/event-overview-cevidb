@@ -6,7 +6,8 @@ import java.util.Objects;
 
 public record CeviEvent(String id, String name, String description, String applicationLink, LocalDateTime startsAt,
                         LocalDateTime finishAt, String group, String location, String kind, CeviEventType eventType,
-                        int participantsCount, Integer maximumParticipants, LocalDate applicationOpeningAt, LocalDate applicationClosingAt) {
+                        int participantsCount, Integer maximumParticipants, LocalDate applicationOpeningAt, LocalDate applicationClosingAt,
+                        String state) {
     public CeviEvent {
         Objects.requireNonNull(id);
         Objects.requireNonNull(name, () -> "Name mustn't be null for event " + id);
@@ -24,23 +25,27 @@ public record CeviEvent(String id, String name, String description, String appli
     }
 
     public CeviEvent withKind(String kind) {
-        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt);
+        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt, state);
     }
 
     public CeviEvent withParticipantsCount(Integer participantsCount) {
-        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt);
+        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt, state);
     }
 
     public CeviEvent withMaximumParticipants(Integer maximumParticipants) {
-        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt);
+        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt, state);
     }
 
     public CeviEvent withApplicationOpeningAt(LocalDate applicationOpeningAt) {
-        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt);
+        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt, state);
     }
 
     public CeviEvent withApplicationClosingAt(LocalDate applicationClosingAt) {
-        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt);
+        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt, state);
+    }
+
+    public CeviEvent withState(String state) {
+        return new CeviEvent(id, name, description, applicationLink, startsAt, finishAt, group, location, kind, eventType, participantsCount, maximumParticipants, applicationOpeningAt, applicationClosingAt, state);
     }
 
     public boolean hasLimitedCapacity() {
@@ -52,6 +57,9 @@ public record CeviEvent(String id, String name, String description, String appli
     }
 
     public boolean isApplicationOpen() {
+        if (this.eventType == CeviEventType.COURSE) {
+            return "application_open".equals(this.state);
+        }
         return (this.applicationClosingAt == null || LocalDate.now().isBefore(this.applicationClosingAt) || LocalDate.now().isEqual(this.applicationClosingAt)) &&
                 (this.applicationOpeningAt == null || LocalDate.now().isAfter(this.applicationOpeningAt) || LocalDate.now().isEqual(this.applicationOpeningAt));
     }

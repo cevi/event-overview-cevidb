@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- feature: use Hitobito course state to determine if application is open for courses
 - feature: add quick filters for course categories
 - feature: reflect the chosen filters in the uri
 - feature: add French translation with language toggle in header (native Angular i18n)

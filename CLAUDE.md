@@ -11,6 +11,8 @@
 
 All commands run via Docker; no local runtimes required.
 
+**Note on `backend:test` output:** The final `Tests run:` summary belongs to Failsafe (IT-tests only). Surefire unit test results (`*Test.java`) appear earlier in the log — don't confuse the two.
+
 ```bash
 # Frontend
 tooling/docker.sh frontend:devInt       # Dev server against int backend (port 4200)

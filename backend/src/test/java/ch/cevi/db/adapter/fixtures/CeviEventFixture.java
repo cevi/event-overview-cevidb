@@ -21,6 +21,25 @@ public class CeviEventFixture {
                 3,
                 null,
                 null,
+                null,
                 null);
+    }
+
+    public static CeviEvent ceviCourse() {
+        return new CeviEvent("3208",
+                "Gruppenleiterkurs GLK 2030",
+                "Du willst eine Gruppe selbstständig leiten?",
+                "https://db.cevi.ch/groups/2569/public_events/3208",
+                LocalDateTime.of(2030, Month.APRIL, 8, 9, 0, 0),
+                LocalDateTime.of(2030, Month.APRIL, 15, 17, 0, 0),
+                "Cevi Regionalverband AG-SO-LU-ZG",
+                "Stäfa",
+                "J+S-Leiter*innenkurs LS/T Jugendliche",
+                CeviEventType.COURSE,
+                10,
+                29,
+                null,
+                null,
+                "application_open");
     }
 }

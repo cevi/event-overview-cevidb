@@ -349,11 +349,16 @@ class EventControllerTests {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         List<CeviEvent> events = objectMapper.readValue(content, new TypeReference<>() {});
-        assertThat(events).hasSize(12);
+        assertThat(events).hasSize(14);
 
         // an event from FGI
         var ga = events.stream().filter(e -> e.id().equals("3213")).findFirst().orElseThrow();
         assertThat(ga.name()).isEqualTo("European YWCA General Assembly 2030");
         assertThat(ga.eventType()).isEqualTo(CeviEventType.EVENT);
+
+        // courses with state=application_open appear in results
+        var courses = events.stream().filter(e -> e.id().equals("3208")).toList();
+        assertThat(courses).hasSize(2)
+                .allMatch(e -> e.eventType() == CeviEventType.COURSE);
     }
 }

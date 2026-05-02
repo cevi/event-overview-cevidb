@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 class HitobitoProviderImpl implements HitobitoProvider {
-    Logger logger = LoggerFactory.getLogger(HitobitoApi.class);
+    Logger logger = LoggerFactory.getLogger(HitobitoProviderImpl.class);
 
     private final HitobitoApiProvider provider;
 
@@ -111,7 +111,8 @@ class HitobitoProviderImpl implements HitobitoProvider {
                 event.participant_count(),
                 event.maximum_participants(),
                 event.application_opening_at(),
-                event.application_closing_at()
+                event.application_closing_at(),
+                event.state()
         )).toList();
     }
 }

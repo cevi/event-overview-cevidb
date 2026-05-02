@@ -16,6 +16,7 @@ export interface CeviEvent {
   maximumParticipants: number | null;
   applicationOpeningAt: string | null;
   applicationClosingAt: string | null;
+  state: string | null;
 }
 
 export interface CeviEventFilter {
