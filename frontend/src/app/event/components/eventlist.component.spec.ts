@@ -1,9 +1,4 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventListComponent } from './eventlist.component';
 import {
   CeviEvent,
@@ -11,7 +6,6 @@ import {
   EventService,
 } from '../services/event.service';
 import { Masterdata, MasterdataService } from '../services/masterdata.service';
-import { MatSelectChange } from '@angular/material/select';
 import { of } from 'rxjs';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import {
@@ -24,13 +18,16 @@ import {
   provideRouter,
   Router,
 } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { KURSART_PRESETS } from '../models/kursart-preset';
+import { FilterModalComponent } from './filter-modal.component';
 
 describe('EventlistComponent', () => {
   let fixture: ComponentFixture<EventListComponent>;
   let sut: EventListComponent;
   let eventService: EventService;
   let router: Router;
+  let dialogSpy: jasmine.SpyObj<MatDialog>;
 
   const events: CeviEvent[] = [
     {
@@ -56,6 +53,9 @@ describe('EventlistComponent', () => {
   };
 
   beforeEach(async () => {
+    dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    dialogSpy.open.and.returnValue({} as any);
+
     TestBed.configureTestingModule({
       imports: [EventListComponent],
       providers: [
@@ -87,6 +87,7 @@ describe('EventlistComponent', () => {
             ),
           },
         },
+        { provide: MatDialog, useValue: dialogSpy },
       ],
     }).compileComponents();
 
@@ -96,6 +97,7 @@ describe('EventlistComponent', () => {
     fixture = TestBed.createComponent(EventListComponent);
     sut = fixture.componentInstance;
   });
+
   it('loaded masterdata and events', () => {
     sut.ngOnInit();
     expect(sut.kursarten.length).toEqual(1);
@@ -105,53 +107,17 @@ describe('EventlistComponent', () => {
     expect(sut.isLoadingMasterdata).toEqual(false);
     expect(sut.data.data.length).toEqual(1);
   });
+
   it('initial filter from query parameters', () => {
     sut.ngOnInit();
     expect(sut.filter.groups).toEqual(['Cevi']);
     expect(sut.filter.eventType).toEqual('EVENT');
-    expect(sut.nameFilter.getRawValue()).toEqual('abc');
+    expect(sut.filter.nameContains).toEqual('abc');
     expect(sut.filter.kursarten).toEqual(['def']);
     expect(sut.filter.hasAvailablePlaces).toBeTrue();
     expect(sut.filter.isApplicationOpen).toBeTrue();
   });
-  it('translateEventTypes', () => {
-    let result = sut.translateEventTypes('COURSE');
-    expect(result).toEqual('Kurs');
 
-    result = sut.translateEventTypes('EVENT');
-    expect(result).toEqual('Anlass');
-  });
-  it('filterByEventType', () => {
-    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
-      of(events)
-    );
-    sut.filterByEventType({ value: 'COURSE' } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({
-      eventType: 'COURSE',
-    } as CeviEventFilter);
-  });
-  it('filterByKursart', () => {
-    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
-      of(events)
-    );
-    sut.filterByKursart({ value: ['J+S', 'GLK'] } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({
-      kursarten: ['J+S', 'GLK'],
-    } as CeviEventFilter);
-  });
-  it('filterByKursart with empty selection sets kursarten to null', () => {
-    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
-      of(events)
-    );
-    sut.filterByKursart({ value: [] } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({ kursarten: null } as CeviEventFilter);
-  });
-  it('filterByKursart clears activePreset', () => {
-    spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
-    sut.activePreset = KURSART_PRESETS[0];
-    sut.filterByKursart({ value: 'J+S' } as MatSelectChange);
-    expect(sut.activePreset).toBeNull();
-  });
   it('applyPreset sets kursarten and activePreset', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
       of(events)
@@ -163,12 +129,14 @@ describe('EventlistComponent', () => {
       kursarten: preset.kursarten,
     } as CeviEventFilter);
   });
+
   it('applyPreset hides only the clicked chip', () => {
     spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
     sut.applyPreset(KURSART_PRESETS[0]);
     expect(sut.activePreset).toBe(KURSART_PRESETS[0]);
     expect(sut.activePreset).not.toBe(KURSART_PRESETS[1]);
   });
+
   it('applyPreset switches to a different preset', () => {
     spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
     sut.applyPreset(KURSART_PRESETS[0]);
@@ -176,6 +144,7 @@ describe('EventlistComponent', () => {
     expect(sut.activePreset).toBe(KURSART_PRESETS[1]);
     expect(sut.filter.kursarten).toEqual(KURSART_PRESETS[1].kursarten);
   });
+
   it('applyPreset "weitere" filters to kursarten not in named presets', () => {
     spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
     sut.kursarten = [
@@ -186,62 +155,76 @@ describe('EventlistComponent', () => {
     expect(sut.activePreset).toBe('weitere');
     expect(sut.filter.kursarten).toEqual(['Cevi Alpin: Skihochtour']);
   });
-  it('filterByAvailablePlaces', () => {
-    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
-      of(events)
-    );
-    sut.filterByAvailablePlaces({ value: true } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({
-      hasAvailablePlaces: true,
-    } as CeviEventFilter);
-  });
-  it('filterByIsApplicationOpen', () => {
-    const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
-      of(events)
-    );
-    sut.filterByIsApplicationOpen({ value: true } as MatSelectChange);
-    expect(fnc).toHaveBeenCalledWith({
-      isApplicationOpen: true,
-    } as CeviEventFilter);
-  });
+
   it('hasActiveFilter returns false when no filter is set', () => {
     sut.filter = {} as CeviEventFilter;
     expect(sut.hasActiveFilter).toBeFalse();
   });
+
   it('hasActiveFilter returns true when eventType is set', () => {
     sut.filter = { eventType: 'COURSE' } as CeviEventFilter;
     expect(sut.hasActiveFilter).toBeTrue();
   });
+
   it('hasActiveFilter returns true when groups are set', () => {
     sut.filter = { groups: ['Cevi Alpin'] } as CeviEventFilter;
     expect(sut.hasActiveFilter).toBeTrue();
   });
+
   it('hasActiveFilter returns true when nameContains is set', () => {
     sut.filter = { nameContains: 'GLK' } as CeviEventFilter;
     expect(sut.hasActiveFilter).toBeTrue();
   });
+
   it('hasActiveFilter returns true when kursarten are set', () => {
     sut.filter = { kursarten: ['J+S'] } as CeviEventFilter;
     expect(sut.hasActiveFilter).toBeTrue();
   });
+
   it('hasActiveFilter returns true when hasAvailablePlaces is set', () => {
     sut.filter = { hasAvailablePlaces: true } as CeviEventFilter;
     expect(sut.hasActiveFilter).toBeTrue();
   });
+
   it('hasActiveFilter returns true when isApplicationOpen is set', () => {
     sut.filter = { isApplicationOpen: false } as CeviEventFilter;
     expect(sut.hasActiveFilter).toBeTrue();
   });
+
+  it('activeModalFilterCount returns 0 when no filter is set', () => {
+    sut.filter = {} as CeviEventFilter;
+    expect(sut.activeModalFilterCount).toBe(0);
+  });
+
+  it('activeModalFilterCount counts all active filters', () => {
+    sut.filter = {
+      groups: ['Cevi'],
+      eventType: 'COURSE',
+      nameContains: 'GLK',
+      kursarten: ['J+S'],
+      hasAvailablePlaces: true,
+      isApplicationOpen: false,
+    } as CeviEventFilter;
+    expect(sut.activeModalFilterCount).toBe(6);
+  });
+
+  it('activeModalFilterCount counts partial filters correctly', () => {
+    sut.filter = {
+      eventType: 'COURSE',
+      hasAvailablePlaces: false,
+    } as CeviEventFilter;
+    expect(sut.activeModalFilterCount).toBe(2);
+  });
+
   it('resetFilter clears all filters', () => {
     spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
     sut.ngOnInit();
     sut.activePreset = KURSART_PRESETS[0];
     sut.resetFilter();
     expect(sut.filter).toEqual({} as CeviEventFilter);
-    expect(sut.nameFilter.getRawValue()).toEqual('');
-    expect(sut.organisationFilter.getRawValue()).toEqual([]);
     expect(sut.activePreset).toBeNull();
   });
+
   it('resetFilter reloads events', () => {
     const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
       of(events)
@@ -249,6 +232,7 @@ describe('EventlistComponent', () => {
     sut.resetFilter();
     expect(fnc).toHaveBeenCalledWith({} as CeviEventFilter);
   });
+
   it('resetFilter clears all url params', () => {
     sut.resetFilter();
     expect(router.navigate).toHaveBeenCalledWith(
@@ -266,16 +250,20 @@ describe('EventlistComponent', () => {
       })
     );
   });
+
   it('hasFreeSeats', () => {
     expect(sut.hasFreeSeats(events[0])).toBe('Ja');
   });
+
   it('isApplicationOpen for course with state application_open', () => {
     expect(sut.isApplicationOpen(events[0])).toBe('Ja');
   });
+
   it('isApplicationOpen for course with state application_closed', () => {
     const closedCourse = { ...events[0], state: 'application_closed' };
     expect(sut.isApplicationOpen(closedCourse)).toBe('Nein');
   });
+
   it('isApplicationOpen for event uses date logic', () => {
     const openEvent: CeviEvent = {
       ...events[0],
@@ -287,7 +275,115 @@ describe('EventlistComponent', () => {
     expect(sut.isApplicationOpen(openEvent)).toBe('Ja');
   });
 
-  describe('URL parameter synchronization', () => {
+  describe('openFilterModal', () => {
+    it('opens dialog with FilterModalComponent', () => {
+      sut.ngOnInit();
+      sut.openFilterModal();
+      expect(dialogSpy.open).toHaveBeenCalledWith(
+        FilterModalComponent,
+        jasmine.objectContaining({ width: '520px' })
+      );
+    });
+
+    it('passes current filter state to dialog', () => {
+      sut.filter = { eventType: 'COURSE' } as CeviEventFilter;
+      sut.openFilterModal();
+      const data = dialogSpy.open.calls.mostRecent().args[1]?.data as { filter: CeviEventFilter };
+      expect(data.filter).toEqual(jasmine.objectContaining({ eventType: 'COURSE' }));
+    });
+
+    it('onFilterChange updates filter and reloads events', () => {
+      const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
+        of(events)
+      );
+      let capturedOnFilterChange:
+        | ((f: CeviEventFilter) => void)
+        | undefined;
+      dialogSpy.open.and.callFake(
+        (_comp: unknown, config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }) => {
+          capturedOnFilterChange = config?.data?.onFilterChange;
+          return {} as any;
+        }
+      );
+
+      sut.openFilterModal();
+      const newFilter = { eventType: 'COURSE' } as CeviEventFilter;
+      capturedOnFilterChange?.(newFilter);
+
+      expect(sut.filter).toBe(newFilter);
+      expect(fnc).toHaveBeenCalledWith(newFilter);
+    });
+
+    it('onFilterChange clears activePreset when kursarten reference changes', () => {
+      spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+      sut.activePreset = KURSART_PRESETS[0];
+      sut.filter = { kursarten: ['J+S'] } as CeviEventFilter;
+
+      let capturedOnFilterChange:
+        | ((f: CeviEventFilter) => void)
+        | undefined;
+      dialogSpy.open.and.callFake(
+        (_comp: unknown, config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }) => {
+          capturedOnFilterChange = config?.data?.onFilterChange;
+          return {} as any;
+        }
+      );
+
+      sut.openFilterModal();
+      capturedOnFilterChange?.({ kursarten: ['GLK'] } as CeviEventFilter);
+
+      expect(sut.activePreset).toBeNull();
+    });
+
+    it('onFilterChange preserves activePreset when kursarten reference is unchanged', () => {
+      spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+      const kursarten = ['J+S'];
+      sut.activePreset = KURSART_PRESETS[0];
+      sut.filter = { kursarten } as CeviEventFilter;
+
+      let capturedOnFilterChange:
+        | ((f: CeviEventFilter) => void)
+        | undefined;
+      dialogSpy.open.and.callFake(
+        (_comp: unknown, config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }) => {
+          capturedOnFilterChange = config?.data?.onFilterChange;
+          return {} as any;
+        }
+      );
+
+      sut.openFilterModal();
+      // Same kursarten reference (modal only changed organisation, not kursarten)
+      capturedOnFilterChange?.({ kursarten, eventType: 'COURSE' } as CeviEventFilter);
+
+      expect(sut.activePreset).toBe(KURSART_PRESETS[0]);
+    });
+
+    it('onFilterChange updates url params', () => {
+      spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
+      let capturedOnFilterChange:
+        | ((f: CeviEventFilter) => void)
+        | undefined;
+      dialogSpy.open.and.callFake(
+        (_comp: unknown, config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }) => {
+          capturedOnFilterChange = config?.data?.onFilterChange;
+          return {} as any;
+        }
+      );
+
+      sut.openFilterModal();
+      capturedOnFilterChange?.({ eventType: 'COURSE' } as CeviEventFilter);
+
+      expect(router.navigate).toHaveBeenCalledWith(
+        [],
+        jasmine.objectContaining({
+          queryParams: jasmine.objectContaining({ type: 'COURSE' }),
+          replaceUrl: true,
+        })
+      );
+    });
+  });
+
+  describe('URL parameter synchronization via applyPreset', () => {
     const expectNavigate = (queryParams: Record<string, unknown>) =>
       expect(router.navigate).toHaveBeenCalledWith(
         [],
@@ -297,65 +393,12 @@ describe('EventlistComponent', () => {
         })
       );
 
-    it('filterByEventType updates url', () => {
-      sut.filterByEventType({ value: 'COURSE' } as MatSelectChange);
-      expectNavigate({ type: 'COURSE' });
-    });
-    it('filterByEventType clears url param when null', () => {
-      sut.filterByEventType({ value: null } as MatSelectChange);
-      expectNavigate({ type: null });
-    });
-    it('filterByKursart updates url', () => {
-      sut.filterByKursart({ value: ['GLK', 'J+S'] } as MatSelectChange);
-      expectNavigate({ kursart: ['GLK', 'J+S'] });
-    });
-    it('filterByKursart clears url param on empty selection', () => {
-      sut.filterByKursart({ value: [] } as MatSelectChange);
-      expectNavigate({ kursart: null });
-    });
-    it('filterByAvailablePlaces updates url with true', () => {
-      sut.filterByAvailablePlaces({ value: true } as MatSelectChange);
-      expectNavigate({ freeSeats: 'true' });
-    });
-    it('filterByAvailablePlaces updates url with false', () => {
-      sut.filterByAvailablePlaces({ value: false } as MatSelectChange);
-      expectNavigate({ freeSeats: 'false' });
-    });
-    it('filterByAvailablePlaces clears url param when null', () => {
-      sut.filterByAvailablePlaces({ value: null } as MatSelectChange);
-      expectNavigate({ freeSeats: null });
-    });
-    it('filterByIsApplicationOpen updates url with false', () => {
-      sut.filterByIsApplicationOpen({ value: false } as MatSelectChange);
-      expectNavigate({ applicationOpen: 'false' });
-    });
-    it('filterByIsApplicationOpen clears url param when null', () => {
-      sut.filterByIsApplicationOpen({ value: null } as MatSelectChange);
-      expectNavigate({ applicationOpen: null });
-    });
     it('applyPreset updates url', () => {
+      spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
       const preset = KURSART_PRESETS[0];
       sut.applyPreset(preset);
       expectNavigate({ kursart: preset.kursarten });
     });
-    it('organisationFilter change updates url', () => {
-      sut.organisationFilter.setValue(['Cevi Alpin']);
-      expectNavigate({ organisation: ['Cevi Alpin'] });
-    });
-    it('organisationFilter empty selection clears url param', () => {
-      sut.organisationFilter.setValue([]);
-      expectNavigate({ organisation: null });
-    });
-    it('nameFilter change updates url', fakeAsync(() => {
-      sut.nameFilter.setValue('GLK');
-      tick(400);
-      expectNavigate({ text: 'GLK' });
-    }));
-    it('nameFilter empty string clears url param', fakeAsync(() => {
-      sut.nameFilter.setValue('');
-      tick(400);
-      expectNavigate({ text: null });
-    }));
   });
 });
 
@@ -386,6 +429,10 @@ describe('EventlistComponent – multiple kursart query parameters', () => {
           useValue: {
             queryParamMap: of(convertToParamMap({ kursart: ['GLK', 'J+S'] })),
           },
+        },
+        {
+          provide: MatDialog,
+          useValue: jasmine.createSpyObj('MatDialog', ['open']),
         },
       ],
     }).compileComponents();

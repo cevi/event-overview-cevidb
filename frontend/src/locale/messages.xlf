@@ -121,6 +121,27 @@
           <context context-type="linenumber">24,26</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="filter.moreFilters" datatype="html">
+        <source>Weitere Filter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/eventlist.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.modalTitle" datatype="html">
+        <source>Filter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/filter-modal.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="filter.close" datatype="html">
+        <source>Schliessen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/event/components/filter-modal.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="filter.reset" datatype="html">
         <source>Filter zurücksetzen</source>
         <context-group purpose="location">

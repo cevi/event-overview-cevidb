@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- feature: filter modal — alle Filter in eigenem Fenster über "Weitere Filter"-Button
 - feature: add reset button to clear all filters at once
 - feature: use Hitobito course state to determine if application is open for courses
 - feature: add quick filters for course categories
