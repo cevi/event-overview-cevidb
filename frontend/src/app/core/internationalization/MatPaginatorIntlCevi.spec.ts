@@ -7,7 +7,9 @@ describe('MatPaginatorIntlCevi', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlCevi }],
+      providers: [
+        { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCevi },
+      ],
     });
 
     sut = TestBed.inject(MatPaginatorIntl) as MatPaginatorIntlCevi;

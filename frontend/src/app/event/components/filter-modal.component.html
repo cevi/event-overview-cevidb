@@ -1,7 +1,9 @@
 <h2 mat-dialog-title i18n="@@filter.modalTitle">Filter</h2>
 <mat-dialog-content>
   <div class="filter-modal__row">
-    <span class="filter-modal__label" i18n="@@filter.organisation">Organisation</span>
+    <span class="filter-modal__label" i18n="@@filter.organisation"
+      >Organisation</span
+    >
     <mat-form-field class="filter-modal__field">
       <mat-select multiple [formControl]="organisationFilter">
         <app-select-check-all
@@ -21,13 +23,17 @@
       [value]="localFilter.eventType"
       (change)="setEventType($event)">
       @for (type of data.types; track type) {
-        <mat-chip-option [value]="type">{{ translateEventType(type) }}</mat-chip-option>
+        <mat-chip-option [value]="type">{{
+          translateEventType(type)
+        }}</mat-chip-option>
       }
     </mat-chip-listbox>
   </div>
 
   <div class="filter-modal__row">
-    <span class="filter-modal__label" i18n="@@filter.nameSearch">Text im Name</span>
+    <span class="filter-modal__label" i18n="@@filter.nameSearch"
+      >Text im Name</span
+    >
     <mat-form-field class="filter-modal__field">
       <input type="text" [formControl]="nameFilter" matInput />
     </mat-form-field>
@@ -48,7 +54,9 @@
   </div>
 
   <div class="filter-modal__row">
-    <span class="filter-modal__label" i18n="@@filter.freeSeats">Freie Plätze</span>
+    <span class="filter-modal__label" i18n="@@filter.freeSeats"
+      >Freie Plätze</span
+    >
     <mat-chip-listbox
       [value]="localFilter.hasAvailablePlaces"
       (change)="setHasAvailablePlaces($event)">

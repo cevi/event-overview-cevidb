@@ -24,7 +24,7 @@ case "$CMD" in
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
       node:24-alpine \
-      sh -c "npm install && npm run start:int"
+      sh -c "echo '{\"apiUri\":\"https://events-api-int.cevi.tools\"}' > /app/src/assets/config.json && npm install && npm run start:int"
     ;;
   frontend:devProd)
     docker run --rm -it \
@@ -33,7 +33,7 @@ case "$CMD" in
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
       node:24-alpine \
-      sh -c "npm install && npm run start:prod"
+      sh -c "echo '{\"apiUri\":\"https://events-api.cevi.tools\"}' > /app/src/assets/config.json && npm install && npm run start:prod"
     ;;
   frontend:devFr)
     docker run --rm -it \
@@ -45,13 +45,12 @@ case "$CMD" in
       sh -c "npm install && npm run start:fr"
     ;;
   frontend:prod)
-    PROD_IMAGE="event-overview-frontend-prod"
-    echo "Building production image (de + fr)..."
+    PROD_IMAGE="event-overview-frontend"
+    echo "Building frontend image (de + fr)..."
     docker build \
-      --build-arg build_configuration=prod \
       -t "${PROD_IMAGE}" \
       "${PROJECT_ROOT}/frontend"
-    echo "Serving on http://localhost:4200 (Ctrl-C to stop)"
+    echo "Serving on http://localhost:4200 (Ctrl-C to stop, default: prod API)"
     docker run --rm -it \
       -p 4200:80 \
       "${PROD_IMAGE}"

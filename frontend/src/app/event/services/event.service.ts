@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { CeviEventType } from './masterdata.service';
+import { ConfigService } from '../../core/services/config.service';
 
 export interface CeviEvent {
   id: string;
@@ -35,8 +35,9 @@ export interface CeviEventFilter {
 })
 export class EventService {
   private readonly http = inject(HttpClient);
+  private readonly config = inject(ConfigService);
 
   getEventsWithFilter(filter: CeviEventFilter): Observable<CeviEvent[]> {
-    return this.http.post<CeviEvent[]>(environment.apiUri + '/events', filter);
+    return this.http.post<CeviEvent[]>(this.config.apiUri + '/events', filter);
   }
 }

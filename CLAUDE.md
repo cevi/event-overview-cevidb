@@ -6,6 +6,7 @@
 - Implement new tests or extend existing ones for any change in behavior.
 - Add a changelog entry to the relevant `CHANGELOG.md` (backend or frontend has independent versioning). Start a new `Unreleased` section if needed.
 - No backwards-compatibility required — there is a single installation deployed from `main`.
+- Do not ignore "preexisting" test- or lint errors. The code must have a good state at the end no matter what
 
 ## Commands
 

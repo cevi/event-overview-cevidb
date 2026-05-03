@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- chore: replace compile-time apiUri with runtime config.json — single Docker image, API_URI env var overrides default prod URL
 - feature: filter modal — alle Filter in eigenem Fenster über "Weitere Filter"-Button
 - feature: add reset button to clear all filters at once
 - feature: use Hitobito course state to determine if application is open for courses

@@ -18,7 +18,7 @@ import {
   provideRouter,
   Router,
 } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { KURSART_PRESETS } from '../models/kursart-preset';
 import { FilterModalComponent } from './filter-modal.component';
 
@@ -54,7 +54,7 @@ describe('EventlistComponent', () => {
 
   beforeEach(async () => {
     dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
-    dialogSpy.open.and.returnValue({} as any);
+    dialogSpy.open.and.returnValue({} as unknown as MatDialogRef<unknown>);
 
     TestBed.configureTestingModule({
       imports: [EventListComponent],
@@ -288,21 +288,26 @@ describe('EventlistComponent', () => {
     it('passes current filter state to dialog', () => {
       sut.filter = { eventType: 'COURSE' } as CeviEventFilter;
       sut.openFilterModal();
-      const data = dialogSpy.open.calls.mostRecent().args[1]?.data as { filter: CeviEventFilter };
-      expect(data.filter).toEqual(jasmine.objectContaining({ eventType: 'COURSE' }));
+      const data = dialogSpy.open.calls.mostRecent().args[1]?.data as {
+        filter: CeviEventFilter;
+      };
+      expect(data.filter).toEqual(
+        jasmine.objectContaining({ eventType: 'COURSE' })
+      );
     });
 
     it('onFilterChange updates filter and reloads events', () => {
       const fnc = spyOn(eventService, 'getEventsWithFilter').and.returnValue(
         of(events)
       );
-      let capturedOnFilterChange:
-        | ((f: CeviEventFilter) => void)
-        | undefined;
+      let capturedOnFilterChange: ((f: CeviEventFilter) => void) | undefined;
       dialogSpy.open.and.callFake(
-        (_comp: unknown, config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }) => {
+        (
+          _comp: unknown,
+          config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }
+        ) => {
           capturedOnFilterChange = config?.data?.onFilterChange;
-          return {} as any;
+          return {} as unknown as MatDialogRef<unknown>;
         }
       );
 
@@ -319,13 +324,14 @@ describe('EventlistComponent', () => {
       sut.activePreset = KURSART_PRESETS[0];
       sut.filter = { kursarten: ['J+S'] } as CeviEventFilter;
 
-      let capturedOnFilterChange:
-        | ((f: CeviEventFilter) => void)
-        | undefined;
+      let capturedOnFilterChange: ((f: CeviEventFilter) => void) | undefined;
       dialogSpy.open.and.callFake(
-        (_comp: unknown, config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }) => {
+        (
+          _comp: unknown,
+          config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }
+        ) => {
           capturedOnFilterChange = config?.data?.onFilterChange;
-          return {} as any;
+          return {} as unknown as MatDialogRef<unknown>;
         }
       );
 
@@ -341,32 +347,37 @@ describe('EventlistComponent', () => {
       sut.activePreset = KURSART_PRESETS[0];
       sut.filter = { kursarten } as CeviEventFilter;
 
-      let capturedOnFilterChange:
-        | ((f: CeviEventFilter) => void)
-        | undefined;
+      let capturedOnFilterChange: ((f: CeviEventFilter) => void) | undefined;
       dialogSpy.open.and.callFake(
-        (_comp: unknown, config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }) => {
+        (
+          _comp: unknown,
+          config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }
+        ) => {
           capturedOnFilterChange = config?.data?.onFilterChange;
-          return {} as any;
+          return {} as unknown as MatDialogRef<unknown>;
         }
       );
 
       sut.openFilterModal();
       // Same kursarten reference (modal only changed organisation, not kursarten)
-      capturedOnFilterChange?.({ kursarten, eventType: 'COURSE' } as CeviEventFilter);
+      capturedOnFilterChange?.({
+        kursarten,
+        eventType: 'COURSE',
+      } as CeviEventFilter);
 
       expect(sut.activePreset).toBe(KURSART_PRESETS[0]);
     });
 
     it('onFilterChange updates url params', () => {
       spyOn(eventService, 'getEventsWithFilter').and.returnValue(of(events));
-      let capturedOnFilterChange:
-        | ((f: CeviEventFilter) => void)
-        | undefined;
+      let capturedOnFilterChange: ((f: CeviEventFilter) => void) | undefined;
       dialogSpy.open.and.callFake(
-        (_comp: unknown, config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }) => {
+        (
+          _comp: unknown,
+          config: { data?: { onFilterChange?: (f: CeviEventFilter) => void } }
+        ) => {
           capturedOnFilterChange = config?.data?.onFilterChange;
-          return {} as any;
+          return {} as unknown as MatDialogRef<unknown>;
         }
       );
 

@@ -9,6 +9,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { ConfigService } from '../../core/services/config.service';
 
 describe('EventService', () => {
   let httpTestingController: HttpTestingController;
@@ -34,6 +35,10 @@ describe('EventService', () => {
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
+        {
+          provide: ConfigService,
+          useValue: { apiUri: 'http://localhost:8080' },
+        },
       ],
     });
 

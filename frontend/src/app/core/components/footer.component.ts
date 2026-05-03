@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import packageJson from '../../../../package.json';
-import { environment } from '../../../environments/environment';
+import { ConfigService } from '../services/config.service';
 
 @Component({
   selector: 'app-footer',
@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
+  private readonly config = inject(ConfigService);
   version: string = packageJson.version;
-  backendUrl = environment.apiUri;
+  backendUrl = this.config.apiUri;
 }
