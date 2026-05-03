@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## Version 1.0.20, 03.05.2026
 
 - chore: replace compile-time apiUri with runtime config.json — single Docker image, API_URI env var overrides default prod URL
 - feature: filter modal — alle Filter in eigenem Fenster über "Weitere Filter"-Button
@@ -9,6 +9,11 @@
 - feature: add quick filters for course categories
 - feature: reflect the chosen filters in the uri
 - feature: add French translation with language toggle in header (native Angular i18n)
+- chore: bump Angular to 21.2.10 and @angular/cdk, @angular/material, @angular/cli, @angular/build to 21.2.8
+- chore: bump typescript-eslint to 8.59.0
+- chore: bump eslint to 10.2.1
+- chore: bump prettier to 3.8.3
+- chore: bump jasmine-core to 6.2.0
 
 ## Version 1.0.19, 24.03.2026
 

@@ -1,10 +1,12 @@
 # Changelog
 
-## Unreleased
+## Version 1.0.16, 03.05.2026
 
 - feature: use Hitobito course state to determine if application is open for courses
 - feature: add quick filters for course categories
 - feature: merge two start-only dates into a single event entry (Cevi Alpin pattern)
+- chore: bump spring-boot-starter-parent to 4.0.6
+- chore: bump springdoc-openapi-starter-webmvc-ui to 3.0.3
 
 ## Version 1.0.15, 23.03.2026
 
