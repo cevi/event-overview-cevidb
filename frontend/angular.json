@@ -32,7 +32,7 @@
             "outputPath": "dist/eventoverview",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js", "@angular/localize/init"],
+            "polyfills": ["@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
@@ -76,11 +76,7 @@
               "aot": false,
               "optimization": false,
               "extractLicenses": false,
-              "polyfills": [
-                "zone.js",
-                "zone.js/testing",
-                "@angular/localize/init"
-              ]
+              "polyfills": ["@angular/localize/init"]
             }
           },
           "defaultConfiguration": "local"

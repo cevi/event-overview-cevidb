@@ -3,9 +3,9 @@
 ## Version 1.0.21, 15.06.2026
 
 - chore: upgrade Angular from 21 to 22 (core, CLI, CDK, Material, angular-eslint) and TypeScript to 6
+- chore: switch to zoneless change detection (provideZonelessChangeDetection); remove zone.js (~93 kB smaller polyfills bundle)
 - chore: adopt the new Angular 22 default change detection (OnPush); add explicit markForCheck where async state drives the view (event list, app root, select-check-all)
 - chore: migrate unit tests from Karma/Jasmine to the Vitest-based unit-test builder (jsdom); drop the Chromium test image
-- chore: remove the auto-added nullishCoalescing/optionalChain diagnostic suppressions (not needed by the templates)
 - chore: add `frontend:ng` wrapper to docker.sh for ng update / schematics
 
 ## Version 1.0.20, 03.05.2026
