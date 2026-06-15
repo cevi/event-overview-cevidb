@@ -32,15 +32,9 @@
             "outputPath": "dist/eventoverview",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
-            ],
+            "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
@@ -52,9 +46,7 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "localize": [
-                "fr-CH"
-              ]
+              "localize": ["fr-CH"]
             },
             "prod": {
               "localize": true,
@@ -79,6 +71,16 @@
             },
             "int": {
               "optimization": false
+            },
+            "testing": {
+              "aot": false,
+              "optimization": false,
+              "extractLicenses": false,
+              "polyfills": [
+                "zone.js",
+                "zone.js/testing",
+                "@angular/localize/init"
+              ]
             }
           },
           "defaultConfiguration": "local"
@@ -112,42 +114,33 @@
           }
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing",
-              "@angular/localize/init"
-            ],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "karmaConfig": "karma.conf.js"
+            "reporters": ["default"],
+            "coverageReporters": ["html", "text-summary"],
+            "coverageThresholds": {
+              "statements": 60,
+              "branches": 60,
+              "functions": 60,
+              "lines": 60,
+              "perFile": false
+            },
+            "buildTarget": ":build:testing",
+            "runner": "vitest"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ],
+    "schematicCollections": ["@angular-eslint/schematics"],
     "analytics": false
   },
   "schematics": {

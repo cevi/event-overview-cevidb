@@ -2,7 +2,7 @@ import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import localeDECH from '@angular/common/locales/de-CH';
 import localeFRCH from '@angular/common/locales/fr-CH';
 import { registerLocaleData } from '@angular/common';
@@ -16,7 +16,7 @@ registerLocaleData(localeFRCH);
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCevi },
     {
       provide: APP_INITIALIZER,

@@ -1,4 +1,13 @@
-import { Component, Input, output } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  output,
+  inject,
+  ChangeDetectorRef,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import {
   MatCheckboxChange,
@@ -21,12 +30,24 @@ import {
     </mat-checkbox>
   `,
 })
-export class SelectCheckAllComponent {
+export class SelectCheckAllComponent implements OnInit {
   @Input()
   model!: FormControl;
   @Input() values: string[] = [];
   @Input() text = $localize`:@@common.selectAll:Alle`;
   readonly changeEvent = output<boolean>();
+
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
+
+  ngOnInit(): void {
+    // The model is mutated by the parent mat-select (selecting individual
+    // options), which does not trigger change detection in this OnPush
+    // component, so re-check the checkbox state when the value changes.
+    this.model.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.cdr.markForCheck());
+  }
 
   isChecked(): boolean {
     return Boolean(

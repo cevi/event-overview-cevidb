@@ -8,6 +8,7 @@ import { CeviEvent, CeviEventFilter, EventService } from './event.service';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import { ConfigService } from '../../core/services/config.service';
 
@@ -33,7 +34,7 @@ describe('EventService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         {
           provide: ConfigService,
@@ -45,7 +46,7 @@ describe('EventService', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
     sut = TestBed.inject(EventService);
   });
-  it('getEventsWithFilter', (done: DoneFn) => {
+  it('getEventsWithFilter', async () => {
     const filter = {
       groups: ['Cevi Region Zürich'],
       eventType: 'COURSE',
@@ -55,7 +56,6 @@ describe('EventService', () => {
 
     sut.getEventsWithFilter(filter).subscribe(value => {
       expect(value).toEqual(events);
-      done();
     });
 
     const req = httpTestingController.expectOne({

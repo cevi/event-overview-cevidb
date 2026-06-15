@@ -72,16 +72,12 @@ case "$CMD" in
       sh -c "npm install && npm run lint"
     ;;
   frontend:test)
-    TEST_IMAGE="event-overview-frontend-test"
-    if ! docker image inspect "${TEST_IMAGE}" &>/dev/null; then
-      echo "Building test image (one-time)..."
-      docker build -t "${TEST_IMAGE}" -f "${PROJECT_ROOT}/tooling/Dockerfile.frontend-test" "${PROJECT_ROOT}/tooling"
-    fi
+    # Vitest runs in Node.js + jsdom, so no browser/custom image is needed.
     docker run --rm -i \
       "${NODE_USER_ARGS[@]}" \
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
-      "${TEST_IMAGE}" \
+      node:24-alpine \
       sh -c "npm install && npm run test:ci"
     ;;
   backend:runInt)
@@ -131,6 +127,19 @@ case "$CMD" in
       node:24-alpine \
       npm "${@:2}"
     ;;
+  frontend:ng)
+    # Angular CLI (ng update / schematics). Runs as root so apk can install git,
+    # which ng update requires; chowns generated files back to the host user afterwards.
+    # Mounts the whole repo so the .git dir (at the root) is visible; works in /app/frontend.
+    # Use a TTY only when one is attached (interactive shell) so it also works in CI/tools.
+    if [ -t 0 ]; then TTY_ARGS=(-it); else TTY_ARGS=(-i); fi
+    docker run --rm "${TTY_ARGS[@]}" \
+      -e HOME=/tmp \
+      -v "${PROJECT_ROOT}:/app" \
+      -w /app/frontend \
+      node:24-alpine \
+      sh -c "apk add --no-cache git >/dev/null && git config --global --add safe.directory /app && npm install && npx ng ${*:2}; ret=\$?; chown -R ${CURRENT_USER} /app/frontend; exit \$ret"
+    ;;
   mvn)
     docker run --rm -i \
       "${MAVEN_USER_ARGS[@]}" \
@@ -152,8 +161,9 @@ case "$CMD" in
     echo "    frontend:prod      Build + serve prod image with all locales (port 4200, via nginx)"
     echo "    frontend:build     Build for production"
     echo "    frontend:lint      Run ESLint"
-    echo "    frontend:test      Run unit tests headless (builds local image on first run)"
+    echo "    frontend:test      Run unit tests headless (Vitest + jsdom)"
     echo "    npm <args>         Run arbitrary npm command"
+    echo "    ng <args>          Run Angular CLI (ng update / schematics; git available)"
     echo ""
     echo "  Backend only:"
     echo "    backend:runInt     Start Spring Boot on port 8080 (int token)"

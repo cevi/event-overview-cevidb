@@ -8,6 +8,7 @@ import { Masterdata, MasterdataService } from './masterdata.service';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import { ConfigService } from '../../core/services/config.service';
 
@@ -25,7 +26,7 @@ describe('MasterdataService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         {
           provide: ConfigService,
@@ -37,10 +38,9 @@ describe('MasterdataService', () => {
     httpTestingController = TestBed.inject(HttpTestingController);
     sut = TestBed.inject(MasterdataService);
   });
-  it('getMasterdata', (done: DoneFn) => {
+  it('getMasterdata', async () => {
     sut.getMasterdata().subscribe(value => {
       expect(value).toEqual(masterdata);
-      done();
     });
 
     const req = httpTestingController.expectOne({

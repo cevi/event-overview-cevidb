@@ -5,6 +5,7 @@ import {
   DOCUMENT,
   LOCALE_ID,
   inject,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './core/components/footer.component';
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   private readonly document = inject<Document>(DOCUMENT);
   private readonly renderer = inject(Renderer2);
   private readonly locale = inject(LOCALE_ID);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   iframe = false;
 
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit {
       if (params.has('iframe') && params.get('iframe') === 'true') {
         this.iframe = true;
         this.renderer.addClass(this.document.body, 'no-margin');
+        this.cdr.markForCheck();
       }
     });
   }

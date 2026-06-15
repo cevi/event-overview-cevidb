@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -52,6 +58,7 @@ export class EventListComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly masterdataService = inject(MasterdataService);
   private readonly dialog = inject(MatDialog);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   readonly KURSART_PRESETS = KURSART_PRESETS;
 
@@ -120,10 +127,12 @@ export class EventListComponent implements OnInit {
         this.types = masterdata.eventTypes;
         this.kursarten = masterdata.kursarten.map(k => k.name);
         this.isLoadingMasterdata = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.isLoadingMasterdata = false;
         this.isErrorMasterdata = true;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -211,14 +220,18 @@ export class EventListComponent implements OnInit {
   }
 
   loadEventsWithFilter() {
+    this.isLoading = true;
+    this.cdr.markForCheck();
     this.service.getEventsWithFilter(this.filter).subscribe({
       next: (data: CeviEvent[]) => {
         this.data.data = data;
         this.isLoading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.isLoading = false;
         this.isError = true;
+        this.cdr.markForCheck();
       },
     });
   }

@@ -1,9 +1,5 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import type { Mock } from 'vitest';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FilterModalComponent } from './filter-modal.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatChipListboxChange } from '@angular/material/chips';
@@ -12,9 +8,15 @@ import { CeviEventFilter } from '../services/event.service';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe('FilterModalComponent', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ advanceTimeDelta: 1, shouldAdvanceTime: true });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
   let fixture: ComponentFixture<FilterModalComponent>;
   let sut: FilterModalComponent;
-  let onFilterChange: jasmine.Spy;
+  let onFilterChange: Mock;
 
   const initialFilter: CeviEventFilter = {
     groups: ['Cevi'],
@@ -28,7 +30,7 @@ describe('FilterModalComponent', () => {
   };
 
   beforeEach(async () => {
-    onFilterChange = jasmine.createSpy('onFilterChange');
+    onFilterChange = vi.fn().mockName('onFilterChange');
 
     await TestBed.configureTestingModule({
       imports: [FilterModalComponent],
@@ -72,88 +74,88 @@ describe('FilterModalComponent', () => {
   it('setEventType calls onFilterChange with correct eventType', () => {
     sut.setEventType({ value: 'COURSE' } as MatChipListboxChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ eventType: 'COURSE' })
+      expect.objectContaining({ eventType: 'COURSE' })
     );
   });
 
   it('setEventType with undefined sets eventType to null', () => {
     sut.setEventType({ value: undefined } as MatChipListboxChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ eventType: null })
+      expect.objectContaining({ eventType: null })
     );
   });
 
   it('setHasAvailablePlaces calls onFilterChange with true', () => {
     sut.setHasAvailablePlaces({ value: true } as MatChipListboxChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ hasAvailablePlaces: true })
+      expect.objectContaining({ hasAvailablePlaces: true })
     );
   });
 
   it('setHasAvailablePlaces calls onFilterChange with false', () => {
     sut.setHasAvailablePlaces({ value: false } as MatChipListboxChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ hasAvailablePlaces: false })
+      expect.objectContaining({ hasAvailablePlaces: false })
     );
   });
 
   it('setHasAvailablePlaces with undefined sets to null', () => {
     sut.setHasAvailablePlaces({ value: undefined } as MatChipListboxChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ hasAvailablePlaces: null })
+      expect.objectContaining({ hasAvailablePlaces: null })
     );
   });
 
   it('setIsApplicationOpen calls onFilterChange with false', () => {
     sut.setIsApplicationOpen({ value: false } as MatChipListboxChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ isApplicationOpen: false })
+      expect.objectContaining({ isApplicationOpen: false })
     );
   });
 
   it('setIsApplicationOpen with undefined sets to null', () => {
     sut.setIsApplicationOpen({ value: undefined } as MatChipListboxChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ isApplicationOpen: null })
+      expect.objectContaining({ isApplicationOpen: null })
     );
   });
 
   it('setKursarten calls onFilterChange with kursarten', () => {
     sut.setKursarten({ value: ['Kurs A'] } as MatSelectChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ kursarten: ['Kurs A'] })
+      expect.objectContaining({ kursarten: ['Kurs A'] })
     );
   });
 
   it('setKursarten with empty array sets kursarten to null', () => {
     sut.setKursarten({ value: [] } as MatSelectChange);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ kursarten: null })
+      expect.objectContaining({ kursarten: null })
     );
   });
 
   it('organisationFilter change calls onFilterChange immediately', () => {
     sut.organisationFilter.setValue(['CVJM']);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ groups: ['CVJM'] })
+      expect.objectContaining({ groups: ['CVJM'] })
     );
   });
 
-  it('nameFilter change calls onFilterChange after debounce', fakeAsync(() => {
+  it('nameFilter change calls onFilterChange after debounce', async () => {
     sut.nameFilter.setValue('search');
-    tick(400);
+    await vi.advanceTimersByTimeAsync(400);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ nameContains: 'search' })
+      expect.objectContaining({ nameContains: 'search' })
     );
-  }));
+  });
 
-  it('nameFilter empty string sets nameContains to null', fakeAsync(() => {
+  it('nameFilter empty string sets nameContains to null', async () => {
     sut.nameFilter.setValue('');
-    tick(400);
+    await vi.advanceTimersByTimeAsync(400);
     expect(onFilterChange).toHaveBeenCalledWith(
-      jasmine.objectContaining({ nameContains: null })
+      expect.objectContaining({ nameContains: null })
     );
-  }));
+  });
 
   it('translateEventType returns Kurs for COURSE', () => {
     expect(sut.translateEventType('COURSE')).toEqual('Kurs');

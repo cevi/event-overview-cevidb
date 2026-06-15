@@ -20,7 +20,8 @@ tooling/docker.sh frontend:devInt       # Dev server against int backend (port 4
 tooling/docker.sh frontend:devProd      # Dev server against prod backend
 tooling/docker.sh frontend:build        # Production build
 tooling/docker.sh frontend:lint         # ESLint
-tooling/docker.sh frontend:test         # Unit tests headless (builds test image on first run)
+tooling/docker.sh frontend:test         # Unit tests headless (Vitest + jsdom)
+tooling/docker.sh frontend:ng <args>    # Angular CLI (ng update / schematics)
 tooling/docker.sh npm <args>            # Arbitrary npm command
 
 # Backend
