@@ -46,7 +46,7 @@
     "prettier": "3.9.1",
     "prettier-eslint": "17.1.1",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.61.1",
+    "typescript-eslint": "8.62.0",
     "vitest": "^4.0.8"
   }
 }
