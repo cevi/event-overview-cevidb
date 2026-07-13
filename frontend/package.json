@@ -14,7 +14,9 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "prettier": "npx prettier --write .",
-    "extract-i18n": "ng extract-i18n --output-path src/locale"
+    "extract-i18n": "ng extract-i18n --output-path src/locale",
+    "e2e": "playwright test",
+    "e2e:ci": "wait-on tcp:backend:8080 tcp:frontend:4200 && playwright test"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +39,7 @@
     "@angular/cli": "22.0.6",
     "@angular/compiler-cli": "22.0.6",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.61.1",
     "@vitest/coverage-v8": "^4.1.10",
     "angular-eslint": "22.1.0",
     "eslint": "10.7.0",
@@ -47,6 +50,7 @@
     "prettier-eslint": "17.1.1",
     "typescript": "6.0.3",
     "typescript-eslint": "8.64.0",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wait-on": "9.0.10"
   }
 }

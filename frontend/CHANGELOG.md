@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- chore: add a Playwright e2e test suite (`frontend/e2e/`), run against the backend's fake-Hitobito mode via `tooling/docker.sh frontend:e2e`; wired into both CI workflows
+
 ## Version 1.0.21, 15.06.2026
 
 - chore: upgrade Angular from 21 to 22 (core, CLI, CDK, Material, angular-eslint) and TypeScript to 6

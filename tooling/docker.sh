@@ -80,6 +80,19 @@ case "$CMD" in
       node:24-alpine \
       sh -c "npm install && npm run test:ci"
     ;;
+  frontend:e2e)
+    # Spins up backend (fake-Hitobito mode, no secrets needed) + frontend +
+    # a Playwright runner via compose, then tears everything down again.
+    set +e
+    CURRENT_UID="$(id -u)" CURRENT_GID="$(id -g)" \
+      docker compose -f "${PROJECT_ROOT}/tooling/compose.e2e.yml" up \
+        --abort-on-container-exit --exit-code-from playwright
+    ret=$?
+    set -e
+    CURRENT_UID="$(id -u)" CURRENT_GID="$(id -g)" \
+      docker compose -f "${PROJECT_ROOT}/tooling/compose.e2e.yml" down
+    exit $ret
+    ;;
   backend:runInt)
     docker run --rm -it --network host \
       "${MAVEN_USER_ARGS[@]}" \
@@ -162,6 +175,7 @@ case "$CMD" in
     echo "    frontend:build     Build for production"
     echo "    frontend:lint      Run ESLint"
     echo "    frontend:test      Run unit tests headless (Vitest + jsdom)"
+    echo "    frontend:e2e       Run Playwright e2e tests (backend + frontend + browser via compose)"
     echo "    npm <args>         Run arbitrary npm command"
     echo "    ng <args>          Run Angular CLI (ng update / schematics; git available)"
     echo ""

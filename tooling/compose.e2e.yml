@@ -1,0 +1,53 @@
+services:
+  # Runs against the backend's built-in fake-Hitobito mode (see HitobitoConfig /
+  # HitobitoApiFake), so no token/secret and no network access to db.cevi.ch is
+  # needed. The group whitelist below matches backend/src/test/resources/
+  # application-test.properties, which is known to yield a rich, deterministic
+  # fixture dataset (see EventControllerTests.java) that the e2e specs assert against.
+  backend:
+    image: eclipse-temurin:25-jdk
+    user: "${CURRENT_UID}:${CURRENT_GID}"
+    working_dir: /app
+    volumes:
+      - ../backend:/app
+      - ${HOME}/.m2:/tmp/.m2
+    environment:
+      HOME: /tmp
+      MAVEN_OPTS: "-Dmaven.repo.local=/tmp/.m2/repository"
+      APPLICATION_FAKE_HITOBITO_ENABLE: "true"
+      APPLICATION_EVENT_GROUPS_INCLUDE: "Geschäftsstelle,Fachgruppen,Cevi Regionalverband AG-SO-LU-ZG"
+      APPLICATION_COURSE_GROUPS_INCLUDE: "Cevi Regionalverband AG-SO-LU-ZG"
+    command: ./mvnw spring-boot:run
+
+  frontend:
+    image: node:24-alpine
+    user: "${CURRENT_UID}:${CURRENT_GID}"
+    working_dir: /app
+    volumes:
+      - ../frontend:/app
+    environment:
+      HOME: /tmp
+    # allowed-hosts=true: the dev server's Vite host check would otherwise
+    # reject requests whose Host header is the compose service name ("frontend").
+    command: sh -c "echo '{\"apiUri\":\"http://backend:8080\"}' > /app/src/assets/config.json && npm install && npm run start -- --host 0.0.0.0 --allowed-hosts true"
+    depends_on:
+      - backend
+
+  # Reuses the node_modules that the frontend service installs (same bind mount,
+  # no separate npm install) — avoids a second install racing the first one on
+  # the shared directory. wait-on blocks until both dependencies are actually
+  # ready before starting the test run.
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.61.1-noble
+    user: "${CURRENT_UID}:${CURRENT_GID}"
+    working_dir: /app
+    volumes:
+      - ../frontend:/app
+    environment:
+      HOME: /tmp
+      CI: "true"
+      BASE_URL: http://frontend:4200
+    command: sh -c "npx wait-on tcp:backend:8080 tcp:frontend:4200 && npx playwright test"
+    depends_on:
+      - backend
+      - frontend
