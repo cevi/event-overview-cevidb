@@ -83,13 +83,16 @@ case "$CMD" in
   frontend:e2e)
     # Spins up backend (fake-Hitobito mode, no secrets needed) + frontend +
     # a Playwright runner via compose, then tears everything down again.
+    # PLAYWRIGHT_VERSION is read from package.json so the compose file's
+    # browser image always matches @playwright/test.
+    PLAYWRIGHT_VERSION="$(sed -n 's/.*"@playwright\/test": *"\([^"]*\)".*/\1/p' "${PROJECT_ROOT}/frontend/package.json" | head -1)"
     set +e
-    CURRENT_UID="$(id -u)" CURRENT_GID="$(id -g)" \
+    CURRENT_UID="$(id -u)" CURRENT_GID="$(id -g)" PLAYWRIGHT_VERSION="${PLAYWRIGHT_VERSION}" \
       docker compose -f "${PROJECT_ROOT}/tooling/compose.e2e.yml" up \
         --abort-on-container-exit --exit-code-from playwright
     ret=$?
     set -e
-    CURRENT_UID="$(id -u)" CURRENT_GID="$(id -g)" \
+    CURRENT_UID="$(id -u)" CURRENT_GID="$(id -g)" PLAYWRIGHT_VERSION="${PLAYWRIGHT_VERSION}" \
       docker compose -f "${PROJECT_ROOT}/tooling/compose.e2e.yml" down
     exit $ret
     ;;
