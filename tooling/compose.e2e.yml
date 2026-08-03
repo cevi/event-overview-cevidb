@@ -38,7 +38,7 @@ services:
   # the shared directory. wait-on blocks until both dependencies are actually
   # ready before starting the test run.
   playwright:
-    image: mcr.microsoft.com/playwright:v1.61.1-noble
+    image: mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION}-noble
     user: "${CURRENT_UID}:${CURRENT_GID}"
     working_dir: /app
     volumes:
