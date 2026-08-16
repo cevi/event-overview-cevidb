@@ -85,6 +85,24 @@
 1. Das System liest die Angebote aus den hinterlegten Testdaten statt aus der Cevi.DB.
 2. Use case continues at step 3.
 
+### A8: Nachzuholende Angebote liegen ausserhalb der Cevi.DB
+
+**Trigger:** Die Cevi.DB verweist zum Nachholen weiterer Angebote auf eine Stelle, die nicht die festgelegte Cevi.DB-Instanz ist oder nicht verschlüsselt angesprochen wird (Schritt 2)
+**Flow:**
+
+1. Das System bricht den Abgleich mit einer Fehlermeldung ab und ruft die Stelle nicht auf.
+2. Der bisherige Bestand bleibt unverändert erhalten.
+3. Use case ends.
+
+### A9: Abgleich überschreitet die Zeitgrenze oder den Umfang
+
+**Trigger:** Die Cevi.DB antwortet nicht innerhalb der festgelegten Zeitgrenze, oder der Bestand ist nach der zulässigen Anzahl nachgeholter Teilmengen noch nicht vollständig (Schritt 2)
+**Flow:**
+
+1. Das System bricht den Abgleich mit einer Fehlermeldung ab.
+2. Der bisherige Bestand bleibt unverändert erhalten.
+3. Use case ends.
+
 ## Postconditions
 
 ### Success Postconditions
@@ -133,4 +151,20 @@ Die zur Auswahl angebotenen Organisationen und Kursarten werden aus dem aktuell 
 
 ### BR-036: Zugangsschlüssel
 
-Der Zugriff auf die Cevi.DB erfolgt mit einem hinterlegten Zugangsschlüssel. Ist dieser nicht verfügbar, startet das System nicht.
+Der Zugriff auf die Cevi.DB erfolgt mit einem hinterlegten Zugangsschlüssel. Ist dieser nicht verfügbar, startet das System nicht. Der Zugangsschlüssel wird verdeckt übermittelt und erscheint weder in einer aufgerufenen Adresse noch in einem Protokolleintrag.
+
+### BR-041: Vertrauenswürdige Bezugsstelle
+
+Angebote werden ausschliesslich verschlüsselt und ausschliesslich von der festgelegten Cevi.DB-Instanz bezogen. Das gilt auch für jede Stelle, auf die die Cevi.DB zum Nachholen weiterer Angebote verweist; der Zugangsschlüssel wird nur an diese Instanz übermittelt.
+
+### BR-042: Obergrenze des Nachholens
+
+Je Abruf holt das System höchstens 200 Teilmengen nach. Ist der Bestand danach nicht vollständig, gilt der Abgleich als fehlgeschlagen.
+
+### BR-043: Zeitgrenzen des Abgleichs
+
+Der Verbindungsaufbau zur Cevi.DB gilt nach 5 Sekunden als gescheitert, das Warten auf eine Antwort nach 30 Sekunden.
+
+### BR-044: Bestand für alle Abfragen sichtbar
+
+Ein erfolgreicher Abgleich wirkt sich unmittelbar auf alle nachfolgenden Abfragen aus; es wird nie ein Bestand ausgeliefert, der älter ist als der letzte erfolgreiche Abgleich.

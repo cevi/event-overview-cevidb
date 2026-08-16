@@ -94,12 +94,18 @@ und vom Betreiber zu bestätigen bleibt.
 | NFR-010 | Bedienung auf Mobilgeräten         | Die Übersicht muss ab einer Anzeigebreite von 360 px ohne waagrechtes Blättern bedienbar sein.                                                                | Usability       | High      | Needs review  |
 | NFR-011 | Zugang ohne Anmeldung              | Übersicht, Schnittstelle und Betriebsauskunft müssen ohne Anmeldung erreichbar sein und dürfen keine personenbezogenen Daten ausgeben.                        | Security        | High      | Implemented   |
 | NFR-012 | Verschlüsselter Transport          | Sämtliche Zugriffe auf Frontend, Schnittstelle und Cevi.DB müssen über HTTPS erfolgen.                                                                        | Security        | High      | Implemented   |
-| NFR-013 | Schutz des Zugangsschlüssels       | Der Zugangsschlüssel zur Cevi.DB wird aus einer Datei ausserhalb des Auslieferungsstands gelesen und darf in keiner Antwort und in keinem Protokolleintrag erscheinen. | Security        | High      | Implemented   |
-| NFR-014 | Abruf von fremden Websites         | Die Schnittstelle muss den Abruf von beliebigen Ursprungsseiten zulassen, und die Übersicht muss sich in fremde Seiten einbetten lassen.                      | Security        | High      | Implemented   |
+| NFR-013 | Schutz des Zugangsschlüssels       | Der Zugangsschlüssel zur Cevi.DB wird aus einer Datei ausserhalb des Auslieferungsstands gelesen, ausschliesslich als HTTP-Kopfzeile und nur an die konfigurierte Cevi.DB-Instanz übertragen und darf in keiner Antwort, keiner Adresse und keinem Protokolleintrag erscheinen. | Security        | High      | Implemented   |
+| NFR-014 | Abruf und Einbettung durch Cevi-Websites | Die Schnittstelle muss den Abruf aus dem Browser von Ursprungsseiten unter `*.cevi.ch` und `*.cevi.tools` zulassen und für alle übrigen Ursprungsseiten zurückweisen; die Übersicht muss sich in Seiten derselben Bereiche einbetten lassen. Zugriffe ohne Ursprungsseite (serverseitig) bleiben unbeschränkt. | Security        | High      | Implemented   |
 | NFR-015 | Automatisierte Prüfung             | Jeder Push löst Unit-Tests für Backend und Frontend, einen Produktionsbau und die Playwright-Tests aus; schlägt einer der Schritte fehl, gilt der Bau als fehlgeschlagen. | Maintainability | High      | Implemented   |
 | NFR-016 | Testabdeckung von Verhaltensänderungen | Jede Änderung am fachlichen Verhalten muss durch mindestens einen neuen oder erweiterten automatisierten Test abgedeckt sein.                             | Maintainability | High      | Implemented   |
 | NFR-017 | Nachvollziehbare Versionsstände    | Backend und Frontend führen je einen eigenen Changelog; jede veröffentlichte Version ist dort mit Datum und Änderungen aufgeführt.                            | Maintainability | Medium    | Implemented   |
 | NFR-018 | Entwicklung ohne lokale Laufzeiten | Sämtliche Bau-, Test- und Ausführungsbefehle müssen in Containern über `tooling/docker.sh` laufen, ohne lokal installiertes Node, Java oder Maven.            | Portability     | High      | Implemented   |
+| NFR-019 | Vertrauenswürdiger Datenbezug      | Jede beim Abgleich aufgerufene Adresse — auch jede von der Cevi.DB gelieferte Folgeadresse — muss das Schema `https` tragen und auf die konfigurierte Cevi.DB-Instanz zeigen; andernfalls bricht der Abgleich ab. Je Abruf werden höchstens 200 Seiten geholt. | Security        | High      | Implemented   |
+| NFR-020 | Zeitgrenzen beim Abgleich          | Der Verbindungsaufbau zur Cevi.DB bricht nach 5 Sekunden ab, das Warten auf eine Antwort nach 30 Sekunden. Ein nicht antwortender Abgleich darf den Start des Dienstes um höchstens diese Zeitspannen verzögern. | Availability    | High      | Implemented   |
+| NFR-021 | Schutzmassnahmen der Auslieferung  | Jede Antwort des Frontends muss `Content-Security-Policy`, `X-Content-Type-Options: nosniff` und `Referrer-Policy` führen; die Content-Security-Policy beschränkt einbettende Seiten auf `*.cevi.ch` und `*.cevi.tools` und die Serverkennung wird nicht ausgegeben. | Security        | High      | Implemented   |
+| NFR-022 | Begrenzte Anfragen                 | Ein Anfragerumpf an die Schnittstelle darf höchstens 16 KB gross sein und je Filterliste höchstens 200 Einträge sowie je Suchtext höchstens 200 Zeichen enthalten; darüber hinausgehende Anfragen werden mit einem Fehler abgewiesen. | Security        | Medium    | Implemented   |
+| NFR-023 | Protokollstufe im Betrieb          | Die Produktionskonfiguration protokolliert höchstens auf Stufe INFO; feinere Stufen sind ausschliesslich im Profil `int` zulässig.                            | Security        | Medium    | Implemented   |
+| NFR-024 | Härtung der Bau- und Auslieferungskette | Die Bauabläufe laufen mit ausschliesslich lesenden Rechten am Repository, hinterlegte Zugangsschlüssel werden nach dem Bau wieder aus dem Arbeitsverzeichnis entfernt, und die ausgelieferten Container laufen ohne `root`-Rechte. | Security        | Medium    | Implemented   |
 
 ## Randbedingungen
 
@@ -127,6 +133,11 @@ und vom Betreiber zu bestätigen bleibt.
   `Implemented` oder `Open`.
 - **C-013 Browserunterstützung:** Es ist kein Browserumfang festgeschrieben; die angegebene Menge
   entspricht der Vorgabe des Angular-Baustands und ist zu bestätigen.
+- **Spannung NFR-014 zu FR-040:** Die Ursprungsbeschränkung auf `*.cevi.ch` und `*.cevi.tools`
+  schliesst Browser-Zugriffe von Websites ausserhalb dieser Bereiche aus. Die über FR-040
+  beschriebene Schnittstelle bleibt serverseitig für alle nutzbar. Betreibt eine Cevi-Organisation
+  ihre Website unter einer eigenen Domain (z. B. `cevi-buro-aarau.ch`), ist diese in die Allowlist
+  (Backend-CORS und `frame-ancestors`) aufzunehmen.
 - **Risiko zu C-014:** Der Namensabgleich hat in der Vergangenheit mehrfach zu still verschwundenen
   Organisationen geführt (Changelog 1.0.13 und Unreleased). Eine Überwachung, die eine leer
   gebliebene berücksichtigte Organisation meldet, ist bislang nicht gefordert — bei Bedarf als
@@ -136,10 +147,10 @@ und vom Betreiber zu bestätigen bleibt.
 
 | Use Case                                             | Anforderungen                        |
 |------------------------------------------------------|--------------------------------------|
-| UC-001 Anlässe und Kurse durchsuchen                  | FR-001 – FR-009, NFR-001, NFR-009    |
-| UC-002 Anlässe und Kurse filtern                      | FR-010 – FR-020, NFR-002, NFR-003    |
+| UC-001 Anlässe und Kurse durchsuchen                  | FR-001 – FR-009, NFR-001, NFR-009, NFR-021 |
+| UC-002 Anlässe und Kurse filtern                      | FR-010 – FR-020, NFR-002, NFR-003, NFR-022 |
 | UC-003 Gefilterte Ansicht teilen                      | FR-021 – FR-023                      |
 | UC-004 Anzeigesprache wechseln                        | FR-026 – FR-028, NFR-008, NFR-009, C-010 |
-| UC-005 Übersicht in fremde Website einbetten          | FR-024, FR-025, FR-040, NFR-014      |
-| UC-006 Anlassdaten abgleichen                         | FR-029 – FR-038, NFR-004, C-005, C-006, C-014 |
+| UC-005 Übersicht in fremde Website einbetten          | FR-024, FR-025, FR-040, NFR-014, NFR-021 |
+| UC-006 Anlassdaten abgleichen                         | FR-029 – FR-038, NFR-004, NFR-013, NFR-019, NFR-020, NFR-023, C-005, C-006, C-014 |
 | UC-007 Betriebszustand prüfen                         | FR-039, NFR-011                      |

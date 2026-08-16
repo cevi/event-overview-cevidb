@@ -103,3 +103,7 @@ Das Zurücksetzen entfernt alle Kriterien, einschliesslich eines gewählten beli
 ### BR-016: Anzahl aktiver Kriterien
 
 Die Anzahl der aktiven Kriterien aus der Filterauswahl wird am Zugang zur Filterauswahl ausgewiesen; ein leerer Suchtext zählt nicht als aktives Kriterium.
+
+### BR-045: Umfang der Kriterien
+
+Eine Anfrage darf je Kriterienliste höchstens 200 Einträge und im Suchtext höchstens 200 Zeichen enthalten. Umfangreichere Anfragen weist das System zurück, ohne eine Liste zu liefern.

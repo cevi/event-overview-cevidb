@@ -68,4 +68,8 @@ Der Website-Betreiber kann die Übersicht über die Filterkriterien in der Adres
 
 ### BR-027: Zugriff von fremden Websites
 
-Die Anlass- und Auswahldaten dürfen von beliebigen Websites abgerufen werden; ein Zugriffsschutz besteht nicht.
+Die Anlass- und Auswahldaten dürfen aus dem Browser von Websites unter `cevi.ch` und `cevi.tools` abgerufen werden; Anfragen anderer Ursprungsseiten weist das System zurück. Ein Zugangsschutz mit Anmeldung besteht nicht: Zugriffe ohne Ursprungsseite bleiben unbeschränkt.
+
+### BR-040: Einbettende Websites
+
+Die Übersicht darf ausschliesslich in Seiten unter `cevi.ch` und `cevi.tools` eingebettet werden. Bettet eine andere Website die Übersicht ein, verweigert der Browser die Darstellung.
