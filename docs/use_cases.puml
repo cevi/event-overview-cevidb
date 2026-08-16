@@ -1,0 +1,32 @@
+@startuml Use Cases Overview
+left to right direction
+
+actor "Besucher" as visitor
+actor "Website-Betreiber" as integrator
+actor "Betreiber" as operator
+actor "Zeitsteuerung" as scheduler
+actor "Cevi.DB" as cevidb
+
+rectangle "Anlass- und Kursübersicht" {
+    usecase "UC-001\nAnlässe und Kurse durchsuchen" as UC001
+    usecase "UC-002\nAnlässe und Kurse filtern" as UC002
+    usecase "UC-003\nGefilterte Ansicht teilen" as UC003
+    usecase "UC-004\nAnzeigesprache wechseln" as UC004
+    usecase "UC-005\nÜbersicht in fremde Website einbetten" as UC005
+    usecase "UC-006\nAnlassdaten abgleichen" as UC006
+    usecase "UC-007\nBetriebszustand prüfen" as UC007
+}
+
+visitor --> UC001
+visitor --> UC002
+visitor --> UC003
+visitor --> UC004
+integrator --> UC005
+operator --> UC007
+scheduler --> UC006
+UC006 --> cevidb
+
+UC002 ..> UC001 : <<include>>
+UC005 ..> UC001 : <<include>>
+
+@enduml
