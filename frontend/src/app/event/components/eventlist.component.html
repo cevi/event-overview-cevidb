@@ -132,7 +132,11 @@
     <ng-container matColumnDef="link">
       <th mat-header-cell *matHeaderCellDef i18n="@@table.cevidb">Cevi.db</th>
       <td mat-cell *matCellDef="let element">
-        <a [href]="element.applicationLink" target="_blank" i18n="@@table.open"
+        <a
+          [href]="element.applicationLink"
+          target="_blank"
+          rel="noopener noreferrer"
+          i18n="@@table.open"
           >Öffnen</a
         >
       </td>

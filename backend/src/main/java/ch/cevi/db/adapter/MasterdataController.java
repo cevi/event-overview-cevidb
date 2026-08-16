@@ -4,14 +4,12 @@ import ch.cevi.db.adapter.domain.CeviEventType;
 import ch.cevi.db.adapter.domain.Masterdata;
 import ch.cevi.db.adapter.hitobito.HitobitoProvider;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 
 @RestController
-@CrossOrigin
 class MasterdataController {
     private final HitobitoProvider provider;
 

@@ -52,7 +52,7 @@ case "$CMD" in
       "${PROJECT_ROOT}/frontend"
     echo "Serving on http://localhost:4200 (Ctrl-C to stop, default: prod API)"
     docker run --rm -it \
-      -p 4200:80 \
+      -p 4200:8080 \
       "${PROD_IMAGE}"
     ;;
   frontend:build)

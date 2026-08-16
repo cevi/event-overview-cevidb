@@ -13,6 +13,8 @@ services:
       HOME: /tmp
       MAVEN_OPTS: "-Dmaven.repo.local=/tmp/.m2/repository"
       APPLICATION_HITOBITO_API_TOKEN_FILE: /run/secrets/token
+      # the dev server is not a cevi.tools origin, so it has to be allowed explicitly
+      APPLICATION_CORS_ALLOWED_ORIGIN_PATTERNS: "http://localhost:4200"
     command: ./mvnw spring-boot:run
 
   frontend:

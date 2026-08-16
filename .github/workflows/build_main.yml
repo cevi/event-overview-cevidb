@@ -5,10 +5,15 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   build_dockerimage:
     name: Build dockerimage
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: 🛎️ Checkout
@@ -22,7 +27,8 @@ jobs:
           cache: 'maven'
 
       - name: 🔐 Login to Docker Hub
-        uses: docker/login-action@v4
+        # pinned to the commit of v4.6.0: this step sees the registry credentials, and a tag can be moved
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
         with:
           registry: registry.cevi.tools
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -54,6 +60,11 @@ jobs:
           name: playwright-report
           path: frontend/playwright-report/
           retention-days: 14
+
+      - name: 🧹 Remove Hitobito Token
+        if: always()
+        run: rm -f hitobito_token
+        working-directory: ./backend
 
       - name: 🏗️ Build backend dockerimage
         run: ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=registry.cevi.tools/cevi/event-overview-backend:latest

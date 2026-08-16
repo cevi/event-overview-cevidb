@@ -22,11 +22,13 @@ class HitobitoProviderImpl implements HitobitoProvider {
 
     private final HitobitoApiProvider provider;
 
-    private List<CeviEvent> ceviEvents;
+    // written by the scheduler thread, read by the request threads: volatile makes the new
+    // (immutable) list visible to them immediately
+    private volatile List<CeviEvent> ceviEvents;
     private final List<String> eventGroups;
     private final List<String> courseGroups;
 
-    private LocalDateTime lastRefreshAt;
+    private volatile LocalDateTime lastRefreshAt;
 
     public HitobitoProviderImpl(HitobitoApiProvider provider, String[] eventGroups, String[] courseGroups) {
         Objects.requireNonNull(eventGroups);
@@ -59,7 +61,8 @@ class HitobitoProviderImpl implements HitobitoProvider {
 
     @Override
     public List<CeviEvent> getEvents(EventFilter filter) {
-        return this.ceviEvents.stream().filter(filter::match).toList();
+        // matcher() prepares the lookup sets once instead of once per event
+        return this.ceviEvents.stream().filter(filter.matcher()).toList();
     }
 
     @Override

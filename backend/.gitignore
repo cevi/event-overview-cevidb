@@ -1,5 +1,8 @@
 HELP.md
 target/
+
+### Hitobito token written by the CI pipeline (and when running the pipeline steps locally) ###
+hitobito_token
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

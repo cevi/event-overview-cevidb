@@ -5,10 +5,15 @@ on:
     branches-ignore:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   build_and_test:
     name: Build and test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout

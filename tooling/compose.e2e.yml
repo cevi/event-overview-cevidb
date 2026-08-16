@@ -17,6 +17,8 @@ services:
       APPLICATION_FAKE_HITOBITO_ENABLE: "true"
       APPLICATION_EVENT_GROUPS_INCLUDE: "Geschäftsstelle,Fachgruppen,Cevi Regionalverband AG-SO-LU-ZG"
       APPLICATION_COURSE_GROUPS_INCLUDE: "Cevi Regionalverband AG-SO-LU-ZG"
+      # the compose service name is the browser origin here, so it has to be allowed explicitly
+      APPLICATION_CORS_ALLOWED_ORIGIN_PATTERNS: "http://frontend:4200,http://localhost:4200"
     command: ./mvnw spring-boot:run
 
   frontend:
