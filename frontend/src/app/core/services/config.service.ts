@@ -8,7 +8,7 @@ export class ConfigService {
   private config = { apiUri: '' };
 
   load(): Observable<void> {
-    return this.http.get<{ apiUri: string }>('/assets/config.json').pipe(
+    return this.http.get<{ apiUri: string }>('assets/config.json').pipe(
       tap(c => (this.config = c)),
       map(() => undefined)
     );
