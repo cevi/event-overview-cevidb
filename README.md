@@ -6,8 +6,6 @@ Allows the user to search and filter events and courses from the cevi.db. The da
 
 ![Systemcontext](docs/systemcontext.png)
 
-See [Changelog Backend](backend/CHANGELOG.md) and [Changelog Frontend](frontend/CHANGELOG.md)
-
 ## External Integration
 
 Supports external integration as an iframe. To hide the header and footer the parameter iframe can be set to true, e. g. https://events.cevi.tools?iframe=true
@@ -18,7 +16,7 @@ The active filters are reflected in the URL automatically, so filtered views can
 
 Prerequisites
   * JDK 25
-  * Angular 21 see [Version compatibility](https://angular.dev/reference/versions) for the required Node.js version
+  * Angular 22 see [Version compatibility](https://angular.dev/reference/versions) for the required Node.js version
   * Cevi.DB API Token with Scope `Anlässe dieser Ebene`.
 
 Put the token in a file and configure the file path in the environment variable APPLICATION_HITOBITO_API_TOKEN_FILE

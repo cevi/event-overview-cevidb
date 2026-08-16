@@ -1,12 +1,22 @@
-## Working Rules
+# Project Context
 
-- Use `tooling/docker.sh` for **all** commands — never run `npm`, `npx`, `mvn`, or `ng` directly. Add new commands to `docker.sh` when needed.
-- Before any non-trivial implementation, create a plan as a `.md` file under `docs/` and wait for user confirmation.
-- When implementation is finished, write a `git-commit-message.md` in the root folder with a brief commit message.
-- Implement new tests or extend existing ones for any change in behavior.
-- Add a changelog entry to the relevant `CHANGELOG.md` (backend or frontend has independent versioning). Start a new `Unreleased` section if needed.
-- No backwards-compatibility required — there is a single installation deployed from `main`.
-- Do not ignore "preexisting" test- or lint errors. The code must have a good state at the end no matter what
+This project follows the AI Unified Process. Read `docs/vision.md`, `docs/requirements.md`,
+and `docs/entity_model.md` for product context before making decisions. Always follow the skill
+when changing requirements, entity-model or use-cases.
+
+## AI Unified Process Workflow
+
+1. `/requirements`        → derives `docs/requirements.md` from `docs/vision.md`
+2. `/entity-model`        → derives `docs/entity_model.md` from requirements
+3. `/use-case-diagram`    → produces `docs/use_cases.puml`
+4. `/use-case-spec UC-XX` → produces `docs/use_cases/UC-XX-*.md`
+5. No specific skill for implementation. Make sure to write tests for all changes and features.
+6. All newly written code must be checked for Sonar Issues (see Sonar MCP with analyze snippet tool)
+
+Never skip the spec for a use case before implementing it.
+Always read the entity model before writing data access code.
+
+The user is watching. You can ask for help, input or also things like visual verification
 
 ## Commands
 
