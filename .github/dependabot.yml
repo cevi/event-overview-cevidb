@@ -5,6 +5,9 @@ updates:
     schedule:
       interval: weekly
       time: "04:00"
+    # let a release settle before it is auto-merged (security updates are exempt)
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 10
     groups:
       angular:
@@ -32,16 +35,25 @@ updates:
     schedule:
       interval: weekly
       time: "04:00"
+    # let a release settle before it is auto-merged (security updates are exempt)
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 10
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
       time: "04:00"
+    # let a release settle before it is auto-merged (security updates are exempt)
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 10
   - package-ecosystem: docker
     directory: "/"
     schedule:
       interval: weekly
       time: "04:00"
+    # let a release settle before it is auto-merged (security updates are exempt)
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 10

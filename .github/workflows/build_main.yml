@@ -4,9 +4,17 @@ on:
   push:
     branches:
       - main
+  # dispatched by dependabot_automerge.yml, because a merge done with
+  # GITHUB_TOKEN does not trigger the push event above
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+# never push :latest from two runs at the same time
+concurrency:
+  group: build-main
+  cancel-in-progress: false
 
 jobs:
   build_dockerimage:

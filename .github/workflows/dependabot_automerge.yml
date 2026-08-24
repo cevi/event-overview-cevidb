@@ -1,0 +1,112 @@
+name: Dependabot auto-merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+# Serialise merges: after each merge Dependabot rebases the remaining PRs,
+# which re-triggers this workflow via `synchronize`.
+concurrency:
+  group: dependabot-automerge
+  cancel-in-progress: false
+
+jobs:
+  automerge:
+    name: Auto-merge patch and minor updates
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'cevi/event-overview-cevidb'
+
+    # No checkout happens in this job, so no dependency code is ever executed here.
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PR_URL: ${{ github.event.pull_request.html_url }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      CHECK_NAME: Build and test
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        # pinned to the commit of v3.1.0: this action reads the PR on a write-enabled token
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Skip major updates
+        id: gate
+        env:
+          UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
+        run: |
+          case "$UPDATE_TYPE" in
+            version-update:semver-patch|version-update:semver-minor)
+              echo "eligible=true" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "eligible=false" >> "$GITHUB_OUTPUT"
+              echo "::notice::$UPDATE_TYPE is not auto-merged, review this PR manually."
+              ;;
+          esac
+
+      - name: Wait for the branch build
+        if: steps.gate.outputs.eligible == 'true'
+        run: |
+          deadline=$(( $(date +%s) + 45 * 60 ))
+          while :; do
+            read -r status conclusion <<<"$(gh api \
+              "repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA/check-runs" \
+              --jq "[.check_runs[] | select(.name == \"$CHECK_NAME\")] | sort_by(.started_at) | last
+                    | \"\(.status // \"pending\") \(.conclusion // \"none\")\"")"
+
+            if [ "$status" = "completed" ]; then
+              [ "$conclusion" = "success" ] && break
+              echo "::error::$CHECK_NAME finished with '$conclusion', not merging."
+              exit 1
+            fi
+
+            if [ "$(date +%s)" -ge "$deadline" ]; then
+              echo "::error::Timed out waiting for $CHECK_NAME (last status: $status)."
+              exit 1
+            fi
+
+            echo "$CHECK_NAME is '$status', waiting..."
+            sleep 20
+          done
+
+      - name: Verify no other check failed
+        if: steps.gate.outputs.eligible == 'true'
+        run: |
+          failed=$(gh api "repos/$GITHUB_REPOSITORY/commits/$HEAD_SHA/check-runs" \
+            --jq '[.check_runs[]
+                   | select(.conclusion == "failure" or .conclusion == "timed_out"
+                            or .conclusion == "cancelled" or .conclusion == "action_required")
+                   | .name] | join(", ")')
+          if [ -n "$failed" ]; then
+            echo "::error::These checks are not green: $failed"
+            exit 1
+          fi
+
+      - name: Merge
+        id: merge
+        if: steps.gate.outputs.eligible == 'true'
+        run: |
+          state=$(gh pr view "$PR_URL" --json mergeable --jq .mergeable)
+          if [ "$state" = "CONFLICTING" ]; then
+            echo "::notice::PR has conflicts, waiting for Dependabot to rebase."
+            echo "merged=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          gh pr merge --squash --delete-branch "$PR_URL"
+          echo "merged=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger the main build
+        # A merge performed with GITHUB_TOKEN does not trigger push workflows,
+        # so build_main has to be dispatched explicitly.
+        if: steps.merge.outputs.merged == 'true'
+        run: gh workflow run build_main.yml --ref main
