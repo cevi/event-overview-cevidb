@@ -52,6 +52,11 @@ jobs:
         run: APPLICATION_HITOBITO_API_TOKEN_FILE=hitobito_token ./mvnw verify
         working-directory: ./backend
         
+      - name: ⛏ Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26.x
+
       - name: 🔐 Test Frontend
         working-directory: ./frontend
         run: |

@@ -18,7 +18,7 @@ services:
     command: ./mvnw spring-boot:run
 
   frontend:
-    image: node:24-alpine
+    image: node:26-alpine
     user: "${CURRENT_UID}:${CURRENT_GID}"
     working_dir: /app
     volumes:
