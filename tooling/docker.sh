@@ -23,7 +23,7 @@ case "$CMD" in
       --network host \
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
-      node:24-alpine \
+      node:26-alpine \
       sh -c "echo '{\"apiUri\":\"https://events-api-int.cevi.tools\"}' > /app/src/assets/config.json && npm install && npm run start:int"
     ;;
   frontend:devProd)
@@ -32,7 +32,7 @@ case "$CMD" in
       --network host \
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
-      node:24-alpine \
+      node:26-alpine \
       sh -c "echo '{\"apiUri\":\"https://events-api.cevi.tools\"}' > /app/src/assets/config.json && npm install && npm run start:prod"
     ;;
   frontend:devFr)
@@ -41,7 +41,7 @@ case "$CMD" in
       --network host \
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
-      node:24-alpine \
+      node:26-alpine \
       sh -c "npm install && npm run start:fr"
     ;;
   frontend:prod)
@@ -60,7 +60,7 @@ case "$CMD" in
       "${NODE_USER_ARGS[@]}" \
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
-      node:24-alpine \
+      node:26-alpine \
       sh -c "npm install && npm run build"
     ;;
   frontend:lint)
@@ -68,7 +68,7 @@ case "$CMD" in
       "${NODE_USER_ARGS[@]}" \
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
-      node:24-alpine \
+      node:26-alpine \
       sh -c "npm install && npm run lint"
     ;;
   frontend:test)
@@ -77,7 +77,7 @@ case "$CMD" in
       "${NODE_USER_ARGS[@]}" \
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
-      node:24-alpine \
+      node:26-alpine \
       sh -c "npm install && npm run test:ci"
     ;;
   frontend:e2e)
@@ -140,7 +140,7 @@ case "$CMD" in
       "${NODE_USER_ARGS[@]}" \
       -v "${PROJECT_ROOT}/frontend:/app" \
       -w /app \
-      node:24-alpine \
+      node:26-alpine \
       npm "${@:2}"
     ;;
   frontend:ng)
@@ -153,7 +153,7 @@ case "$CMD" in
       -e HOME=/tmp \
       -v "${PROJECT_ROOT}:/app" \
       -w /app/frontend \
-      node:24-alpine \
+      node:26-alpine \
       sh -c "apk add --no-cache git >/dev/null && git config --global --add safe.directory /app && npm install && npx ng ${*:2}; ret=\$?; chown -R ${CURRENT_USER} /app/frontend; exit \$ret"
     ;;
   mvn)

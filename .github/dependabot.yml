@@ -60,7 +60,10 @@ updates:
       default-days: 3
     open-pull-requests-limit: 10
   - package-ecosystem: docker
-    directory: "/"
+    # the only Dockerfile lives in /frontend; a bare "/" scans nothing
+    directories:
+      - "/"
+      - "/frontend"
     schedule:
       interval: weekly
       time: "04:00"
