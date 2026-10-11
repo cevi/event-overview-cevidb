@@ -109,4 +109,4 @@ jobs:
         # A merge performed with GITHUB_TOKEN does not trigger push workflows,
         # so build_main has to be dispatched explicitly.
         if: steps.merge.outputs.merged == 'true'
-        run: gh workflow run build_main.yml --ref main
+        run: gh workflow run build_main.yml --ref main --repo "$GITHUB_REPOSITORY"
