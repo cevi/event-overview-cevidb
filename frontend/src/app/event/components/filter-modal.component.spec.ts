@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatChipListboxChange } from '@angular/material/chips';
 import { MatSelectChange } from '@angular/material/select';
 import { CeviEventFilter } from '../services/event.service';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { MATERIAL_ANIMATIONS } from '@angular/material/core';
 
 describe('FilterModalComponent', () => {
   beforeEach(() => {
@@ -35,7 +35,10 @@ describe('FilterModalComponent', () => {
     await TestBed.configureTestingModule({
       imports: [FilterModalComponent],
       providers: [
-        provideNoopAnimations(),
+        {
+          provide: MATERIAL_ANIMATIONS,
+          useValue: { animationsDisabled: true },
+        },
         {
           provide: MAT_DIALOG_DATA,
           useValue: {
